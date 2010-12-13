@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>First name:</b>
+  <%= @partner.first_name %>
+</p>
+
+<p>
+  <b>Last name:</b>
+  <%= @partner.last_name %>
+</p>
+
+<p>
+  <b>Employee no:</b>
+  <%= @partner.employee_no %>
+</p>
+
+<p>
+  <b>Contact tel:</b>
+  <%= @partner.contact_tel %>
+</p>
+
+<p>
+  <b>Contact address:</b>
+  <%= @partner.contact_address %>
+</p>
+
+<p>
+  <b>Contact email:</b>
+  <%= @partner.contact_email %>
+</p>
+
+<p>
+  <b>Is manager:</b>
+  <%= @partner.is_manager %>
+</p>
+
+<p>
+  <b>Is temp:</b>
+  <%= @partner.is_temp %>
+</p>
+
+
+<%= link_to 'Edit', edit_partner_path(@partner) %> |
+<%= link_to 'Back', partners_path %>
