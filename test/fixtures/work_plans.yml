@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  partner_id: 1
+  starting_week_no: 1
+
+two:
+  partner_id: 1
+  starting_week_no: 1
+
+# == Schema Information
+#
+# Table name: work_plans
+#
+#  id               :integer         not null, primary key
+#  partner_id       :integer
+#  starting_week_no :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#
+

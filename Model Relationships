@@ -1,0 +1,7 @@
+partner 
+	has_one contact
+	has_one work_plan 
+		has_many weekly_rotas 
+			has_many shift_templates
+		has_many holidays	
+	has_many shifts
