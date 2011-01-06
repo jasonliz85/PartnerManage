@@ -1,0 +1,21 @@
+<h1>Listing work_plans</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @work_plans.each do |work_plan| %>
+  <tr>
+    <td><%= link_to 'Show', work_plan %></td>
+    <td><%= link_to 'Edit', edit_work_plan_path(work_plan) %></td>
+    <td><%= link_to 'Destroy', work_plan, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Work plan', new_work_plan_path %>

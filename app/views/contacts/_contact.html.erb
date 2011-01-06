@@ -1,0 +1,16 @@
+<%= div_for contact do %>
+	<h3>
+		<span class='actions'>
+			<%= link_to 'Delete', [@partner, contact], :confirm => 'Are you sure?', :method => :delete %>
+		</span>
+	</h3>
+		<h4>Telephone </h4>
+			<%= number_to_phone contact.telephone_no, :area_code => true , :country_code => 44%> <br>
+		<h4>Address </h4>
+			Line 1: <%= contact.address_line1 %> <br>
+			Line 2: <%= contact.address_line2 %> <br>
+			City: <%= contact.city %> <br>
+			County: <%= contact.county %> <br>       
+			Postcode: <%= contact.post_code %> <br>    
+<% end %>
+

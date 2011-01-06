@@ -1,0 +1,2 @@
+module WeeklyRotasHelper
+end

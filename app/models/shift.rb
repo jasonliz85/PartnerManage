@@ -2,6 +2,7 @@ class Shift < ActiveRecord::Base
   has_event_calendar
 end
 
+
 # == Schema Information
 #
 # Table name: shifts
@@ -12,5 +13,6 @@ end
 #  end_at     :datetime
 #  created_at :datetime
 #  updated_at :datetime
+#  partner_id :integer
 #
 

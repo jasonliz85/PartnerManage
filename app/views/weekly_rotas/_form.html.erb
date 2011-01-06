@@ -1,0 +1,17 @@
+<%= form_for(@weekly_rota) do |f| %>
+  <% if @weekly_rota.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@weekly_rota.errors.count, "error") %> prohibited this weekly_rota from being saved:</h2>
+
+      <ul>
+      <% @weekly_rota.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

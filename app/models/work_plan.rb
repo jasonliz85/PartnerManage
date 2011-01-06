@@ -6,6 +6,7 @@ class WorkPlan < ActiveRecord::Base
 	validates_presence_of :partner_id
 end
 
+
 # == Schema Information
 #
 # Table name: work_plans
@@ -15,5 +16,7 @@ end
 #  starting_week_no :integer
 #  created_at       :datetime
 #  updated_at       :datetime
+#  holiday_entitle  :integer
+#  holiday_taken    :integer
 #
 

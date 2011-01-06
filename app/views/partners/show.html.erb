@@ -1,45 +1,16 @@
-<p id="notice"><%= notice %></p>
+<%= render @partner %>
 
-<p>
-  <b>First name:</b>
-  <%= @partner.first_name %>
-</p>
+<h3>Contact</h3>
 
-<p>
-  <b>Last name:</b>
-  <%= @partner.last_name %>
-</p>
+<div id="contact">
+	<%= render @partner.contact %>
+</div>
 
-<p>
-  <b>Employee no:</b>
-  <%= @partner.employee_no %>
-</p>
+<h3>Work Plan</h3>
 
-<p>
-  <b>Contact tel:</b>
-  <%= @partner.contact_tel %>
-</p>
+<div id="workplan">
+	<%= render @partner.work_plan %>
+</div>
 
-<p>
-  <b>Contact address:</b>
-  <%= @partner.contact_address %>
-</p>
+<%= render @partner.work_plan.weekly_rotas[0].shift_templates %>
 
-<p>
-  <b>Contact email:</b>
-  <%= @partner.contact_email %>
-</p>
-
-<p>
-  <b>Is manager:</b>
-  <%= @partner.is_manager %>
-</p>
-
-<p>
-  <b>Is temp:</b>
-  <%= @partner.is_temp %>
-</p>
-
-
-<%= link_to 'Edit', edit_partner_path(@partner) %> |
-<%= link_to 'Back', partners_path %>

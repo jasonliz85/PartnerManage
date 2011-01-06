@@ -1,0 +1,21 @@
+<h1>Listing weekly_rotas</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @weekly_rotas.each do |weekly_rota| %>
+  <tr>
+    <td><%= link_to 'Show', weekly_rota %></td>
+    <td><%= link_to 'Edit', edit_weekly_rota_path(weekly_rota) %></td>
+    <td><%= link_to 'Destroy', weekly_rota, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Weekly rota', new_weekly_rota_path %>

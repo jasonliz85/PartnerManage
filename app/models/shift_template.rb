@@ -6,16 +6,17 @@ class ShiftTemplate < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: shift_templates
 #
-#  id            :integer         not null, primary key
-#  name          :string(255)
-#  start_at      :datetime
-#  end_at        :datetime
-#  created_at    :datetime
-#  updated_at    :datetime
-#  weeky_rota_id :integer
+#  id             :integer         not null, primary key
+#  name           :string(255)
+#  start_at       :datetime
+#  end_at         :datetime
+#  created_at     :datetime
+#  updated_at     :datetime
+#  weekly_rota_id :integer
 #
 

@@ -7,6 +7,7 @@ class WorkPlanTest < ActiveSupport::TestCase
   end
 end
 
+
 # == Schema Information
 #
 # Table name: work_plans
@@ -16,5 +17,7 @@ end
 #  starting_week_no :integer
 #  created_at       :datetime
 #  updated_at       :datetime
+#  holiday_entitle  :integer
+#  holiday_taken    :integer
 #
 
