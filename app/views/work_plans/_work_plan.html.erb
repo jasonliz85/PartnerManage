@@ -1,18 +1,19 @@
 <%= div_for work_plan do %>
 	<h3>
 		<span class='actions'>
+			<!%= link_to 'Edit', edit_partner_work_plan @partner.work_plan%>
 			<%= link_to 'Delete', [@partner, work_plan], :confirm => 'Are you sure?', :method => :delete %>
 		</span>
 	</h3>
 	
 	<h4> Weekly Rotas </h4>
-		<% if @partner.work_plan.weekly_rotas.empty? %>
+		<% if work_plan.weekly_rotas.empty? %>
 			No weekly shift rotations have been set.
 		<% else %>
-			<%= render @partner.work_plan.weekly_rotas %>
+			<%= render work_plan.weekly_rotas %>
 		<% end %>
 	<h4> Holidays </h4>
-		<% if @partner.work_plan.holiday_entitle.nil? and @partner.work_plan.holiday_taken.nil? %>
+		<% if work_plan.holiday_entitle.nil? and work_plan.holiday_taken.nil? %>
 			No holiday information has been set.
 		<% else %>
 			Holiday Entitlement: <%= work_plan.holiday_entitle %> <br>
@@ -20,7 +21,7 @@
 			Holidays Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_taken) %> <br>
 			Dates Booked:
 			<span class='holiday_dates'>
-			<%= render @partner.work_plan.holidays %>
+			<%= render work_plan.holidays %>
 			</span>
 		<% end %>
 <% end %>

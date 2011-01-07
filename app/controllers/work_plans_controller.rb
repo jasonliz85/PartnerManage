@@ -13,7 +13,7 @@ class WorkPlansController < ApplicationController
   # GET /work_plans/1
   # GET /work_plans/1.xml
   def show
-    @work_plan = WorkPlan.find(params[:id])
+    @work_plan = WorkPlan.where(params[:id]).first
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,7 +34,9 @@ class WorkPlansController < ApplicationController
 
   # GET /work_plans/1/edit
   def edit
-    @work_plan = WorkPlan.find(params[:id])
+  	#@partner = Partner.find(params[:id])
+    @work_plan = WorkPlan.where(params[:id]).first
+   
   end
 
   # POST /work_plans

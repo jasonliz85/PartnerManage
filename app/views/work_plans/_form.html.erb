@@ -1,17 +1,20 @@
 <%= form_for(@work_plan) do |f| %>
-  <% if @work_plan.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@work_plan.errors.count, "error") %> prohibited this work_plan from being saved:</h2>
+	<% if @work_plan.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@work_plan.errors.count, "error") %> prohibited this work_plan from being saved:</h2>
 
-      <ul>
-      <% @work_plan.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+			<ul>
+				<% @work_plan.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<div class="field">
+		<%= f.label :holiday_entitle %><br />
+		<%= f.text_field :holiday_entitle %>
+	</div>
+	<div class="actions">
+		<%= f.submit %>
+	</div>
 <% end %>

@@ -1,6 +1,6 @@
-<h1>Editing work_plan</h1>
+<h1>Editing Work Plan for <%= @work_plan.partner.first_name %> <%= @work_plan.partner.last_name %></h1>
 
 <%= render 'form' %>
 
 <%= link_to 'Show', @work_plan %> |
-<%= link_to 'Back', work_plans_path %>
+<%= link_to 'Back', @work_plan.partner %>
