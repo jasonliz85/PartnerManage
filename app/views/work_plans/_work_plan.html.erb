@@ -6,15 +6,22 @@
 	</h3>
 	
 	<h4> Weekly Rotas </h4>
-		<%= render @partner.work_plan.weekly_rotas %>
+		<% if @partner.work_plan.weekly_rotas.empty? %>
+			No weekly shift rotations have been set.
+		<% else %>
+			<%= render @partner.work_plan.weekly_rotas %>
+		<% end %>
 	<h4> Holidays </h4>
-		
-		Holiday Entitlement: <%= work_plan.holiday_entitle %> <br>
-		Holidays Booked: <%= work_plan.holiday_taken %> <br>
-		Holidays Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_taken) %> <br>
-		Dates Booked:
-		<span class='holiday_dates'>
-		<%= render @partner.work_plan.holidays %>
-		</span>
+		<% if @partner.work_plan.holiday_entitle.nil? and @partner.work_plan.holiday_taken.nil? %>
+			No holiday information has been set.
+		<% else %>
+			Holiday Entitlement: <%= work_plan.holiday_entitle %> <br>
+			Holidays Booked: <%= work_plan.holiday_taken %> <br>
+			Holidays Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_taken) %> <br>
+			Dates Booked:
+			<span class='holiday_dates'>
+			<%= render @partner.work_plan.holidays %>
+			</span>
+		<% end %>
 <% end %>
 

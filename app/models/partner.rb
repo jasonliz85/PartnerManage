@@ -1,9 +1,23 @@
 class Partner < ActiveRecord::Base
+	#validations
+	validates_presence_of 		:first_name, :last_name, :employee_no
+	validates :employee_no, 	:uniqueness => true
+	#relationships
 	has_one :contact
 	has_one :work_plan
 	has_many :shifts
 	
-	validates_presence_of :first_name, :last_name
+	#callbacks
+	before_save :create_an_empty_work_plan
+	
+	#protected functions
+	protected
+		#create a blank work_plan if a new partner is created
+		def create_an_empty_work_plan
+			if self.work_plan.nil?
+				self.work_plan = WorkPlan.create()			
+			end
+		end
 end
 
 # == Schema Information

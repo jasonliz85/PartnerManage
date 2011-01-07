@@ -4,6 +4,7 @@ module ApplicationHelper
 		#example format: Mon, 5th Sep 2011
 	end
 	def simple_weekday_time_range(datetime_start, datetime_end)
+		return if datetime_start.nil? || datetime_end.nil?
 		date = datetime_start.strftime('%a (%H:%M') + '-' + datetime_end.strftime('%H:%M)')	
 		#example format: Mon (9:00-17:00), Tue (9:15-17:15), Wed (10:00-16:00), Thu (9:00-17:00), Friday (9:00-17:00) 
 	end
