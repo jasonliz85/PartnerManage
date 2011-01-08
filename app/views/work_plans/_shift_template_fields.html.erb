@@ -1,0 +1,72 @@
+<div class="field">
+
+	<table cellspacing="0">
+		<thead>
+		<tr>
+		<th></th>
+		<th><%= f.label "Sunday" %> </th>
+		<th><%= f.label "Monday" %> </th>
+		<th><%= f.label "Tuesday" %> </th>
+		<th><%= f.label "Wednesday" %> </th>
+		<th><%= f.label "Thursday" %> </th>
+		<th><%= f.label "Friday" %> </th>
+		<th><%= f.label "Saturday" %> </th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+		<th>
+			<%= f.label :start_at, "Starting Time"%>
+		</th>
+		<th>	
+			<%= f.time_select :start_at %><br />
+		</th>
+		<th>	
+			<%= f.time_select :start_at %><br />
+		</th>
+		<th>	
+			<%= f.time_select :start_at %><br />
+		</th>
+		<th>	
+			<%= f.time_select :start_at %><br />
+		</th>
+		<th>	
+			<%= f.time_select :start_at %><br />
+		</th>
+		<th>	
+			<%= f.time_select :start_at %><br />
+		</th>
+		<th>	
+			<%= f.time_select :start_at %><br />
+		</th>
+		</tr>
+		<tr>
+		<th>
+			<%= f.label :end_at, "Ending Time" %>
+		</th>
+		<th>	
+			<%= f.time_select :end_at %>
+		</th>
+		<th>	
+			<%= f.time_select :end_at %>
+		</th>
+		<th>	
+			<%= f.time_select :end_at %>
+		</th>
+		<th>	
+			<%= f.time_select :end_at %>
+		</th>
+		<th>	
+			<%= f.time_select :end_at %>
+		</th>
+		<th>	
+			<%= f.time_select :end_at %>
+		</th>
+		<th>	
+			<%= f.time_select :end_at %>
+		</th>
+		</tr>
+					
+		</tbody>
+	</table>
+</div>	

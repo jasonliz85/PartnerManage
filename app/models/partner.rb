@@ -3,8 +3,9 @@ class Partner < ActiveRecord::Base
 	validates_presence_of 		:first_name, :last_name, :employee_no
 	validates :employee_no, 	:uniqueness => true
 	#relationships
-	has_one :contact
-	has_one :work_plan
+	has_one :contact, :dependent => :destroy
+	accepts_nested_attributes_for :contact
+	has_one :work_plan, :dependent => :destroy
 	has_many :shifts
 	
 	#callbacks

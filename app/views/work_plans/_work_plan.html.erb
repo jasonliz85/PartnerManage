@@ -1,8 +1,9 @@
 <%= div_for work_plan do %>
 	<h3>
+		Work Plan
 		<span class='actions'>
-			<!%= link_to 'Edit', edit_partner_work_plan @partner.work_plan%>
-			<%= link_to 'Delete', [@partner, work_plan], :confirm => 'Are you sure?', :method => :delete %>
+			<%= link_to 'Edit', edit_partner_work_plan_path(work_plan.partner, work_plan) %>
+			<%= link_to 'Delete', [work_plan.partner, work_plan], :confirm => 'Are you sure?', :method => :delete %>
 		</span>
 	</h3>
 	

@@ -32,10 +32,10 @@
 	</div>
 
 	<h2>Contact Details </h2>
-	<%= fields_for @partner.contact do |contact_details| %>
+	<%= f.fields_for :contact do |contact_details| %>
 		<div class="field">
 			<%= contact_details.label :telephone_no %><br />
-			<%= contact_details.text_field :telephone_no %>
+			<%= contact_details.telephone_field :telephone_no %>
 		</div>
 		<div class="field">
 			<%= contact_details.label "Address Line 1" %><br />

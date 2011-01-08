@@ -13,11 +13,15 @@ class WorkPlansController < ApplicationController
   # GET /work_plans/1
   # GET /work_plans/1.xml
   def show
-    @work_plan = WorkPlan.where(params[:id]).first
+  	#work_plan = @partner.work_plan.find(params[:id])
+    #@work_plan = WorkPlan.where(params[:id])[0]
+	@partner = Partner.find(params[:partner_id])
+	@work_plan = @partner.work_plan
+	#@work_plan = Partner.find(params[:id]).work_plan
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @work_plan }
+	respond_to do |format|
+		format.html # show.html.erb
+		format.xml  { render :xml => @work_plan }
     end
   end
 
@@ -34,9 +38,10 @@ class WorkPlansController < ApplicationController
 
   # GET /work_plans/1/edit
   def edit
-  	#@partner = Partner.find(params[:id])
-    @work_plan = WorkPlan.where(params[:id]).first
-   
+  	@partner = Partner.find(params[:partner_id])
+  	@work_plan = @partner.work_plan
+   	#@work_plan = WorkPlan.where(params[:id]).first
+   	#@partner = @work_plan.partner
   end
 
   # POST /work_plans

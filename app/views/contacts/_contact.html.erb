@@ -1,6 +1,8 @@
 <%= div_for contact do %>
 	<h3>
+		Contact
 		<span class='actions'>
+			<%= link_to 'Edit', edit_partner_contact_path(contact.partner, contact) %>
 			<%= link_to 'Delete', [@partner, contact], :confirm => 'Are you sure?', :method => :delete %>
 		</span>
 	</h3>

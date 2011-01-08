@@ -1,0 +1,12 @@
+<div class="field">
+	<%= f.label :sequence_no %><br />
+	<%= f.number_field :sequence_no %><br />
+</div>
+<%= f.fields_for :shift_template do |shift_builder| %>
+	<% render 'shift_template_fields', :f => shift_builder %>
+<% end %>
+<div class="field">
+	<%= f.check_box :_destroy  %>
+	<%= f.label "Remove this weekly rotation" %><br />
+</div>
+
