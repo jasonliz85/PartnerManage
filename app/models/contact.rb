@@ -1,7 +1,7 @@
 class Contact < ActiveRecord::Base
 	belongs_to :partner
 	
-	validates_presence_of :partner_id
+	#validates_presence_of :partner_id
 end
 
 # == Schema Information
