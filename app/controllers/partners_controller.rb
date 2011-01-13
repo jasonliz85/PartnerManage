@@ -23,7 +23,11 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
+<<<<<<< HEAD
 	@partner = Partner.new
+=======
+    @partner = Partner.new
+>>>>>>> 9ac4dc9a8af1855b5114e9b879d90d0f4042ce8a
 	@partner.contact = Contact.new
     respond_to do |format|
       format.html # new.html.erb
@@ -39,12 +43,10 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
-	@partner = Partner.new(params[:partner])
-	params[] = params[:partner_id]
-	@partner.contact = Contact.new(params[:contact_attributes])
+    @partner = Partner.new(params[:partner])
     respond_to do |format|
-      if @partner.save and @partner.contact.save
-        format.html { redirect_to(@partner, :notice => 'Partner was successfully created.') }
+      if @partner.save #and @partner.contact.save
+    	format.html { redirect_to(@partner, :notice => 'Partner was successfully created.') }
         format.xml  { render :xml => @partner, :status => :created, :location => @partner }
       else
         format.html { render :action => "new" }
