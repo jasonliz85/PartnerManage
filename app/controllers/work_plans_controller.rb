@@ -27,22 +27,40 @@ class WorkPlansController < ApplicationController
 
   # GET /work_plans/new
   # GET /work_plans/new.xml
-  def new
-    @work_plan = WorkPlan.new
+	def new
+		@partner = Partner.find(params[:partner_id])
+		@work_plan = @partner.work_plan.build
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @work_plan }
-    end
-  end
+		respond_to do |format|
+		format.html # new.html.erb
+		format.xml  { render :xml => @work_plan }
+		end
+	end
 
   # GET /work_plans/1/edit
-  def edit
-  	@partner = Partner.find(params[:partner_id])
-  	@work_plan = @partner.work_plan
-   	#@work_plan = WorkPlan.where(params[:id]).first
-   	#@partner = @work_plan.partner
-  end
+	def edit
+		@partner = Partner.find(params[:partner_id])
+		@work_plan = @partner.work_plan
+		if @partner.work_plan.weekly_rotas.empty?
+			weekly_plan = @partner.work_plan.weekly_rotas.build
+			time_template = DateTime.parse("Sun, 01 Jan 2006 09:00:00 UTC +00:00")
+			7.times do |i|
+				weekly_plan.shift_templates.build 	:name => @partner.first_name + " " + @partner.last_name,
+																:start_at => time_template + i, 
+																:end_at => time_template + i + 8.hours
+			end
+		else
+			weekly_rotas = @work_plan.weekly_rotas
+			weekly_rotas.each do |weekly_rota|
+				#shift_templates = weekly_rota.shift_templates
+				7.times do |i|
+					weekly_rota.shift_templates.build 	:name => @partner.first_name + " " + @partner.last_name,
+																		:start_at => weekly_rota.shift_templates[i].start_at, 
+																		:end_at => weekly_rota.shift_templates[i].end_at
+				end
+			end
+		end
+	end
 
   # POST /work_plans
   # POST /work_plans.xml
@@ -62,19 +80,27 @@ class WorkPlansController < ApplicationController
 
   # PUT /work_plans/1
   # PUT /work_plans/1.xml
-  def update
-    @work_plan = WorkPlan.find(params[:id])
-
-    respond_to do |format|
-      if @work_plan.update_attributes(params[:work_plan])
-        format.html { redirect_to(@work_plan, :notice => 'Work plan was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @work_plan.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+	def update
+		@partner = Partner.find(params[:partner_id])
+		@work_plan = @partner.work_plan
+	#	params[:work_plan][:weekly_rotas_attributes].each do |week_builder|
+	#		wp = @work_plan.weekly_rotas[0].delete
+	#		wp = @work_plan.weekly_rotas.build(week_builder)
+	#		week_builder[:shift_templates_attributes].each do |shift_builder|
+	#			wp.
+	#		end
+	#	end
+		
+		respond_to do |format|
+			if @partner.work_plan.update_attributes(params[:work_plan])
+				format.html { redirect_to(partner_work_plan(@partner), :notice => 'Work plan was successfully updated.') }
+				format.xml  { head :ok }
+			else
+				format.html { render :action => "edit" }
+				format.xml  { render :xml => @work_plan.errors, :status => :unprocessable_entity }
+			end
+		end
+	end
 
   # DELETE /work_plans/1
   # DELETE /work_plans/1.xml

@@ -3,6 +3,10 @@ module ApplicationHelper
 		date.strftime('%a, %d %b %Y')
 		#example format: Mon, 5th Sep 2011
 	end
+	def simple_day_of_week(date)
+		date.strftime('%A')
+		#example format: Monday
+	end
 	def simple_weekday_time_range(datetime_start, datetime_end)
 		return if datetime_start.nil? || datetime_end.nil?
 		date = datetime_start.strftime('%a (%H:%M') + '-' + datetime_end.strftime('%H:%M)')	

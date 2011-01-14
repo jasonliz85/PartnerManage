@@ -2,7 +2,6 @@ class ShiftTemplate < ActiveRecord::Base
 	has_event_calendar
 	belongs_to :weekly_rota
 	
-	validates_presence_of :weekly_rota_id
 end
 
 

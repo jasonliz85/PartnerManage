@@ -1,11 +1,29 @@
 <div class="fields">
-	<%= f.label :sequence_no %>	
-	<%= f.number_field :sequence_no %>
-	<%= link_to_remove_fields "remove", f %> <br>
-	
-	<%= f.fields_for :shift_template do |shift_builder| %>
-		<% render 'shift_template_fields', :f => shift_builder %>
-	<% end %>
-	
+	<table cellspacing="0">
+		<thead>
+			<tr>
+			<th></th>
+			<th>Sunday</th>
+			<th>Monday</th>
+			<th>Tuesday</th>
+			<th>Wednesday</th>
+			<th>Thursday</th>
+			<th>Friday</th>
+			<th>Saturday</th>
+			</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<th>
+				<p>Starting Time</p>
+				<p>Finishing Time</p>
+			</th>
+			<%= f.fields_for :shift_templates do |builder| %>
+				<% render 'shift_template_fields', :f => builder %>
+			<% end %>
+		</tr>
+		</tbody>	
+	</table>
+	<%= link_to_remove_fields "Remove", f %> <br>
 </div>
-
+<!I love you jason lizarraga>
