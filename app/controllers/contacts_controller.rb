@@ -34,7 +34,8 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1/edit
   def edit
-    @contact = Contact.find(params[:id])
+    @partner = Partner.find(params[:partner_id])
+    @contact = @partner.contact
   end
 
   # POST /contacts

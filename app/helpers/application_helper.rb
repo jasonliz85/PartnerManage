@@ -8,6 +8,9 @@ module ApplicationHelper
 		date = datetime_start.strftime('%a (%H:%M') + '-' + datetime_end.strftime('%H:%M)')	
 		#example format: Mon (9:00-17:00), Tue (9:15-17:15), Wed (10:00-16:00), Thu (9:00-17:00), Friday (9:00-17:00) 
 	end
+	def partner_full_name(partner)
+		full_name = partner.first_name + " " + partner.last_name
+	end
 	#used for deleting multiple form entries
 	def link_to_remove_fields(name, f)
 		f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")

@@ -14,7 +14,7 @@ class PartnersController < ApplicationController
   # GET /partners/1.xml
   def show
     @partner = Partner.find(params[:id])
-
+	#@partners = Partner.all
     respond_to do |format|
       format.html # show.html.erb
     end
