@@ -1,4 +1,4 @@
-<h1>Editing Work Plan for <%= @work_plan.partner.first_name %> <%= @work_plan.partner.last_name %></h1>
+<h1>Editing Work Plan for <%= partner_full_name(@work_plan.partner)%></h1>
 
 <%= render 'form' %>
 

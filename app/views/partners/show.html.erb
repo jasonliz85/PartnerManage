@@ -1,5 +1,5 @@
 <%= render @partner %>
-
+<p>
 <div id="contact">
 	<%= render @partner.contact %>
 </div>
@@ -7,4 +7,7 @@
 <div id="workplan">
 	<%= render @partner.work_plan %>
 </div>
-
+</p>
+<p class = "Navigation">
+	<%= link_to "All Partners", partners_path%>
+</p>

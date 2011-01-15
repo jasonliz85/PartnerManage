@@ -1,17 +1,39 @@
-<%= form_for(@contact) do |f| %>
-  <% if @contact.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
-
-      <ul>
-      <% @contact.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= form_for([@partner, @contact]) do |f| %>
+	<% if @contact.errors.any? %>
+		<div id="error_explanation">
+		<h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+		<ul>
+		<% @contact.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+		<% end %>
+		</ul>
+		</div>
+	<% end %>
+	<div class="field">
+		<%= f.label :telephone_no %><br />
+		<%= f.telephone_field :telephone_no %>
+	</div>
+	<div class="field">
+		<%= f.label "Address Line 1" %><br />
+		<%= f.text_field :address_line1 %>
+	</div>
+	<div class="field">
+		<%= f.label "Address Line 2" %><br />
+		<%= f.text_field :address_line2 %>
+	</div>
+	<div class="field">
+		<%= f.label :city %><br />
+		<%= f.text_field :city %>
+	</div>
+	<div class="field">
+		<%= f.label :county %><br />
+		<%= f.text_field :county %>
+	</div>
+	<div class="field">
+		<%= f.label :post_code %><br />
+		<%= f.text_field :post_code %>
+	</div>
+	<div class="actions">
+		<%= f.submit %> | <%= link_to 'Cancel', @partner %>
+	</div>
 <% end %>
