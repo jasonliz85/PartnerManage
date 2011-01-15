@@ -23,7 +23,11 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
+<<<<<<< HEAD
+	@partner = Partner.new
+=======
     @partner = Partner.new
+>>>>>>> 9ac4dc9a8af1855b5114e9b879d90d0f4042ce8a
 	@partner.contact = Contact.new
     respond_to do |format|
       format.html # new.html.erb
