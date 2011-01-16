@@ -13,20 +13,26 @@
 	<div class="WeeklyRota">
 	<h3>
 		Weekly Rotas 
-		<span> <%= link_to_add_fields "Add New", f, :weekly_rotas %></span>
+		<span class='actions'> 
+			<%= link_to_add_fields "Add New", f, :weekly_rotas %>
+		</span>
 	</h3>
 		<%= f.fields_for :weekly_rotas do |rota_builder| %>
-			<%= render 'weekly_rota_fields', :f => rota_builder %>
+			<div class="fields">
+				<%= render 'weekly_rota_fields', :f => rota_builder %>
+			</div>
 		<% end %>
 	</div>
 	<div class="Holidays">
-	<h3>
-		Holiday Information
-	</h3>
-		<%= f.label :holiday_entitle, "Holiday Entitlement" %><br />
-		<%= f.number_field :holiday_entitle %><br />
-		<%= f.label :holiday_taken, "Holidays Taken" %><br />
-		<%= f.number_field :holiday_taken %>
+		<h3> Holiday Details</h3>
+		<div class="field">
+			<%= f.label :holiday_entitle, "Holiday Entitlement" %><br />
+			<%= f.number_field :holiday_entitle %><br />
+		</div>
+		<div class="field">
+			<%= f.label :holiday_taken, "Holidays Taken" %><br />
+			<%= f.number_field :holiday_taken %>
+		</div>
 	</div>
 	<div class="actions">
 		<%= f.submit %>

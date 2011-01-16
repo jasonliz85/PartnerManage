@@ -7,13 +7,18 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
-
-<div id="container">
-	<% flash.each do |name, msg| %>
-		<%= content_tag :div, msg, :id => "flash_#{name}" %>
-	<% end %>
+<div id = "header">
 </div>
-<%= yield %>
-
+<div id = "main">
+	<div id="container">
+		<% flash.each do |name, msg| %>
+			<%= content_tag :div, msg, :id => "flash_#{name}" %>
+		<% end %>
+	</div>
+	<%= yield %>
+</div>
+<div id="footer">
+	John Lewis Partner Manage Application, Developed by Chris Gungaloo and Jason Lizarraga</a>
+</div>
 </body>
 </html>

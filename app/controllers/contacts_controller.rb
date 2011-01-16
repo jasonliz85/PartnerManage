@@ -13,8 +13,8 @@ class ContactsController < ApplicationController
   # GET /contacts/1
   # GET /contacts/1.xml
   def show
-    @contact = Contact.find(params[:partner_id])
-
+    @partner = Partner.find(params[:partner_id])
+	@contact = @partner.contact
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @contact }
@@ -56,19 +56,16 @@ class ContactsController < ApplicationController
 
   # PUT /contacts/1
   # PUT /contacts/1.xml
-  def update
-    @contact = Contact.find(params[:id])
+	def update
+	  	@partner = Partner.find(params[:partner_id])
+		@contact = @partner.contact
 
-    respond_to do |format|
-      if @contact.update_attributes(params[:contact])
-        format.html { redirect_to(@contact, :notice => 'Contact was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @contact.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+		if @partner.contact.update_attributes(params[:contact])
+			redirect_to( @partner, :notice => 'Contact was successfully updated.' )
+		else
+			render :action => "edit" 
+		end
+	end
 
   # DELETE /contacts/1
   # DELETE /contacts/1.xml

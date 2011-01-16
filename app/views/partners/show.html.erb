@@ -1,13 +1,9 @@
 <%= render @partner %>
-<p>
-<div id="contact">
-	<%= render @partner.contact %>
-</div>
 
-<div id="workplan">
-	<%= render @partner.work_plan %>
+<%= render @partner.contact %>
+
+<%= render @partner.work_plan %>
+
+<div id = "navigation">
+	<h3><%= link_to "All Partners", partners_path%></h3>
 </div>
-</p>
-<p class = "Navigation">
-	<%= link_to "All Partners", partners_path%>
-</p>

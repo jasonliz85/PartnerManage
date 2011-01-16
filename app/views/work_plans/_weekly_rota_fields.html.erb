@@ -1,29 +1,35 @@
-<div class="fields">
-	<table cellspacing="0">
-		<thead>
-			<tr>
-			<th></th>
-			<th>Sunday</th>
-			<th>Monday</th>
-			<th>Tuesday</th>
-			<th>Wednesday</th>
-			<th>Thursday</th>
-			<th>Friday</th>
-			<th>Saturday</th>
-			</tr>
-		</thead>
-		<tbody>
+<table id= "weeklyRotaTable" cellspacing="0">
+	<thead>
 		<tr>
-			<th>
-				<p>Starting Time</p>
-				<p>Finishing Time</p>
-			</th>
-			<%= f.fields_for :shift_templates do |builder| %>
-				<% render 'shift_template_fields', :f => builder %>
-			<% end %>
+		<th></th>
+		<th>Sunday</th>
+		<th>Monday</th>
+		<th>Tuesday</th>
+		<th>Wednesday</th>
+		<th>Thursday</th>
+		<th>Friday</th>
+		<th>Saturday</th>
 		</tr>
-		</tbody>	
-	</table>
-	<%= link_to_remove_fields "Remove", f %> <br>
-</div>
+	</thead>
+	<tbody>
+	<tr>
+		<th>Starting Time</th>
+		<%= f.fields_for :shift_templates do |builder| %>
+		<td> 
+			<%= builder.time_select :start_at, :minute_step => 5%>
+		</td>
+		<% end %>
+	</tr>
+	<tr>
+		<th>Finishing Time</th>
+		<%= f.fields_for :shift_templates do |builder| %>
+		<td> 
+			<%= builder.time_select :end_at, :minute_step => 5 %>
+			<%= builder.hidden_field :name %>
+		</td>
+		<% end %>
+	</tr>
+	</tbody>	
+</table>
+<%= link_to_remove_fields "Remove", f %> <br>
 <!I love you jason lizarraga>
