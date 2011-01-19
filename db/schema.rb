@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101221140822) do
+ActiveRecord::Schema.define(:version => 20110117003348) do
 
   create_table "contacts", :force => true do |t|
     t.integer  "partner_id"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(:version => 20101221140822) do
     t.string   "city"
     t.string   "county"
     t.string   "post_code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "holiday_templates", :force => true do |t|
+    t.string   "name"
+    t.datetime "start_at"
+    t.datetime "end_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -50,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20101221140822) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "weekly_rota_id"
+    t.boolean  "is_active"
   end
 
   create_table "shifts", :force => true do |t|

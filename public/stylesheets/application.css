@@ -85,10 +85,14 @@ a:hover {
 }
 
 #main h1 {
-  font-size: 16px;
+  font-size: 18px;
   padding: 10px 0;
   border-bottom: 1px solid #bbb;
   margin-bottom: 10px;
+}
+#main h2 {
+  padding-top: 10px;
+  font-size: 18px;
 }
 
 #main table{
@@ -133,7 +137,7 @@ a:hover {
   clear: both;
 }
 
-#main form input[type=text], #main form input[type=password], #main form textarea {
+#main form input[type=text],#main form input[type=tel], #main form input[type=password], #main form textarea {
   float: left;
   font-size: 14px;
   width: 250px;
@@ -160,6 +164,7 @@ a:hover {
 #main h3 {
   padding-top: 10px;
   height: 20px;
+  border-bottom:1px solid #CCCCCC;
 }
 
 #main h3 .actions{
@@ -179,7 +184,13 @@ a:hover {
   width:100px;
   margin-right: 10px;
 }
-
+#main div .element {
+	padding: 0 0 0 16px;	
+	font-size: 13px;
+}
+#main h4 {
+	padding: 0 0 0 8px;	
+}
 #main form .fieldWithErrors label{
   border: 2px solid red;
   margin-right: 0px;
@@ -220,7 +231,7 @@ a:hover {
   font-size: 12px;
   list-style: square;
 }
-#main table {
+#main form table input[type=checkbox] {
 }
 #weeklyRotaTable thead th {
 	text-align: center;
@@ -233,12 +244,25 @@ a:hover {
 	border-right:1px solid #CCCCCC;
 	background-color: #F0F0F0;
 }
+#weeklyRotaTable tbody td p {
+	padding: 0 0 0 35px
+}
 #weeklyRotaTable tbody th {
 	text-align: right;
 	font-size: 10px;
 	border-right:1px solid #CCCCCC;
+	padding:  0 5px 0  0
 }
 #weeklyRotaTable tfoot th {
-	text-align: center;
+	text-align: right;
+	font-size: 10px;
 	border-right:1px solid #CCCCCC;
+	padding:  0 5px 0  0
 }
+#weeklyRotaTable tfoot td {
+	text-align: center;
+	font-size: 9px;
+	border-right:1px solid #CCCCCC;
+	background-color: #F0F0F0;
+}
+

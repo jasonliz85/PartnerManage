@@ -24,7 +24,8 @@ class HolidaysController < ApplicationController
   # GET /holidays/new
   # GET /holidays/new.xml
   def new
-    @holiday = Holiday.new
+  	@partner = Partner.find(params[:partner_id])
+	@holiday = @partner.work_plan.holidays.build
 
     respond_to do |format|
       format.html # new.html.erb

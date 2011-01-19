@@ -9,21 +9,26 @@
 	
 	<h4> Weekly Rotas </h4>
 		<% if work_plan.weekly_rotas.empty? %>
-			No weekly shift rotations have been set.
+			<div class = 'element'>No weekly shift rotations have been set. </div>
 		<% else %>
 			<%= render work_plan.weekly_rotas %>
 		<% end %>
 	<h4> Holidays </h4>
 		<% if work_plan.holiday_entitle.nil? and work_plan.holiday_taken.nil? %>
-			No holiday information has been set.
+			<div class = 'element'>No holiday information has been set.</div>
 		<% else %>
-			Holiday Entitlement: <%= work_plan.holiday_entitle %> <br>
-			Holidays Booked: <%= work_plan.holiday_taken %> <br>
-			Holidays Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_taken) %> <br>
-			Dates Booked:
-			<span class='holiday_dates'>
-				<%= render work_plan.holidays %>
-			</span>
+			<div class = 'element'>Holiday Entitlement: <%= work_plan.holiday_entitle %> </div>
+			<div class = 'element'>Holidays Booked: <%= work_plan.holidays.count %> </div>
+			<div class = 'element'>Holidays Taken: <%= work_plan.holiday_taken %> </div>
+			<div class = 'element'>Holidays Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_taken) %> </div>
+			<div class = 'element'>	Dates Booked:
+				<div class='holiday_dates'>
+					<ul>
+					<%= render work_plan.holidays %>
+					</ul>
+				</div>	
+			</div>
+			<div class = 'element'><%= link_to 'Book a Holiday', new_partner_work_plan_holiday_path(work_plan.partner) %></div>
 		<% end %>
 <% end %>
 

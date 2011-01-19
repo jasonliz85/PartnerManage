@@ -2,6 +2,7 @@ class Partner < ActiveRecord::Base
 	#validations
 	validates_presence_of 		:first_name, :last_name, :employee_no
 	validates :employee_no, 	:uniqueness => true
+	
 	#relationships
 	has_one :contact, :dependent => :destroy
 	accepts_nested_attributes_for :contact
@@ -9,7 +10,7 @@ class Partner < ActiveRecord::Base
 	has_many :shifts
 	
 	#callbacks
-	before_save :create_an_empty_work_plan
+	before_save :create_an_empty_work_plan #possibly change to after_create callback?
 	
 	#protected functions
 	protected

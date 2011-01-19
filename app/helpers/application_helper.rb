@@ -14,6 +14,18 @@ module ApplicationHelper
 	end
 	def partner_full_name(partner)
 		full_name = partner.first_name + " " + partner.last_name
+		#example format: John Lewis
+	end
+	def display_if_not_empty(label, element)
+		if not element.nil? or not element.empty?
+			content_tag(:div, :class => "element") do 
+				if label.empty? 
+					element
+				else
+					label + ':' + element 
+				end
+			end
+		end
 	end
 	#used for deleting multiple form entries
 	def link_to_remove_fields(name, f)
@@ -25,6 +37,7 @@ module ApplicationHelper
 		fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
 			render(association.to_s.singularize + "_fields", :f => builder)
 		end
-		link_to_function(name, h("add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")"))
+		#link_to_function(name, h("add_fields(this, \'#{association}\', \'#{escape_javascript(fields)}\')"))
+     	link_to_function(name, "add_fields(this, '#{association}', '#{escape_javascript(fields)}')" )
 	end
 end

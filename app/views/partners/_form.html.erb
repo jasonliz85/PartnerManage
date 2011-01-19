@@ -23,11 +23,13 @@
 	</div>
 	<div class="field">
 		<%= f.label :is_manager, "Manager?" %><br />
-		<%= f.check_box :is_manager %>
+		Yes <%= f.radio_button :is_manager, "true" %>
+		No <%= f.radio_button :is_manager, "false" %>
 	</div>
 	<div class="field">
 		<%= f.label :is_temp, "Temporary?" %><br />
-		<%= f.check_box :is_temp %>
+		Yes <%= f.radio_button :is_temp, "true" %>
+		No <%= f.radio_button :is_temp, "false" %>
 	</div>
 	
 	<%= f.fields_for :contact do |contact_details| %>

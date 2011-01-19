@@ -1,8 +1,14 @@
 <%= div_for weekly_rota do %>
-	Week <%= weekly_rota.id %>:
-	<span class='weekly_rota_dates'>
-		<% weekly_rota.shift_templates.each do |st| %>
-			<%= simple_weekday_time_range(st.start_at, st.end_at) %> 
-		<% end %>
-	</span>	<br>
+	<div class = 'element'>
+		Week <%= weekly_rota_counter + 1%>:
+		<span class='weekly_rota_dates'> 
+			<i>
+			<% weekly_rota.shift_templates.each do |st| %>
+				<% if st.is_active == true %>
+					<%= simple_weekday_time_range(st.start_at, st.end_at) %> 
+				<% end %>
+			<% end %>
+			</i>
+		</span>
+	</div>
 <% end %>

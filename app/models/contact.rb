@@ -1,6 +1,7 @@
 class Contact < ActiveRecord::Base
 	belongs_to :partner
 	
+	validates :post_code, :format => { :with => /(\b[A-Z]{1,2}[0-9][0-9A-Z]{0,1} {1,}\d[A-Z]{2}\b)/ }
 	#validates_presence_of :partner_id
 end
 

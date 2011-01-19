@@ -1,11 +1,11 @@
 <%= div_for partner do %>
-	<h3>
+	<h2>
 		 
 		<%= link_to partner.first_name + " " + partner.last_name, partner %> (<%= partner.employee_no %>)
 		<span class='actions'>
 			<%= link_to "Edit", edit_partner_path(partner) %>
 			<%= link_to "Delete", partner, :confirm => "Are you sure?", :method => :delete %>
 		</span>
-	</h3>
+	</h2>
 <% end %>
 

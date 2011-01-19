@@ -14,14 +14,12 @@
 	<h3>
 		Weekly Rotas 
 		<span class='actions'> 
-			<%= link_to_add_fields "Add New", f, :weekly_rotas %>
 		</span>
 	</h3>
-		<%= f.fields_for :weekly_rotas do |rota_builder| %>
-			<div class="fields">
-				<%= render 'weekly_rota_fields', :f => rota_builder %>
-			</div>
-		<% end %>
+	<%= link_to_add_fields "Add New", f, :weekly_rotas %>
+	<%= f.fields_for :weekly_rotas do |rota_builder| %>
+		<%= render 'weekly_rota_fields', :f => rota_builder %>
+	<% end %>
 	</div>
 	<div class="Holidays">
 		<h3> Holiday Details</h3>

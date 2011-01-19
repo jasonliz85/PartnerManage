@@ -13,11 +13,8 @@ class WorkPlansController < ApplicationController
   # GET /work_plans/1
   # GET /work_plans/1.xml
   def show
-  	#work_plan = @partner.work_plan.find(params[:id])
-    #@work_plan = WorkPlan.where(params[:id])[0]
 	@partner = Partner.find(params[:partner_id])
 	@work_plan = @partner.work_plan
-	#@work_plan = Partner.find(params[:id]).work_plan
 
 	respond_to do |format|
 		format.html # show.html.erb
@@ -32,8 +29,8 @@ class WorkPlansController < ApplicationController
 		@work_plan = @partner.work_plan.build
 
 		respond_to do |format|
-		format.html # new.html.erb
-		format.xml  { render :xml => @work_plan }
+			format.html # new.html.erb
+			format.xml  { render :xml => @work_plan }
 		end
 	end
 
@@ -42,7 +39,6 @@ class WorkPlansController < ApplicationController
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
 		if @partner.work_plan.weekly_rotas.empty?
-			puts "Emtpy"
 			weekly_plan = @partner.work_plan.weekly_rotas.build
 			time_template = DateTime.parse("Sun, 01 Jan 2006 09:00:00 UTC +00:00")
 			7.times do |i|
@@ -51,7 +47,6 @@ class WorkPlansController < ApplicationController
 													:end_at => time_template + i + 8.hours
 			end
 		else
-			puts "Not Empty"
 			weekly_rotas = @work_plan.weekly_rotas
 #			for weekly_rota in weekly_rotas
 ##				for shift_template in weekly_rota.shift_templates
@@ -96,21 +91,11 @@ class WorkPlansController < ApplicationController
 #				puts shift
 #			end
 #		end 
-		#params[:partner_id2]
 		if @partner.work_plan.update_attributes(params[:work_plan])
 			redirect_to(@partner, :notice => 'Work plan was successfully updated.') 
 		else
 			render :action => "edit"
 		end
-#		respond_to do |format|
-#			if @partner.work_plan.update_attributes(params[:work_plan])
-#				format.html { redirect_to(partner_work_plan(@partner), :notice => 'Work plan was successfully updated.') }
-#				format.xml  { head :ok }
-#			else
-#				format.html { render :action => "edit" }
-#				format.xml  { render :xml => @partner.work_plan.errors, :status => :unprocessable_entity }
-#			end
-#		end
 	end
 
   # DELETE /work_plans/1
