@@ -38,6 +38,7 @@ class WorkPlansController < ApplicationController
 	def edit
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
+
 		if @partner.work_plan.weekly_rotas.empty?
 			weekly_plan = @partner.work_plan.weekly_rotas.build
 			time_template = DateTime.parse("Sun, 01 Jan 2006 09:00:00 UTC +00:00")
@@ -48,16 +49,6 @@ class WorkPlansController < ApplicationController
 			end
 		else
 			weekly_rotas = @work_plan.weekly_rotas
-#			for weekly_rota in weekly_rotas
-##				for shift_template in weekly_rota.shift_templates
-##					puts shift_template.start_at
-##				end
-#				7.times do |i|
-#					weekly_rota.shift_templates.build 	:name => @partner.first_name + " " + @partner.last_name,
-#														:start_at => weekly_rota.shift_templates[i].start_at, 
-#														:end_at => weekly_rota.shift_templates[i].end_at
-#				end
-#			end
 		end
 	end
 
@@ -83,14 +74,6 @@ class WorkPlansController < ApplicationController
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
 
-#		weekly_plans = params[:work_plan][:weekly_rotas_attributes]
-#		weekly_rotas = @work_plan.weekly_rotas
-#		for plan in weekly_plans
-#			weekly_plan = plan[:shift_templates_attributes]
-#			weekly_plan.each_with_index do |shift, index|
-#				puts shift
-#			end
-#		end 
 		if @partner.work_plan.update_attributes(params[:work_plan])
 			redirect_to(@partner, :notice => 'Work plan was successfully updated.') 
 		else

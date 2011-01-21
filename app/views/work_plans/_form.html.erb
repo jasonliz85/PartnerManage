@@ -16,10 +16,13 @@
 		<span class='actions'> 
 		</span>
 	</h3>
-	<%= link_to_add_fields "Add New", f, :weekly_rotas %>
+	
+	<%= link_to_add_weekly_rota "Add New", f, :weekly_rotas, @work_plan %>
+
 	<%= f.fields_for :weekly_rotas do |rota_builder| %>
 		<%= render 'weekly_rota_fields', :f => rota_builder %>
-	<% end %>
+	<% end %> 
+
 	</div>
 	<div class="Holidays">
 		<h3> Holiday Details</h3>
