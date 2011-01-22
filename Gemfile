@@ -8,6 +8,8 @@ gem 'rails', '3.0.3'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'event-calendar', :require => 'event_calendar'
 gem 'annotate'
+gem 'jquery-rails', '>= 0.2.6' #to run this gem, first do bunde install, then type rails generate jquery:install and make sure to overwrite the rails.js file
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
@@ -21,7 +23,6 @@ gem 'annotate'
 # Bundle the extra gems:
 # gem 'bj'
 # gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'aws-s3', :require => 'aws/s3'
 
 # Bundle gems for the local environment. Make sure to

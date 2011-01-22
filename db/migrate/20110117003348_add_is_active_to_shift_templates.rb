@@ -4,6 +4,6 @@ class AddIsActiveToShiftTemplates < ActiveRecord::Migration
   end
 
   def self.down
-  	remove_column :work_plans, :is_active
+  	remove_column :shift_templates, :is_active
   end
 end

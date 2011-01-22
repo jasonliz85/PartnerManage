@@ -191,6 +191,9 @@ a:hover {
 #main h4 {
 	padding: 0 0 0 8px;	
 }
+#main form div  {
+	padding: 15px 0 0 0;	
+}
 #main form .fieldWithErrors label{
   border: 2px solid red;
   margin-right: 0px;
@@ -264,5 +267,8 @@ a:hover {
 	font-size: 9px;
 	border-right:1px solid #CCCCCC;
 	background-color: #F0F0F0;
+}
+#weeklyRotaTable table tbody td{
+	border:none;
 }
 

@@ -1,9 +1,18 @@
 class Holiday < ActiveRecord::Base
+	#relationships
 	has_event_calendar
 	belongs_to :work_plan
 	
+	#validations
 	validates_presence_of :work_plan_id
 	
+	#callbacks
+	after_save :update_work_plan
+	
+	protected	
+		def update_work_plan
+			self.work_plan.save
+		end
 end
 
 

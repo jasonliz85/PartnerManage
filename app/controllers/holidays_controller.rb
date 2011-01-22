@@ -4,16 +4,16 @@ class HolidaysController < ApplicationController
   def index
     @month = (params[:month] || (Time.zone || Time).now.month).to_i
     @year = (params[:year] || (Time.zone || Time).now.year).to_i
-
     @shown_month = Date.civil(@year, @month)
-
-    @event_strips = Holiday.event_strips_for_month(@shown_month)
+    @partner = Partner.find(params[:partner_id])
+    @event_strips = @partner.work_plan.holidays.event_strips_for_month(@shown_month)
   end
 
   # GET /holidays/1
   # GET /holidays/1.xml
   def show
-    @holiday = Holiday.find(params[:id])
+   @partner = Partner.find(params[:partner_id])
+    @holiday = @partner.work_plan.holidays.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,7 +25,8 @@ class HolidaysController < ApplicationController
   # GET /holidays/new.xml
   def new
   	@partner = Partner.find(params[:partner_id])
-	@holiday = @partner.work_plan.holidays.build
+  	@work_plan = @partner.work_plan
+	@holiday = @partner.work_plan.holidays.build :name => @partner.first_name + " " + @partner.last_name
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,39 +36,34 @@ class HolidaysController < ApplicationController
 
   # GET /holidays/1/edit
   def edit
-    @holiday = Holiday.find(params[:id])
+    @partner = Partner.find(params[:partner_id])
+    @holiday = @partner.work_plan.holidays.find(params[:id])
   end
 
   # POST /holidays
   # POST /holidays.xml
   def create
-    @holiday = Holiday.new(params[:holiday])
+  	@partner = Partner.find(params[:partner_id])
+    @holiday = @partner.work_plan.holidays.build(params[:holiday])
 
-    respond_to do |format|
-      if @holiday.save
-        format.html { redirect_to(@holiday, :notice => 'Holiday was successfully created.') }
-        format.xml  { render :xml => @holiday, :status => :created, :location => @holiday }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @holiday.errors, :status => :unprocessable_entity }
-      end
-    end
+	if @holiday.save
+		redirect_to(@holiday.work_plan.partner, :notice => 'Holiday was successfully created.') 
+	else
+		render :action => "new" 
+	end
   end
 
   # PUT /holidays/1
   # PUT /holidays/1.xml
   def update
-    @holiday = Holiday.find(params[:id])
+  	@partner = Partner.find(params[:partner_id])
+    @holiday = Holiday.find(params[:id1])
 
-    respond_to do |format|
-      if @holiday.update_attributes(params[:holiday])
-        format.html { redirect_to(@holiday, :notice => 'Holiday was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @holiday.errors, :status => :unprocessable_entity }
-      end
-    end
+	if @holiday.update_attributes(params[:holiday])
+		redirect_to(@holiday.work_plan.partner, :notice => 'Holiday was successfully updated.') 
+	else
+		render :action => "edit" 
+	end
   end
 
   # DELETE /holidays/1
@@ -77,8 +73,9 @@ class HolidaysController < ApplicationController
     @holiday.destroy
 
     respond_to do |format|
-      format.html { redirect_to(holidays_url) }
+      format.html { redirect_to(@holiday.work_plan.partner) }
       format.xml  { head :ok }
+      format.js
     end
   end
 end

@@ -1,3 +1,11 @@
 <%= div_for holiday do %>
-	<li><%= simple_date(holiday.start_at) %> </li>
+	<li>
+		<%= simple_date(holiday.start_at) %> 
+		<span class = 'holiday_dates_actions'>
+			<% if (holiday.start_at >= DateTime.now.beginning_of_day()) %> 
+				<%= link_to "edit", edit_partner_work_plan_holiday_path(holiday.work_plan.partner, holiday)%>
+				<%= link_to "delete", partner_work_plan_holiday_path(holiday.work_plan.partner, holiday), :confirm => 'Are you sure you want to delete this holiday?', :method => :delete, :remote => true %>
+			<% end %>
+		</span>
+	</li>
 <% end %>

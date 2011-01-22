@@ -1,17 +1,28 @@
-<%= form_for([@partner, @holiday]) do |f| %>
-  <% if @holiday.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@holiday.errors.count, "error") %> prohibited this holiday from being saved:</h2>
-
-      <ul>
-      <% @holiday.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= form_for [@partner, @partner.work_plan, @holiday] do |f| %>
+	<% if @holiday.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@holiday.errors.count, "error") %> prohibited this holiday from being saved:</h2>
+			<ul>
+				<% @holiday.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<h3> Holiday Details</h3>
+	<div class="field">
+		<%= f.label :start_at, "Starting On" %><br />
+		<%= f.text_field :start_at %>
+	</div>
+	<div class="field">
+		<%= f.label :end_at, "Ending On" %><br />
+		<%= f.text_field :end_at %><br />
+	</div>
+	<div class="field">
+		<%= f.hidden_field :name %>
+	</div>
+	<div class="actions">
+		<%= f.submit 'Book Holiday'%> |
+		<%= link_to 'Cancel', @holiday.work_plan.partner %>
+	</div>
 <% end %>

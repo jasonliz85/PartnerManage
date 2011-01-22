@@ -9,6 +9,7 @@ two:
   starting_week_no: 1
 
 
+
 # == Schema Information
 #
 # Table name: work_plans
@@ -20,5 +21,6 @@ two:
 #  updated_at       :datetime
 #  holiday_entitle  :integer
 #  holiday_taken    :integer
+#  holiday_booked   :integer
 #
 

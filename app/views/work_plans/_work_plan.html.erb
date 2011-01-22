@@ -2,8 +2,8 @@
 	<h3>
 		Work Plan
 		<span class='actions'>
-			<%= link_to 'Edit', edit_partner_work_plan_path(work_plan.partner, work_plan) %>
-			<%= link_to 'Delete', [work_plan.partner, work_plan], :confirm => 'Are you sure?', :method => :delete %>
+			<%= link_to 'Edit', edit_partner_work_plan_path(work_plan.partner) %>
+			<%= link_to 'Delete', partner_work_plan_path(work_plan.partner), :confirm => 'Are you sure?', :method => :delete %>
 		</span>
 	</h3>
 	
@@ -18,17 +18,24 @@
 			<div class = 'element'>No holiday information has been set.</div>
 		<% else %>
 			<div class = 'element'>Holiday Entitlement: <%= work_plan.holiday_entitle %> </div>
-			<div class = 'element'>Holidays Booked: <%= work_plan.holidays.count %> </div>
-			<div class = 'element'>Holidays Taken: <%= work_plan.holiday_taken %> </div>
-			<div class = 'element'>Holidays Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_taken) %> </div>
-			<div class = 'element'>	Dates Booked:
+			<div class = 'element'>Holidays Booked: <%= work_plan.holiday_booked %> </div>
+			<!div class = 'element'Holidays Taken: <%= work_plan.holiday_taken %> <!/div>
+			<div class = 'element'>Holidays Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_booked) %> </div>
+			<div class = 'element'>	Dates Booked:</div>
 				<div class='holiday_dates'>
-					<ul>
-					<%= render work_plan.holidays %>
-					</ul>
+					<% if work_plan.holidays.empty? %>
+						<div class = 'element'><i>No holidays have been booked.</i></div>		 
+					<% else %>
+						<ul>
+							<%= render work_plan.holidays %>
+						</ul>
+					<% end %>
+					<div class = 'element'>
+						<%= show_all_holidays('View All Holidays', work_plan) %>
+						<%= show_book_holiday('Book a Holiday', work_plan) %>
+					</div>
 				</div>	
-			</div>
-			<div class = 'element'><%= link_to 'Book a Holiday', new_partner_work_plan_holiday_path(work_plan.partner) %></div>
+			
 		<% end %>
 <% end %>
 
