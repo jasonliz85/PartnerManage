@@ -23,21 +23,19 @@ class WorkPlan < ActiveRecord::Base
 		count = 0
 		begindateweeknumber = begindate.cweek
 		for weeknom in begindateweeknumber..52 do
-				shiftarraygen(self.weekly_rotas[count], weeknom,begindate)
+			shiftarraygen(self.weekly_rotas[count], weeknom,begindate)
 			count = count + 1
-				if count > (noworkplan -1)
-					count = 0
-				end
+			if count > (noworkplan -1)
+				count = 0
+			end
 		end
 	end
 
-	def shiftarraygen(weeklyrota, weeknom,begindate)
-
+	def shiftarraygen(weeklyrota, weeknom, begindate)
 		shiftentries= Array.new
 		weeklyrota.shift_templates.each_with_index do |shift_template, index|
 			weekdate = DateTime.commercial(begindate.year, weeknom, index+1) - 1.day
-			if shift_template.is_active == true 
-				if weekdate.past? == false
+			if shift_template.is_active and not weekdate.past?
 				day = weekdate.day
 				month = weekdate.mon
 				year = weekdate.year
@@ -46,7 +44,6 @@ class WorkPlan < ActiveRecord::Base
 				shiftstart_at = DateTime.new(year,month,day,shift_template.start_at.hour,shift_template.start_at.min)
 				shiftend_at = DateTime.new(year,month,day,shift_template.end_at.hour, shift_template.end_at.min)
 				shiftentries << {:partner_id => shift_template.weekly_rota.work_plan.partner.id, :name => shift_template.name, :start_at => shiftstart_at,:end_at =>  shiftend_at}
-				end
 			end
 		end
 		Shift.create(shiftentries)

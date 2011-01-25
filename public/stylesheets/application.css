@@ -44,16 +44,15 @@ a:hover {
 #header {
   font-family:"Myriad Web Pro",Helvetica,Arial,sans-serif;
   letter-spacing: 1px;
-  border-bottom: 5px solid black;/*#333333;*/
+  border-bottom: 5px solid #333333;
   color:#333333;
   padding: 27px 0;
   height: 15px;
-  background-color: black;
 }
 
 #header img{
 	position: relative;
-	top:-15px;
+	top:-16px;
 }
 
 #header #user_bar {
