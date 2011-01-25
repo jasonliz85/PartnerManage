@@ -11,7 +11,7 @@ class WorkPlan < ActiveRecord::Base
 	
 	#callbacks
 	before_save :update_holiday_variables
-	
+	#this function ensures the holiday counter is always up-to-date with the total holidays
 	def update_holiday_variables
 		if not self.holiday_booked == self.holidays.count		
 			self.holiday_booked = self.holidays.count

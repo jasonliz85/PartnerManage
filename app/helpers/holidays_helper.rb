@@ -33,7 +33,7 @@ module HolidaysHelper
 			if (h_entitlement - h_booked) > 0
 				pipe = '|'
 			end
-			link_to(name, partner_work_plan_holidays_path(work_plan.partner)) + pipe
+			link_to(name, partner_holidays_path(work_plan.partner)) + pipe
 		end
 	end
 	#show holiday#new link
@@ -45,7 +45,7 @@ module HolidaysHelper
 			h_booked = work_plan.holiday_booked
 		end 
 		if (h_entitlement - h_booked) > 0
-			link_to(name, new_partner_work_plan_holiday_path(work_plan.partner))
+			link_to(name, new_partner_holiday_path(work_plan.partner))
 		end
 	end
 end

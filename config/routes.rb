@@ -8,8 +8,8 @@ PartnerManager::Application.routes.draw do
 	resources :partners do 
 		resource :work_plan do
 			resources :weekly_rotas
-			resources :holidays
 		end
+		resources :holidays
 		resource :contact
 		resources :shifts
 	end
