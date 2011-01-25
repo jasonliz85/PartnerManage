@@ -18,11 +18,14 @@ class WorkPlan < ActiveRecord::Base
 		end
 	end
 
-	def yearshiftgen(begindate)
+	def yearshiftgen(begindate,numberofweeks)
+#If you want to delete all entries before running code	
+#		Shift.delete_all
+		
 		noworkplan = self.weekly_rotas.count
 		count = 0
 		begindateweeknumber = begindate.cweek
-		for weeknom in begindateweeknumber..52 do
+		for weeknom in begindateweeknumber..numberofweeks do
 			shiftarraygen(self.weekly_rotas[count], weeknom,begindate)
 			count = count + 1
 			if count > (noworkplan -1)
