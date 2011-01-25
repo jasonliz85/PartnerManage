@@ -35,11 +35,10 @@ class WorkPlan < ActiveRecord::Base
 		shiftentries= Array.new
 		weeklyrota.shift_templates.each_with_index do |shift_template, index|
 			weekdate = DateTime.commercial(begindate.year, weeknom, index+1) - 1.day
-			if shift_template.is_active and not weekdate.past?
+			if shift_template.is_active and  (weekdate + 1.day) > begindate
 				day = weekdate.day
 				month = weekdate.mon
 				year = weekdate.year
-
 				puts day.to_s + " " + month.to_s + " " + year.to_s
 				shiftstart_at = DateTime.new(year,month,day,shift_template.start_at.hour,shift_template.start_at.min)
 				shiftend_at = DateTime.new(year,month,day,shift_template.end_at.hour, shift_template.end_at.min)
