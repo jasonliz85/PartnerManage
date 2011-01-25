@@ -2,7 +2,6 @@ PartnerManager::Application.routes.draw do
 	root :to => "partners#index"
 	
 	match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-	match '/holiday_templates(/:year(/:month))' => 'holiday_templates#index', :as => :holiday_templates, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 	match '/shift_templates(/:year(/:month))' => 'shift_templates#index', :as => :shift_templates, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 	match '/shifts(/:year(/:month))' => 'shifts#index', :as => :shifts, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 
