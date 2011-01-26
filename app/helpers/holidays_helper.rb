@@ -14,11 +14,11 @@ module HolidaysHelper
       :next_month_text => month_link(@shown_month.next_month) + " >>"    }
   end
 
-	def event_calendar
+	def holiday_calendar
 		# args is an argument hash containing :event, :day, and :options
 		calendar event_calendar_opts do |args|
 			event = args[:event]
-			%(<a href="/events/#{event.id}" title="#{h(event.name)}">#{h(event.name)}</a>)
+			%(<a href="/partners/#{@partner.id}/holidays/#{event.id}" title="#{h(event.name)}">#{h(event.name)}</a>)
 		end
 	end
 	#show holiday#index link

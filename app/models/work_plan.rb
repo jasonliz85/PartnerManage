@@ -17,7 +17,8 @@ class WorkPlan < ActiveRecord::Base
 			self.holiday_booked = self.holidays.count
 		end
 	end
-
+	#try to comment these functions
+	#this function is responsible for create shifts from the begindate (DateTime) to week 52 of the commercial calendar
 	def yearshiftgen(begindate)
 		noworkplan = self.weekly_rotas.count
 		count = 0
@@ -30,7 +31,7 @@ class WorkPlan < ActiveRecord::Base
 			end
 		end
 	end
-
+	#to comment
 	def shiftarraygen(weeklyrota, weeknom, begindate)
 		shiftentries= Array.new
 		weeklyrota.shift_templates.each_with_index do |shift_template, index|
