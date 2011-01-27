@@ -22,15 +22,17 @@ ul.topnav li a{
     float: left;  
 }  
 ul.topnav li a:hover{  
-    background: url(/images/menu_bar/topnav_hover.gif) no-repeat center top;  
+    background: url(/images/menu_bar/topnav_hover.gif) no-repeat center top transparent;  
 }  
 ul.topnav li span { /*--Drop down trigger styles--*/  
     width: 17px;  
     height: 35px;  
     float: left;  
-    background: url(/images/menu_bar/subnav_btn.gif) no-repeat center top;  
+    background: url(/images/menu_bar/subnav_btn.gif) no-repeat center top transparent;  
 }  
-ul.topnav li span.subhover {background-position: center bottombottom; cursor: pointer;} /*--Hover effect for trigger--*/  
+ul.topnav li span.subhover {
+	background-position: center bottom;
+	cursor: pointer;} /*--Hover effect for trigger--*/  
 ul.topnav li ul.subnav {  
     list-style: none;  
     position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/  
@@ -40,6 +42,10 @@ ul.topnav li ul.subnav {
     display: none;  
     float: left;  
     width: 170px;  
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
     border: 1px solid #111;  
 }  
 ul.topnav li ul.subnav li{  
