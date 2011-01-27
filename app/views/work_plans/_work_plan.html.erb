@@ -3,7 +3,6 @@
 		Work Plan
 		<span class='actions'>
 			<%= link_to 'Edit', edit_partner_work_plan_path(work_plan.partner) %>
-			<%= link_to 'Delete', partner_work_plan_path(work_plan.partner), :confirm => 'Are you sure?', :method => :delete %>
 		</span>
 	</h3>
 	
@@ -12,16 +11,26 @@
 			<div class = 'element'>No weekly shift rotations have been set. </div>
 		<% else %>
 			<%= render work_plan.weekly_rotas %>
+			<div class = 'element'> 
+				<%= link_to 'View Shifts', partner_shifts_path(work_plan.partner)%> |
+				<%= link_to 'Populate' %>
+			</div>
 		<% end %>
-	<h4> Holidays </h4>
+	<h3> 
+		Holidays 
+		<span class='actions'>
+			<%= link_to 'Edit', edit_partner_work_plan_path(work_plan.partner) %>
+		</span>
+	</h3>
 		<% if work_plan.holiday_entitle.nil? and work_plan.holiday_taken.nil? %>
 			<div class = 'element'>No holiday information has been set.</div>
 		<% else %>
-			<div class = 'element'>Holiday Entitlement: <%= work_plan.holiday_entitle %> </div>
-			<div class = 'element'>Holidays Booked: <%= work_plan.holiday_booked %> </div>
+			<h4> Information</h4>
+			<div class = 'element'>Entitlement: <%= work_plan.holiday_entitle %> </div>
+			<div class = 'element'>Booked: <%= work_plan.holiday_booked %> </div>
 			<!div class = 'element'Holidays Taken: <%= work_plan.holiday_taken %> <!/div>
-			<div class = 'element'>Holidays Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_booked) %> </div>
-			<div class = 'element'>	Dates Booked:</div>
+			<div class = 'element'>Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_booked) %> </div>
+			<h4> Dates Booked</h4>
 				<div class='holiday_dates'>
 					<% if work_plan.holidays.empty? %>
 						<div class = 'element'><i>No holidays have been booked.</i></div>		 

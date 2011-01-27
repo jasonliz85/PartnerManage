@@ -193,6 +193,10 @@ a:hover {
 	padding: 0 0 0 16px;	
 	font-size: 13px;
 }
+#main li .actions {
+	font-size: 9px;
+	font-style: italic;
+}
 #main h4 {
 	padding: 0 0 0 8px;	
 }

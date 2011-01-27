@@ -1,4 +1,4 @@
-<%= form_for [@partner, @partner.work_plan, @holiday] do |f| %>
+<%= form_for([@partner, @holiday]) do |f| %> 
 	<% if @holiday.errors.any? %>
 		<div id="error_explanation">
 			<h2><%= pluralize(@holiday.errors.count, "error") %> prohibited this holiday from being saved:</h2>
