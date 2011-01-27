@@ -55,8 +55,6 @@ class WorkPlan < ActiveRecord::Base
 	end
 end
 
-
-
 # == Schema Information
 #
 # Table name: work_plans

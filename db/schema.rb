@@ -10,7 +10,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110122125406) do
+ActiveRecord::Schema.define(:version => 20110126121009) do
+
+  create_table "competencies", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "competencies_partners", :id => false, :force => true do |t|
+    t.integer "partner_id"
+    t.integer "competency_id"
+  end
 
   create_table "contacts", :force => true do |t|
     t.integer  "partner_id"

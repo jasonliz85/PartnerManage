@@ -8,7 +8,7 @@ class ShiftsController < ApplicationController
 
     @shown_month = Date.civil(@year, @month)
 	@partner = Partner.find(params[:partner_id])
-    @event_strips = @partner.work_plan.holidays.event_strips_for_month(@shown_month)
+    @event_strips = @partner.shifts.event_strips_for_month(@shown_month)
   end
   
   # GET /shifts/1
