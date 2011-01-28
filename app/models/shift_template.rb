@@ -27,6 +27,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: shift_templates

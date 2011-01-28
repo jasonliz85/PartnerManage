@@ -1,0 +1,13 @@
+<%= form_for(@partner) do |f| %>
+	<div class="field">
+		<%= f.label 'Competencies'%><br />
+		<% for competency in Competency.all %>
+			<%= check_box_tag 'partner[competency_ids][]', competency.id, @partner.competency_ids.include?(competency.id), :id => dom_id(competency) %>
+			<%= label_tag dom_id(competency), competency.name, :class => "check_box_label" %>
+		<% end %>
+	</div>
+
+	<div class="actions">
+		<%= f.submit %> | <%= link_to 'Cancel', @partner %>
+	</div>
+<% end %>

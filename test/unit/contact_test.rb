@@ -7,6 +7,7 @@ class ContactTest < ActiveSupport::TestCase
   end
 end
 
+
 # == Schema Information
 #
 # Table name: contacts

@@ -37,6 +37,7 @@ class HolidaysController < ApplicationController
   # GET /holidays/1/edit
   def edit
     @partner = Partner.find(params[:partner_id])
+    @work_plan = @partner.work_plan
     @holiday = @partner.work_plan.holidays.find(params[:id])
   end
 
@@ -57,7 +58,7 @@ class HolidaysController < ApplicationController
   # PUT /holidays/1.xml
   def update
   	@partner = Partner.find(params[:partner_id])
-    @holiday = Holiday.find(params[:id1])
+    @holiday = Holiday.find(params[:id])
 
 	if @holiday.update_attributes(params[:holiday])
 		redirect_to(@holiday.work_plan.partner, :notice => 'Holiday was successfully updated.') 

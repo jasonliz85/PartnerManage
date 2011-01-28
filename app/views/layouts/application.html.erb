@@ -2,14 +2,18 @@
 <html>
 <head>
 	<title>PartnerManager</title>
-	<%= stylesheet_link_tag :all %>
-	<%= javascript_include_tag :defaults, :cache => true%>
-	<%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css", "application" %>
+	<%= javascript_include_tag :all, :cache => true%>
 	<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js", "application" %>
+	<%= stylesheet_link_tag :all %>
+	<%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css", "application" %>
 	<%= csrf_meta_tag %>
 </head>
 <body>
 <div id = "header">
+	<%= image_tag "logo.gif", :size => "50x50"%>
+</div>
+<div id = "menubar">
+	<%= render :template => 'layouts/_menu_bar.html.erb' %>	
 </div>
 <div id = "main">
 	<div id="container">
@@ -20,7 +24,7 @@
 	<%= yield %>
 </div>
 <div id="footer">
-	John Lewis Partner Manage Application, Developed by Chris Gungaloo and Jason Lizarraga</a>
+	John Lewis &copy; 2010 Partner Manage Application, developed by Chris Gungaloo and Jason Lizarraga</a>
 </div>
 </body>
 </html>

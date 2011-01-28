@@ -1,0 +1,21 @@
+<div class = 'competencies'>
+	<h3> Competencies
+		<span class='actions'>
+			<%= link_to 'Edit', edit_partner_competency_path(@partner)%>
+		</span>
+	</h3>
+	<div class = "element">
+		<%= @partner.first_name %> 
+		<% if @partner.competencies.any? %>
+			is competent in the following
+			<% if(@partner.competencies.count > 1)%>
+				<%= "area".pluralize %>
+			<% else %>
+				<%= "area" %>
+			<% end %>: 
+		<%= @partner.competencies.map{|competency| competency.name}.to_sentence %>
+		<% else %>
+			does not have any competencies.
+		<% end %>
+	</div>
+</div>

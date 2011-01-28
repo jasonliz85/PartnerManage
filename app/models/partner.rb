@@ -8,6 +8,7 @@ class Partner < ActiveRecord::Base
 	accepts_nested_attributes_for :contact
 	has_one :work_plan, :dependent => :destroy
 	has_many :shifts
+	has_and_belongs_to_many :competencies
 	
 	#callbacks
 	before_save :create_an_empty_work_plan #possibly change to after_create callback?
@@ -20,7 +21,18 @@ class Partner < ActiveRecord::Base
 				self.work_plan = WorkPlan.create()			
 			end
 		end
+	public
+		#finds all partners working on a given date
+		def find_all_partners_working_on(date)
+			no_of_shifts = Shift.find_all_partners_working_on(date)
+			partners = []
+			no_of_shifts.each do |shift|
+				partners << shift.partner			
+			end
+			return partners
+		end
 end
+
 
 # == Schema Information
 #

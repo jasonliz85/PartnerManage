@@ -5,6 +5,7 @@
 body {
   background-color: #fff;
   color: #333;
+  background:url("/images/menu_bar/body_bg.gif") repeat-x scroll 0 69px ;
 }
 
 body, p, ol, ul, td {
@@ -37,17 +38,25 @@ a:hover {
 .notice { color: green; }
 .alert { color: red; }
 
-#header, #main, #footer {
+#header, #menubar, #main, #footer {
   width: 800px;
+}
+#menubar{
+	
 }
 
 #header {
-  font-family:"Myriad Web Pro",Helvetica,Arial,sans-serif;
-  letter-spacing: 1px;
-  border-bottom: 5px solid #333333;
-  color:#333333;
-  padding: 15px 0;
-  height: 35px;
+	font-family:"Myriad Web Pro",Helvetica,Arial,sans-serif;
+	letter-spacing: 1px;
+	/*border-bottom: 5px solid #333333;*/
+	color:#333333;
+	padding: 27px 0;
+	height: 15px;
+}
+
+#header img{
+	position: relative;
+	top:-16px;
 }
 
 #header #user_bar {
@@ -86,7 +95,7 @@ a:hover {
 
 #main h1 {
   font-size: 18px;
-  padding: 10px 0;
+  padding: 10px 0 10px 0;
   border-bottom: 1px solid #bbb;
   margin-bottom: 10px;
 }
@@ -187,6 +196,10 @@ a:hover {
 #main div .element {
 	padding: 0 0 0 16px;	
 	font-size: 13px;
+}
+#main li .actions {
+	font-size: 9px;
+	font-style: italic;
 }
 #main h4 {
 	padding: 0 0 0 8px;	
