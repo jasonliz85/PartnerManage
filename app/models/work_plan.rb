@@ -45,7 +45,6 @@ class WorkPlan < ActiveRecord::Base
 				day = weekdate.day
 				month = weekdate.mon
 				year = weekdate.year
-				puts day.to_s + " " + month.to_s + " " + year.to_s
 				shiftstart_at = DateTime.new(year,month,day,shift_template.start_at.hour,shift_template.start_at.min)
 				shiftend_at = DateTime.new(year,month,day,shift_template.end_at.hour, shift_template.end_at.min)
 				shiftentries << {:partner_id => shift_template.weekly_rota.work_plan.partner.id, :name => shift_template.name, :start_at => shiftstart_at,:end_at =>  shiftend_at}

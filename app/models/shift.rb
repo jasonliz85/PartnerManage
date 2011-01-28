@@ -1,5 +1,12 @@
 class Shift < ActiveRecord::Base
-  has_event_calendar
+	#relationships
+	has_event_calendar
+	#functions
+	private
+		#finds all the shifts on the given date
+		def find_all_shifts_on(date)
+			return Shift.where("start_at > ? start_at < ?", date.beginning_of_day(), date.end_of_day())		
+		end
 end
 
 
