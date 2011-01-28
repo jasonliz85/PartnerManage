@@ -12,6 +12,7 @@ PartnerManager::Application.routes.draw do
 		resources :holidays
 		resource :contact
 		resources :shifts
+		resource :competency
 	end
 
 end

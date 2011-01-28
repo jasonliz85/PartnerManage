@@ -19,19 +19,19 @@ work_plan.update_attributes({:partner_id => partner.id, :starting_week_no => '1'
 weekly_rota = WeeklyRota.create({:work_plan_id => work_plan.id})						
 
 ShiftTemplate.create([	{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Sun, 1 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Sun, 1 Jan 2006 18:00:00 +0000"), :is_active => true},
-								{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Mon, 2 Jan 2006 9:00:00 +0000"), :end_at => DateTime.parse("Mon, 2 Jan 2006 17:00:00 +0000"), :is_active => true},
-								{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Tue, 3 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Tue, 3 Jan 2006 18:00:00 +0000"), :is_active => true},
-								{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Wed, 4 Jan 2006 9:00:00 +0000"), :end_at => DateTime.parse("Wed, 4 Jan 2006 17:00:00 +0000"), :is_active => true},
-								{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Thu, 5 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Thu, 5 Jan 2006 18:00:00 +0000"), :is_active => true}
-								{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Fri, 6 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Fri, 6 Jan 2006 18:00:00 +0000"), :is_active => false}
-								{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Sat, 7 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Sat, 7 Jan 2006 18:00:00 +0000"), :is_active => false}
-							])
+						{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Mon, 2 Jan 2006 9:00:00 +0000"), :end_at => DateTime.parse("Mon, 2 Jan 2006 17:00:00 +0000"), :is_active => true},
+						{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Tue, 3 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Tue, 3 Jan 2006 18:00:00 +0000"), :is_active => true},
+						{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Wed, 4 Jan 2006 9:00:00 +0000"), :end_at => DateTime.parse("Wed, 4 Jan 2006 17:00:00 +0000"), :is_active => true},
+						{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Thu, 5 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Thu, 5 Jan 2006 18:00:00 +0000"), :is_active => true},
+						{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Fri, 6 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Fri, 6 Jan 2006 18:00:00 +0000"), :is_active => false},
+						{:weekly_rota_id => weekly_rota.id, :name => partner.first_name + partner.last_name, :start_at => DateTime.parse("Sat, 7 Jan 2006 10:00:00 +0000"), :end_at => DateTime.parse("Sat, 7 Jan 2006 18:00:00 +0000"), :is_active => false}
+						])
 
 Holiday.create([	{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("23 Jan 2011 10:00:00 +0000"), :end_at => DateTime.parse("23 Jan 2011 18:00:00 +0000")},
-						{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("24 Jan 2011 9:00:00 +0000"), :end_at => DateTime.parse("24 Jan 2011 17:00:00 +0000")},
-						{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("25 Jan 2011 10:00:00 +0000"), :end_at => DateTime.parse("25 Jan 2011 18:00:00 +0000")},
-						{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("26 Jan 2011 9:00:00 +0000"), :end_at => DateTime.parse("26 Jan 2011 17:00:00 +0000")},
-						{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("27 Jan 2011 10:00:00 +0000"), :end_at => DateTime.parse("27 Jan 2011 18:00:00 +0000")},
+					{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("24 Jan 2011 9:00:00 +0000"), :end_at => DateTime.parse("24 Jan 2011 17:00:00 +0000")},
+					{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("25 Jan 2011 10:00:00 +0000"), :end_at => DateTime.parse("25 Jan 2011 18:00:00 +0000")},
+					{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("26 Jan 2011 9:00:00 +0000"), :end_at => DateTime.parse("26 Jan 2011 17:00:00 +0000")},
+					{:work_plan_id => work_plan.id, :name =>partner.first_name + partner.last_name, :start_at => DateTime.parse("27 Jan 2011 10:00:00 +0000"), :end_at => DateTime.parse("27 Jan 2011 18:00:00 +0000")},
 					])
 ################################################################################################################################################
 partner = Partner.create({	:first_name => 'Chris',	:last_name => 'Gungaloo', :employee_no => '123456789', :is_manager => true, 
@@ -50,8 +50,11 @@ Contact.create({:partner_id => partner.id, :telephone_no  => '02074125465', :add
 					:county  => '', :post_code => 'E3 5GH' })
 ################################################################################################################################################
 Competency.create [	{:name => 'Camera'},
-					{:name => 'Audio'},
-					{:name => 'TV/HC'},
-					{:name => 'PC/Mac'},
+					{:name => 'Audio Equipment'},
+					{:name => 'Television'},
+					{:name => 'Computer'},
+					{:name => 'Telephone'},
+					{:name => 'Printer'},
+					{:name => 'Task Team'},
 					{:name => 'Sasu'}]
-
+					

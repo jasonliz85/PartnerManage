@@ -2,6 +2,8 @@
 
 <%= render @partner.contact %>
 
+<%= render  :template => 'competencies/_competencies.html.erb', :competencies => @partner.competencies %>
+
 <%= render @partner.work_plan %>
 
 <div id = "navigation">
