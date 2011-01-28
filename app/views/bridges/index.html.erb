@@ -1,0 +1,18 @@
+<h1>Bridge</h1>
+
+
+<% table_for(@competencies) do |t| %>
+	<% t.head do %>
+		<% t.r do %>
+			<%= t.h('Competency') %>
+			<%= t.h('ID') %>
+		<% end %>
+	<% end %>
+	<% t.body do |competency| %>
+		<% t.r do %>
+			<%= t.d(h(competency.name)) %>
+			<%= t.d(h(competency.id)) %>
+		<% end %>
+	<% end %>
+<% end %>
+

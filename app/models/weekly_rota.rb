@@ -20,6 +20,7 @@ class WeeklyRota < ActiveRecord::Base
 	end
 end
 
+
 # == Schema Information
 #
 # Table name: weekly_rotas

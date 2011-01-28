@@ -5,6 +5,7 @@ class Competency < ActiveRecord::Base
 	default_scope order('competencies.name')
 end
 
+
 # == Schema Information
 #
 # Table name: competencies

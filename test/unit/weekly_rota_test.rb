@@ -7,6 +7,7 @@ class WeeklyRotaTest < ActiveSupport::TestCase
   end
 end
 
+
 # == Schema Information
 #
 # Table name: weekly_rotas

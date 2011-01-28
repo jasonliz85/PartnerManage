@@ -7,6 +7,7 @@ class PartnerTest < ActiveSupport::TestCase
   end
 end
 
+
 # == Schema Information
 #
 # Table name: partners

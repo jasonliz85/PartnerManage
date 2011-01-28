@@ -16,6 +16,7 @@ class Holiday < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: holidays

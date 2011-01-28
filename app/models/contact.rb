@@ -5,6 +5,7 @@ class Contact < ActiveRecord::Base
 	#validates_presence_of :partner_id
 end
 
+
 # == Schema Information
 #
 # Table name: contacts
