@@ -14,7 +14,6 @@ class PartnersController < ApplicationController
   # GET /partners/1.xml
   def show
     @partner = Partner.find(params[:id])
-	#@partners = Partner.all
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -42,7 +41,7 @@ class PartnersController < ApplicationController
     @partner = Partner.new(params[:partner])
     respond_to do |format|
       if @partner.save #and @partner.contact.save
-    	format.html { redirect_to(@partner, :notice => 'Partner was successfully created.') }
+    		format.html { redirect_to(@partner, :notice => 'Partner was successfully created.') }
         format.xml  { render :xml => @partner, :status => :created, :location => @partner }
       else
         format.html { render :action => "new" }

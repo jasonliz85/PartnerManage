@@ -23,8 +23,8 @@ class Partner < ActiveRecord::Base
 		end
 	public
 		#finds all partners working on a given date
-		def find_all_partners_working_on(date)
-			no_of_shifts = Shift.find_all_partners_working_on(date)
+		def self.find_all_partners_working_on(date)
+			no_of_shifts = Shift.find_all_shifts_on(date)
 			partners = []
 			no_of_shifts.each do |shift|
 				partners << shift.partner			
