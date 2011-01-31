@@ -7,6 +7,16 @@
 
 <%= link_to 'Show'%>
 
+<%= form_for([@partner,@work_plan, @shift], :url => {:actions => "update_shift"}) do |f| %>
+
+  
+	<div class="actions">
+                <%= f.submit %>
+                |<%= link_to 'Cancel', @work_plan.partner %>
+        </div>
+<% end %>
+
+	<%= @work_plan %>
 
 
 
