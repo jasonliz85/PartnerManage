@@ -5,10 +5,15 @@ PartnerManager::Application.routes.draw do
 	match '/bridges(/:year(/:month(/:day)))' => 'bridges#index', :as => :bridges, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
 	#match '/shift_templates(/:year(/:month))' => 'shift_templates#index', :as => :shift_templates, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 	#match '/shifts(/:year(/:month))' => 'shifts#index', :as => :shifts, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-
+#	match 'partners/:parnter_id/work_plans/populate' => 'work_plans#populate', :as => :populate
+	
 	resources :partners do 
 		resource :work_plan do
+		member do
+				get 'populate'
+		end
 			resources :weekly_rotas
+#			resources :populate
 		end
 		resources :holidays
 		resource :contact
@@ -19,11 +24,12 @@ end
 
 
 #== Route Map
-# Generated on 28 Jan 2011 10:37
+# Generated on 31 Jan 2011 15:01
 #
 #                               root        /(.:format)                                                     {:controller=>"partners", :action=>"index"}
 #                           calendar        /calendar(/:year(/:month))(.:format)                            {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"calendar", :action=>"index"}
 #                            bridges        /bridges(/:year(/:month(/:day)))(.:format)                      {:year=>/\d{4}/, :month=>/\d{1,2}/, :day=>/\d{1,2}/, :controller=>"bridges", :action=>"index"}
+#         populate_partner_work_plan GET    /partners/:partner_id/work_plan/populate(.:format)              {:action=>"populate", :controller=>"work_plans"}
 #     partner_work_plan_weekly_rotas GET    /partners/:partner_id/work_plan/weekly_rotas(.:format)          {:action=>"index", :controller=>"weekly_rotas"}
 #                                    POST   /partners/:partner_id/work_plan/weekly_rotas(.:format)          {:action=>"create", :controller=>"weekly_rotas"}
 #  new_partner_work_plan_weekly_rota GET    /partners/:partner_id/work_plan/weekly_rotas/new(.:format)      {:action=>"new", :controller=>"weekly_rotas"}
