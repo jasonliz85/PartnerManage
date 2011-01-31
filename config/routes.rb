@@ -11,6 +11,7 @@ PartnerManager::Application.routes.draw do
 		resource :work_plan do
 			member do
 				get 'populate'
+				post 'update_shifts'
 			end
 			resources :weekly_rotas
 #			get 'populate', :on => :member

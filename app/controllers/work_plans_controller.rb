@@ -11,13 +11,14 @@ class WorkPlansController < ApplicationController
   end
 
     def populate
-    @work_plans = WorkPlan.all
-
+    @partner = Partner.find(params[:partner_id])
+    @work_plan = @partner.work_plan
     respond_to do |format|
       format.html # populate.html.erb
       format.xml  { render :xml => @work_plans }
     end
   end
+  
 
   # GET /work_plans/1
   # GET /work_plans/1.xml
@@ -82,13 +83,24 @@ class WorkPlansController < ApplicationController
 	def update
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
-
 		if @partner.work_plan.update_attributes(params[:work_plan])
 			redirect_to(@partner, :notice => 'Work plan was successfully updated.') 
 		else
 			render :action => "edit"
 		end
 	end
+
+		def update_shift
+		@shift =Shift.find(params[:partner_id])
+		@partner = Partner.find(params[:partner_id])
+		@work_plan = @partner.work_plan
+		if @partner.work_plan.update_attributes(params[:work_plan])
+			redirect_to(@shift, :notice => 'Work plan was successfully updated.') 
+		else
+			render :action => "edit"
+		end
+	end
+
 
   # DELETE /work_plans/1
   # DELETE /work_plans/1.xml
