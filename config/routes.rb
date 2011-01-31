@@ -9,11 +9,11 @@ PartnerManager::Application.routes.draw do
 	
 	resources :partners do 
 		resource :work_plan do
-		member do
+			member do
 				get 'populate'
-		end
+			end
 			resources :weekly_rotas
-#			resources :populate
+#			get 'populate', :on => :member
 		end
 		resources :holidays
 		resource :contact
@@ -25,7 +25,6 @@ end
 
 #== Route Map
 # Generated on 31 Jan 2011 15:01
-#
 #                               root        /(.:format)                                                     {:controller=>"partners", :action=>"index"}
 #                           calendar        /calendar(/:year(/:month))(.:format)                            {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"calendar", :action=>"index"}
 #                            bridges        /bridges(/:year(/:month(/:day)))(.:format)                      {:year=>/\d{4}/, :month=>/\d{1,2}/, :day=>/\d{1,2}/, :controller=>"bridges", :action=>"index"}
@@ -37,6 +36,7 @@ end
 #      partner_work_plan_weekly_rota GET    /partners/:partner_id/work_plan/weekly_rotas/:id(.:format)      {:action=>"show", :controller=>"weekly_rotas"}
 #                                    PUT    /partners/:partner_id/work_plan/weekly_rotas/:id(.:format)      {:action=>"update", :controller=>"weekly_rotas"}
 #                                    DELETE /partners/:partner_id/work_plan/weekly_rotas/:id(.:format)      {:action=>"destroy", :controller=>"weekly_rotas"}
+#         populate_partner_work_plan GET    /partners/:partner_id/work_plan/populate(.:format)              {:action=>"populate", :controller=>"work_plans"}
 #                  partner_work_plan POST   /partners/:partner_id/work_plan(.:format)                       {:action=>"create", :controller=>"work_plans"}
 #              new_partner_work_plan GET    /partners/:partner_id/work_plan/new(.:format)                   {:action=>"new", :controller=>"work_plans"}
 #             edit_partner_work_plan GET    /partners/:partner_id/work_plan/edit(.:format)                  {:action=>"edit", :controller=>"work_plans"}
