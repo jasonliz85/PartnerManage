@@ -10,14 +10,14 @@ class WorkPlansController < ApplicationController
     end
   end
 
-    def populate
-    @work_plans = WorkPlan.all
+	def populate
+		@work_plans = WorkPlan.all
 
-    respond_to do |format|
-      format.html # populate.html.erb
-      format.xml  { render :xml => @work_plans }
-    end
-  end
+		respond_to do |format|
+			format.html # populate.html.erb
+			format.xml  { render :xml => @work_plans }
+		end
+  	end
 
   # GET /work_plans/1
   # GET /work_plans/1.xml
