@@ -94,11 +94,10 @@ class WorkPlansController < ApplicationController
 		@shift =Shift.find(params[:partner_id])
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
-		if @partner.work_plan.update_attributes(params[:work_plan])
-			redirect_to(@shift, :notice => 'Work plan was successfully updated.') 
-		else
-			render :action => "edit"
-		end
+		
+		redirect_to(@partner, :notice => 'Work plan was successfully updated.') 
+		
+		puts "hello this is a message"
 	end
 
 
