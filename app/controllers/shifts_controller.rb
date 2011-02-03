@@ -3,11 +3,13 @@ class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.xml
   def index
+  	
     @month = (params[:month] || (Time.zone || Time).now.month).to_i
     @year = (params[:year] || (Time.zone || Time).now.year).to_i
 
     @shown_month = Date.civil(@year, @month)
 	@partner = Partner.find(params[:partner_id])
+#		@yearshiftgen = @partner.work_plan.yearshiftgen(DateTime.now,52)
     @event_strips = @partner.shifts.event_strips_for_month(@shown_month)
   end
   

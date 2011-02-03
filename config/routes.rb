@@ -5,12 +5,19 @@ PartnerManager::Application.routes.draw do
 	match '/bridges(/:year(/:month(/:day)))' => 'bridges#index', :as => :bridges, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
 	#match '/shift_templates(/:year(/:month))' => 'shift_templates#index', :as => :shift_templates, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 	#match '/shifts(/:year(/:month))' => 'shifts#index', :as => :shifts, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-#	match 'partners/:parnter_id/work_plans/populate' => 'work_plans#populate', :as => :populate
+match 'partner/partner_id/update_shift' => 'work_plan#update_shift', :as => :update_shift
 	
 	resources :partners do 
 		get 'populate', :on => :member
 		post 'population', :on => :member
 		resource :work_plan do
+<<<<<<< HEAD
+			member do
+				get 'populate'
+				post 'update_shift'
+			end
+=======
+>>>>>>> c7742fe20f335d4510f2f3661f5e1e22eec3f4ac
 			resources :weekly_rotas
 		end
 		resources :holidays
