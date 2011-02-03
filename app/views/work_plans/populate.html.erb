@@ -3,19 +3,7 @@
 
 <h2> This is some text</h2>
 
-<%= submit_tag "Confirm" %>
+<%= link_to 'populate', :yearshiftgen(DateTime.now,52) => 'populate' %>
 
 <%= link_to 'Show'%>
-
-<%= form_for([@partner,@work_plan], :url => {:action => "update_shift"}) do |f| %>
-  
-	<div class="action">
-                <%= f.submit %>
-                |<%= link_to 'Cancel', @work_plan.partner %>
-        </div>
-<% end %> 
-
-	<%= @work_plan %>
-
-
 

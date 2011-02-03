@@ -91,11 +91,8 @@ class WorkPlansController < ApplicationController
 	end
 
 		def update_shift
-		@shift =Shift.find(params[:partner_id])
-		@partner = Partner.find(params[:partner_id])
-		@work_plan = @partner.work_plan
-		
-		redirect_to(@partner, :notice => 'Work plan was successfully updated.') 
+		@shift =Shift.find(params[:id])
+		redirect_to @shift
 		
 		puts "hello this is a message"
 	end
