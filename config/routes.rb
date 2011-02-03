@@ -9,7 +9,7 @@ PartnerManager::Application.routes.draw do
 	
 	resources :partners do 
 		get 'populate', :on => :member
-		#post 'population', :on => :member
+		post 'population', :on => :member
 		resource :work_plan do
 			resources :weekly_rotas
 		end
