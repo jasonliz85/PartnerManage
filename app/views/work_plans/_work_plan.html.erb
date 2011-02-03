@@ -13,7 +13,7 @@
 			<%= render work_plan.weekly_rotas %>
 			<div class = 'element'> 
 				<%= link_to 'View Shifts', partner_shifts_path(work_plan.partner)%> |
-				<%= link_to 'Populate', populate_partner_work_plan_path(work_plan.partner) %>
+				<%= link_to 'Populate', populate_partner_path(work_plan.partner) %>
 			</div>
 		<% end %>
 	<h3> 

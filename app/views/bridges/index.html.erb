@@ -1,11 +1,11 @@
 <h1>Bridge</h1>
 
-<%= table_for(@competencies) do |t| %>
-	<%= t.head('Area', 'Break 1', 'Break 2', 'Break 3', 'Break 4') %>
+<%= table_for(@bridge_list) do |t| %>
+	<%= t.head('Area', 'Break 1') %>
 	<%= t.body do |competency| %>
 		<%= t.r do %>
-			<%= t.d(h(competency.name)) %>
-			<%= t.d(h(competency.id)) %>
+			<%= t.d(h(bridge_list.competency)) %>
+			<%= t.d(h(bridge_list.partner)) %>
 		<% end %>
 	<% end %>
 <% end %>

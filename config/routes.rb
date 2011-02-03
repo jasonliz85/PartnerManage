@@ -8,28 +8,34 @@ PartnerManager::Application.routes.draw do
 match 'partner/partner_id/update_shift' => 'work_plan#update_shift', :as => :update_shift
 	
 	resources :partners do 
+		get 'populate', :on => :member
+		#post 'population', :on => :member
 		resource :work_plan do
+<<<<<<< HEAD
 			member do
 				get 'populate'
-				get 'update_shift'
+				post 'update_shift'
 			end
+=======
+>>>>>>> c7742fe20f335d4510f2f3661f5e1e22eec3f4ac
 			resources :weekly_rotas
-#			get 'populate', :on => :member
 		end
 		resources :holidays
-		resource :contact
+		resource :contact, :only => [:edit, :update]
 		resources :shifts
-		resource :competency
+		resource :competency, :only => [:edit, :update]
 	end
 end
 
 
 #== Route Map
-# Generated on 31 Jan 2011 15:01
+# Generated on 03 Feb 2011 15:44
+#
 #                               root        /(.:format)                                                     {:controller=>"partners", :action=>"index"}
 #                           calendar        /calendar(/:year(/:month))(.:format)                            {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"calendar", :action=>"index"}
 #                            bridges        /bridges(/:year(/:month(/:day)))(.:format)                      {:year=>/\d{4}/, :month=>/\d{1,2}/, :day=>/\d{1,2}/, :controller=>"bridges", :action=>"index"}
-#         populate_partner_work_plan GET    /partners/:partner_id/work_plan/populate(.:format)              {:action=>"populate", :controller=>"work_plans"}
+#                   populate_partner GET    /partners/:id/populate(.:format)                                {:action=>"populate", :controller=>"partners"}
+#                population_partners POST   /partners/population(.:format)                                  {:action=>"population", :controller=>"partners"}
 #     partner_work_plan_weekly_rotas GET    /partners/:partner_id/work_plan/weekly_rotas(.:format)          {:action=>"index", :controller=>"weekly_rotas"}
 #                                    POST   /partners/:partner_id/work_plan/weekly_rotas(.:format)          {:action=>"create", :controller=>"weekly_rotas"}
 #  new_partner_work_plan_weekly_rota GET    /partners/:partner_id/work_plan/weekly_rotas/new(.:format)      {:action=>"new", :controller=>"weekly_rotas"}
@@ -37,7 +43,6 @@ end
 #      partner_work_plan_weekly_rota GET    /partners/:partner_id/work_plan/weekly_rotas/:id(.:format)      {:action=>"show", :controller=>"weekly_rotas"}
 #                                    PUT    /partners/:partner_id/work_plan/weekly_rotas/:id(.:format)      {:action=>"update", :controller=>"weekly_rotas"}
 #                                    DELETE /partners/:partner_id/work_plan/weekly_rotas/:id(.:format)      {:action=>"destroy", :controller=>"weekly_rotas"}
-#         populate_partner_work_plan GET    /partners/:partner_id/work_plan/populate(.:format)              {:action=>"populate", :controller=>"work_plans"}
 #                  partner_work_plan POST   /partners/:partner_id/work_plan(.:format)                       {:action=>"create", :controller=>"work_plans"}
 #              new_partner_work_plan GET    /partners/:partner_id/work_plan/new(.:format)                   {:action=>"new", :controller=>"work_plans"}
 #             edit_partner_work_plan GET    /partners/:partner_id/work_plan/edit(.:format)                  {:action=>"edit", :controller=>"work_plans"}
@@ -51,12 +56,8 @@ end
 #                    partner_holiday GET    /partners/:partner_id/holidays/:id(.:format)                    {:action=>"show", :controller=>"holidays"}
 #                                    PUT    /partners/:partner_id/holidays/:id(.:format)                    {:action=>"update", :controller=>"holidays"}
 #                                    DELETE /partners/:partner_id/holidays/:id(.:format)                    {:action=>"destroy", :controller=>"holidays"}
-#                    partner_contact POST   /partners/:partner_id/contact(.:format)                         {:action=>"create", :controller=>"contacts"}
-#                new_partner_contact GET    /partners/:partner_id/contact/new(.:format)                     {:action=>"new", :controller=>"contacts"}
 #               edit_partner_contact GET    /partners/:partner_id/contact/edit(.:format)                    {:action=>"edit", :controller=>"contacts"}
-#                                    GET    /partners/:partner_id/contact(.:format)                         {:action=>"show", :controller=>"contacts"}
-#                                    PUT    /partners/:partner_id/contact(.:format)                         {:action=>"update", :controller=>"contacts"}
-#                                    DELETE /partners/:partner_id/contact(.:format)                         {:action=>"destroy", :controller=>"contacts"}
+#                    partner_contact PUT    /partners/:partner_id/contact(.:format)                         {:action=>"update", :controller=>"contacts"}
 #                     partner_shifts GET    /partners/:partner_id/shifts(.:format)                          {:action=>"index", :controller=>"shifts"}
 #                                    POST   /partners/:partner_id/shifts(.:format)                          {:action=>"create", :controller=>"shifts"}
 #                  new_partner_shift GET    /partners/:partner_id/shifts/new(.:format)                      {:action=>"new", :controller=>"shifts"}
@@ -64,12 +65,8 @@ end
 #                      partner_shift GET    /partners/:partner_id/shifts/:id(.:format)                      {:action=>"show", :controller=>"shifts"}
 #                                    PUT    /partners/:partner_id/shifts/:id(.:format)                      {:action=>"update", :controller=>"shifts"}
 #                                    DELETE /partners/:partner_id/shifts/:id(.:format)                      {:action=>"destroy", :controller=>"shifts"}
-#                 partner_competency POST   /partners/:partner_id/competency(.:format)                      {:action=>"create", :controller=>"competencies"}
-#             new_partner_competency GET    /partners/:partner_id/competency/new(.:format)                  {:action=>"new", :controller=>"competencies"}
 #            edit_partner_competency GET    /partners/:partner_id/competency/edit(.:format)                 {:action=>"edit", :controller=>"competencies"}
-#                                    GET    /partners/:partner_id/competency(.:format)                      {:action=>"show", :controller=>"competencies"}
-#                                    PUT    /partners/:partner_id/competency(.:format)                      {:action=>"update", :controller=>"competencies"}
-#                                    DELETE /partners/:partner_id/competency(.:format)                      {:action=>"destroy", :controller=>"competencies"}
+#                 partner_competency PUT    /partners/:partner_id/competency(.:format)                      {:action=>"update", :controller=>"competencies"}
 #                           partners GET    /partners(.:format)                                             {:action=>"index", :controller=>"partners"}
 #                                    POST   /partners(.:format)                                             {:action=>"create", :controller=>"partners"}
 #                        new_partner GET    /partners/new(.:format)                                         {:action=>"new", :controller=>"partners"}

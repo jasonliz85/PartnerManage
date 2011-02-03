@@ -1,0 +1,17 @@
+<h1>Populate Shifts for <%= partner_full_name(@work_plan.partner) %></h1>
+
+<%= form_for @partner, :url => {:action => "population"}  do |f| %>
+	<div class="field">
+		<%= f.label "Select" %><br />
+		<!%= f.text_field :start_at %>
+	</div>
+	<div class="field">
+		<%= f.label "Date" %><br />
+		<!%= f.text_field :start_at %>
+	</div>
+	<div class="actions">
+		<%= f.submit 'Populate' %> |
+		<%= link_to 'Cancel', @work_plan.partner %>
+	</div>
+<% end %>
+

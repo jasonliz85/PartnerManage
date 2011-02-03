@@ -52,29 +52,49 @@ class PartnersController < ApplicationController
 
   # PUT /partners/1
   # PUT /partners/1.xml
-  def update
-    @partner = Partner.find(params[:id])
+	def update
+		@partner = Partner.find(params[:id])
 
-    respond_to do |format|
-      if @partner.update_attributes(params[:partner]) and @partner.contact.update_attributes(params[:contact])
-        format.html { redirect_to(@partner, :notice => 'Partner was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+		respond_to do |format|
+			if @partner.update_attributes(params[:partner]) and @partner.contact.update_attributes(params[:contact])
+				format.html { redirect_to(@partner, :notice => 'Partner was successfully updated.') }
+				format.xml  { head :ok }
+			else
+				format.html { render :action => "edit" }
+				format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
+			end
+		end
+	end
 
   # DELETE /partners/1
   # DELETE /partners/1.xml
-  def destroy
-    @partner = Partner.find(params[:id])
-    @partner.destroy
+	def destroy
+		@partner = Partner.find(params[:id])
+		@partner.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(partners_url) }
-      format.xml  { head :ok }
-    end
-  end
+		respond_to do |format|
+			format.html { redirect_to(partners_url) }
+			format.xml  { head :ok }
+		end
+	end
+  
+	def populate
+		@partner = Partner.find(params[:id])
+		@work_plan = @partner.work_plan
+		respond_to do |format|
+			format.html # populate.html.erb
+			format.xml  { render :xml => @work_plans }
+		end
+	end
+	
+	def population
+		@partner = Partner.find(params[:id])
+		@work_plan = @partner.work_plan
+		puts @work_plan.partner.first_name
+		if @partner.work_plan.update_attributes(params[:work_plan])
+			redirect_to(@partner.shifts, :notice => 'Populate function was successfully updated.') 
+		else
+			render :action => "edit"
+		end
+	end
 end

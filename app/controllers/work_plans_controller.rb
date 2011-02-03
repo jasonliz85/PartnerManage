@@ -1,24 +1,23 @@
 class WorkPlansController < ApplicationController
-  # GET /work_plans
-  # GET /work_plans.xml
-  def index
-    @work_plans = WorkPlan.all
+	# GET /work_plans
+	# GET /work_plans.xml
+	def index
+		@work_plans = WorkPlan.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @work_plans }
-    end
-  end
+		respond_to do |format|
+			format.html # index.html.erb
+			format.xml  { render :xml => @work_plans }
+		end
+	end
 
-    def populate
-    @partner = Partner.find(params[:partner_id])
-    @work_plan = @partner.work_plan
-    respond_to do |format|
-      format.html # populate.html.erb
-      format.xml  { render :xml => @work_plans }
-    end
-  end
-  
+  def populate
+		@partner = Partner.find(params[:partner_id])
+		@work_plan = @partner.work_plan
+		respond_to do |format|
+			format.html # populate.html.erb
+			format.xml  { render :xml => @work_plans }
+		end
+	end
 
   # GET /work_plans/1
   # GET /work_plans/1.xml
@@ -90,11 +89,23 @@ class WorkPlansController < ApplicationController
 		end
 	end
 
+<<<<<<< HEAD
 		def update_shift
 		@shift =Shift.find(params[:id])
 		redirect_to @shift
 		
 		puts "hello this is a message"
+=======
+	def population
+		@partner = Partner.find(params[:partner_id])
+		@work_plan = @partner.work_plan
+		puts @work_plan.partner.first_name
+		if @partner.work_plan.update_attributes(params[:work_plan])
+			redirect_to(@partner.shifts, :notice => 'Populate function was successfully updated.') 
+		else
+			render :action => "edit"
+		end
+>>>>>>> c7742fe20f335d4510f2f3661f5e1e22eec3f4ac
 	end
 
 
