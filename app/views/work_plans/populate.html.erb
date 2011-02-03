@@ -1,9 +1,19 @@
+<h1>Populate Shifts for <%= partner_full_name(@work_plan.partner) %></h1>
 
-<h1>Populate shifts</h1>
-
-<h2> This is some text</h2>
-
-<%= link_to 'populate', :yearshiftgen(DateTime.now,52) => 'populate' %>
-
-<%= link_to 'Show'%>
+<%= form_for [@work_plan.partner, @work_plan], :url => update_shifts_partner_work_plan_path(@work_plan.partner)  do |f| %>
+	<div class="field">
+		<%= f.label "Select" %><br />
+		<!%= f.text_field :start_at %>
+		<!This is where you will put your fields dude>
+	</div>
+	<div class="field">
+		<%= f.label "Date" %><br />
+		<!%= f.text_field :start_at %>
+		<!This is where you will put your fields dude>
+	</div>
+	<div class="actions">
+		<%= f.submit 'Populate' %> |
+		<%= link_to 'Cancel', @work_plan.partner %>
+	</div>
+<% end %>
 

@@ -77,24 +77,4 @@ class PartnersController < ApplicationController
 			format.xml  { head :ok }
 		end
 	end
-  
-	def populate
-		@partner = Partner.find(params[:id])
-		@work_plan = @partner.work_plan
-		respond_to do |format|
-			format.html # populate.html.erb
-			format.xml  { render :xml => @work_plans }
-		end
-	end
-	
-	def population
-		@partner = Partner.find(params[:id])
-		@work_plan = @partner.work_plan
-		puts @work_plan.partner.first_name
-		if @partner.work_plan.update_attributes(params[:work_plan])
-			redirect_to(@partner.shifts, :notice => 'Populate function was successfully updated.') 
-		else
-			render :action => "edit"
-		end
-	end
 end

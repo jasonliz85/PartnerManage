@@ -31,6 +31,10 @@ class Partner < ActiveRecord::Base
 			end
 			return partners
 		end
+		#this function will delete all future shifts belonging to a partner starting from the date
+		def delete_shifts_from(date)
+			self.shifts.where("start_at > ?", date.beginning_of_day).delete_all()
+		end
 end
 
 
