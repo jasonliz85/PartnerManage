@@ -89,13 +89,14 @@ class WorkPlansController < ApplicationController
 		end
 	end
 
-<<<<<<< HEAD
+
 		def update_shift
 		@shift =Shift.find(params[:id])
 		redirect_to @shift
 		
 		puts "hello this is a message"
-=======
+		end
+
 	def population
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
@@ -105,7 +106,7 @@ class WorkPlansController < ApplicationController
 		else
 			render :action => "edit"
 		end
->>>>>>> c7742fe20f335d4510f2f3661f5e1e22eec3f4ac
+
 	end
 
 

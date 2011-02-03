@@ -38,7 +38,9 @@ class WorkPlan < ActiveRecord::Base
 			end
 		end
 		puts allshift
-		partner.shifts.delete_all
+#		self.partner.shifts.delete_all()
+		self.partner.shiftdelete(begindate)
+		puts partner
 		Shift.create(allshift)
 	end
 	#to comment
@@ -55,6 +57,7 @@ class WorkPlan < ActiveRecord::Base
 				shiftentries << {:partner_id => shift_template.weekly_rota.work_plan.partner.id, :name => shift_template.name, :start_at => shiftstart_at,:end_at =>  shiftend_at}
 				return shiftentries
 			end
+		
 		end
 
 	end

@@ -11,13 +11,12 @@ match 'partner/partner_id/update_shift' => 'work_plan#update_shift', :as => :upd
 		get 'populate', :on => :member
 		#post 'population', :on => :member
 		resource :work_plan do
-<<<<<<< HEAD
+
 			member do
 				get 'populate'
 				post 'update_shift'
 			end
-=======
->>>>>>> c7742fe20f335d4510f2f3661f5e1e22eec3f4ac
+
 			resources :weekly_rotas
 		end
 		resources :holidays

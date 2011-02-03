@@ -31,6 +31,18 @@ class Partner < ActiveRecord::Base
 			end
 			return partners
 		end
+
+		public
+		
+		def shiftdelete(begindate)
+#			beginday = begindate.day
+#			beginmonth = begindate.month
+#			beginyear = begindate.year
+
+#			begindate = DateTime.new(beginyear,beginmonth,beginday)
+			self.shifts.where("start_at > ?", begindate.beginning_of_day+1.day).delete_all
+#			self.shifts.delete_all("start_at > begindate")
+		end
 end
 
 
