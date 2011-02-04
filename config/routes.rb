@@ -5,18 +5,13 @@ PartnerManager::Application.routes.draw do
 	match '/bridges(/:year(/:month(/:day)))' => 'bridges#index', :as => :bridges, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
 	#match '/shift_templates(/:year(/:month))' => 'shift_templates#index', :as => :shift_templates, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 	#match '/shifts(/:year(/:month))' => 'shifts#index', :as => :shifts, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-match 'partner/partner_id/update_shift' => 'work_plan#update_shift', :as => :update_shift
+	#match 'partner/partner_id/update_shift' => 'work_plan#update_shift', :as => :update_shift
 	
 	resources :partners do 
-		get 'populate', :on => :member
-		#post 'population', :on => :member
 		resource :work_plan do
 
-			member do
-				get 'populate'
-				post 'update_shift'
-			end
-
+			get 'populate', :on => :member
+			put 'update_shifts', :on => :member
 			resources :weekly_rotas
 		end
 		resources :holidays
@@ -28,13 +23,13 @@ end
 
 
 #== Route Map
-# Generated on 03 Feb 2011 15:44
+# Generated on 04 Feb 2011 02:04
 #
 #                               root        /(.:format)                                                     {:controller=>"partners", :action=>"index"}
 #                           calendar        /calendar(/:year(/:month))(.:format)                            {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"calendar", :action=>"index"}
 #                            bridges        /bridges(/:year(/:month(/:day)))(.:format)                      {:year=>/\d{4}/, :month=>/\d{1,2}/, :day=>/\d{1,2}/, :controller=>"bridges", :action=>"index"}
-#                   populate_partner GET    /partners/:id/populate(.:format)                                {:action=>"populate", :controller=>"partners"}
-#                population_partners POST   /partners/population(.:format)                                  {:action=>"population", :controller=>"partners"}
+#         populate_partner_work_plan GET    /partners/:partner_id/work_plan/populate(.:format)              {:action=>"populate", :controller=>"work_plans"}
+#    update_shifts_partner_work_plan PUT    /partners/:partner_id/work_plan/update_shifts(.:format)         {:action=>"update_shifts", :controller=>"work_plans"}
 #     partner_work_plan_weekly_rotas GET    /partners/:partner_id/work_plan/weekly_rotas(.:format)          {:action=>"index", :controller=>"weekly_rotas"}
 #                                    POST   /partners/:partner_id/work_plan/weekly_rotas(.:format)          {:action=>"create", :controller=>"weekly_rotas"}
 #  new_partner_work_plan_weekly_rota GET    /partners/:partner_id/work_plan/weekly_rotas/new(.:format)      {:action=>"new", :controller=>"weekly_rotas"}

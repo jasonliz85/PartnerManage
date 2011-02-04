@@ -9,7 +9,7 @@ class WorkPlansController < ApplicationController
 			format.xml  { render :xml => @work_plans }
 		end
 	end
-
+  # GET /work_plans/populate
   def populate
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
@@ -89,20 +89,17 @@ class WorkPlansController < ApplicationController
 		end
 	end
 
+	
+	# PUT /work_plans/1
+	def update_shifts
 
-		def update_shift
-		@shift =Shift.find(params[:id])
-		redirect_to @shift
-		
-		puts "hello this is a message"
-		end
-
-	def population
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
-		puts @work_plan.partner.first_name
+		#
+		#This is where you will run the yearshiftgen function chris
+		#
 		if @partner.work_plan.update_attributes(params[:work_plan])
-			redirect_to(@partner.shifts, :notice => 'Populate function was successfully updated.') 
+			redirect_to(partner_shifts_path(@partner), :notice => 'Successfully populated shifts for #{@partner.first_name}.') 
 		else
 			render :action => "edit"
 		end

@@ -18,11 +18,6 @@ class WorkPlan < ActiveRecord::Base
 		end
 	end
 
-#	def yearshiftgen(begindate,numberofweeks)
-#If you want to delete all entries before running code	
-#		Shift.delete_all
-
-	#try to comment these functions
 	#this function is responsible for create shifts from the begindate (DateTime) to week 52 of the commercial calendar
 	def yearshiftgen(begindate, numberofweeks)
 		allshift = Array.new
@@ -37,15 +32,13 @@ class WorkPlan < ActiveRecord::Base
 				count = 0
 			end
 		end
-		puts allshift
-#		self.partner.shifts.delete_all()
-		self.partner.shiftdelete(begindate)
-		puts partner
+		partner.delete_shifts_from(begindate)
 		Shift.create(allshift)
 	end
 	#to comment
 	def shiftarraygen(weeklyrota, weeknom, begindate)
 		shiftentries= Array.new
+
 		weeklyrota.shift_templates.each_with_index do |shift_template, index|
 			weekdate = DateTime.commercial(begindate.year, weeknom, index+1) - 1.day
 			if shift_template.is_active and  (weekdate + 1.day) > begindate
@@ -55,12 +48,13 @@ class WorkPlan < ActiveRecord::Base
 				shiftstart_at = DateTime.new(year,month,day,shift_template.start_at.hour,shift_template.start_at.min)
 				shiftend_at = DateTime.new(year,month,day,shift_template.end_at.hour, shift_template.end_at.min)
 				shiftentries << {:partner_id => shift_template.weekly_rota.work_plan.partner.id, :name => shift_template.name, :start_at => shiftstart_at,:end_at =>  shiftend_at}
-				return shiftentries
+#				return shiftentries
 			end
-		
-		end
 
+		end
+		return shiftentries
 	end
+	
 end
 
 
