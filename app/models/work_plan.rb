@@ -19,15 +19,20 @@ class WorkPlan < ActiveRecord::Base
 	end
 
 	#this function is responsible for create shifts from the begindate (DateTime) to week 52 of the commercial calendar
-	def yearshiftgen(begindate, numberofweeks)
+	def yearshiftgen(begindate, enddate)
 		allshift = Array.new
 		noworkplan = self.weekly_rotas.count
 		count = 0
 		begindateweeknumber = begindate.cweek
-		fullnumberofweeks = begindateweeknumber + numberofweeks
+		enddateweeknumber = enddate.cweek
 		
-		for weeknom in begindateweeknumber..numberofweeks do
-			allshift << shiftarraygen(self.weekly_rotas[count], weeknom,begindate,fullnumberofweeks)
+		puts enddate.year
+		if enddate.year > begindate.year 
+			enddateweeknumber = enddateweeknumber +52
+		end
+		puts enddateweeknumber
+		for weeknom in begindateweeknumber..enddateweeknumber do
+			allshift << shiftarraygen(self.weekly_rotas[count], weeknom,begindate)
 
 			count = count + 1
 			if count > (noworkplan -1)
@@ -39,10 +44,18 @@ class WorkPlan < ActiveRecord::Base
 		Shift.create(allshift)
 	end
 	#to comment
-	def shiftarraygen(weeklyrota, weeknom, begindate,fullnumberofweeks)
+	def shiftarraygen(weeklyrota, weeknom, begindate)
 		shiftentries= Array.new
+			if weeknom >52
+				tempweeknom = weeknom - 52
+				yearofshift = begindate.year
+				yearofshift = yearofshift+1
+			else
+				tempweeknom = weeknom
+				yearofshift = begindate.year
+			end
 		weeklyrota.shift_templates.each_with_index do |shift_template, index|
-			weekdate = DateTime.commercial(begindate.year, weeknom, index+1) - 1.day
+			weekdate = DateTime.commercial(yearofshift, tempweeknom, index+1) - 1.day
 			if shift_template.is_active and  (weekdate + 1.day) > begindate
 				day = weekdate.day
 				month = weekdate.mon

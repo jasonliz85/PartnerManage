@@ -22,4 +22,7 @@ $(function() {
 $(function() {
 	$("#populate_start_date").datepicker({autoSize: true, dateFormat: 'dd-mm-yy'}); /*appendText: '(dd-mm-yyyy)'*/
 });
+$(function() {
+	$("#populate_end_date").datepicker({autoSize: true, dateFormat: 'dd-mm-yy'}); /*appendText: '(dd-mm-yyyy)'*/
+});
 

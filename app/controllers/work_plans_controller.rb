@@ -95,9 +95,10 @@ class WorkPlansController < ApplicationController
 
 		@partner = Partner.find(params[:partner_id])
 		populate_start_date = DateTime.parse(params[:populate_start_date])
+		populate_end_date =DateTime.parse(params[:populate_end_date])
 		
 		#
-		@partner.work_plan.yearshiftgen(populate_start_date,52)
+		@partner.work_plan.yearshiftgen(populate_start_date,populate_end_date)
 		#
 		
 		if @partner.work_plan.update_attributes(params[:work_plan])
