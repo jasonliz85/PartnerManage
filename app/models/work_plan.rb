@@ -24,21 +24,23 @@ class WorkPlan < ActiveRecord::Base
 		noworkplan = self.weekly_rotas.count
 		count = 0
 		begindateweeknumber = begindate.cweek
+		fullnumberofweeks = begindateweeknumber + numberofweeks
+		
 		for weeknom in begindateweeknumber..numberofweeks do
-			allshift << shiftarraygen(self.weekly_rotas[count], weeknom,begindate)
+			allshift << shiftarraygen(self.weekly_rotas[count], weeknom,begindate,fullnumberofweeks)
 
 			count = count + 1
 			if count > (noworkplan -1)
 				count = 0
 			end
+
 		end
 		partner.delete_shifts_from(begindate)
 		Shift.create(allshift)
 	end
 	#to comment
-	def shiftarraygen(weeklyrota, weeknom, begindate)
+	def shiftarraygen(weeklyrota, weeknom, begindate,fullnumberofweeks)
 		shiftentries= Array.new
-
 		weeklyrota.shift_templates.each_with_index do |shift_template, index|
 			weekdate = DateTime.commercial(begindate.year, weeknom, index+1) - 1.day
 			if shift_template.is_active and  (weekdate + 1.day) > begindate
