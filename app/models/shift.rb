@@ -3,6 +3,9 @@ class Shift < ActiveRecord::Base
 	has_event_calendar
 	belongs_to :partner
 	
+	#validations
+	validates_presence_of :start_at, :end_at, :name
+	
 	#functions
 	public
 		#finds all the shifts on the given date

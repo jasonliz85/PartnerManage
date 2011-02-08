@@ -94,10 +94,12 @@ class WorkPlansController < ApplicationController
 	def update_shifts
 
 		@partner = Partner.find(params[:partner_id])
-		@work_plan = @partner.work_plan
+		populate_start_date = DateTime.parse(params[:populate_start_date])
+		
 		#
-		#This is where you will run the yearshiftgen function chris
+		@partner.work_plan.yearshiftgen(populate_start_date,52)
 		#
+		
 		if @partner.work_plan.update_attributes(params[:work_plan])
 			redirect_to(partner_shifts_path(@partner), :notice => 'Successfully populated shifts for #{@partner.first_name}.') 
 		else

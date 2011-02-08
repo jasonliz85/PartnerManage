@@ -4,7 +4,7 @@ class Holiday < ActiveRecord::Base
 	belongs_to :work_plan
 	
 	#validations
-	validates_presence_of :work_plan_id
+	validates_presence_of :start_at, :end_at, :name
 	
 	#callbacks
 	after_save :update_work_plan

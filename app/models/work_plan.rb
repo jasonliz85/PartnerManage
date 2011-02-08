@@ -50,13 +50,10 @@ class WorkPlan < ActiveRecord::Base
 				shiftstart_at = DateTime.new(year,month,day,shift_template.start_at.hour,shift_template.start_at.min)
 				shiftend_at = DateTime.new(year,month,day,shift_template.end_at.hour, shift_template.end_at.min)
 				shiftentries << {:partner_id => shift_template.weekly_rota.work_plan.partner.id, :name => shift_template.name, :start_at => shiftstart_at,:end_at =>  shiftend_at}
-#				return shiftentries
 			end
-
 		end
 		return shiftentries
 	end
-	
 end
 
 
