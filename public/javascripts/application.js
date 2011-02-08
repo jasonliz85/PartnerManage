@@ -10,10 +10,16 @@ function add_fields(link, association, content) {
   var regexp = new RegExp("new_" + association, "g")
   $(link).parent().before(content.replace(regexp, new_id));
 }
+function add_remove_date(type, link) {
+	$(link).closest("dates").hide();
+}
 $(function() {
-	$("#holiday_start_at").datepicker({appendText: '(dd-mm-yyyy)', autoSize: true, dateFormat: 'dd-mm-yy'});
+	$("#holiday_start_at").datepicker({ autoSize: true, dateFormat: 'dd-mm-yy'});
 });
 $(function() {
-	$("#holiday_end_at").datepicker({appendText: '(dd-mm-yyyy)', autoSize: true, dateFormat: 'dd-mm-yy'});
+	$("#holiday_end_at").datepicker({autoSize: true, dateFormat: 'dd-mm-yy'}); /*appendText: '(dd-mm-yyyy)'*/
+});
+$(function() {
+	$("#populate_start_date").datepicker({autoSize: true, dateFormat: 'dd-mm-yy'}); /*appendText: '(dd-mm-yyyy)'*/
 });
 

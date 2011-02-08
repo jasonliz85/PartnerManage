@@ -11,11 +11,8 @@ class WeeklyRota < ActiveRecord::Base
 	#functions  
 	def build_7_shift_templates!(partner)
 		time_template = DateTime.parse("Sun, 01 Jan 2006 09:00:00 UTC +00:00")
-		puts time_template
 		7.times do |i|
-			self.shift_templates.build :name => partner.first_name + " " + partner.last_name,
-												:start_at => time_template + i, 
-												:end_at => time_template + i + 8.hours
+			self.shift_templates.build(:name => partner.first_name + " " + partner.last_name, :start_at => time_template + i, :end_at => time_template + i + 8.hours)
 		end
 	end
 end

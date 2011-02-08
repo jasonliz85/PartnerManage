@@ -1,5 +1,6 @@
 class ShiftTemplate < ActiveRecord::Base
 	#validations 
+	validates_presence_of :start_at, :end_at, :name
 	
 	#relationship
 	has_event_calendar

@@ -16,6 +16,10 @@ module ApplicationHelper
 		full_name = partner.first_name + " " + partner.last_name
 		#example format: John Lewis
 	end
+	def partner_first_and_last_initial(partner)
+		partial_name = partner.first_name + " " + partner.last_name[0].upcase
+		#example format: John Lewis
+	end
 	def display_if_not_empty(label, element)
 		if not element.nil? or not element.empty?
 			content_tag(:div, :class => "element") do 

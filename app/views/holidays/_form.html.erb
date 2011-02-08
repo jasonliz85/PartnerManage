@@ -11,15 +11,16 @@
 	<% end %>
 	<h3> Holiday Details</h3>
 	<div class="field">
-		<%= f.label :start_at, "Starting On" %><br />
+		<%= f.label :start_at, "Choose Type" %><br />
+		<%= radio_button_tag "holiday_type", "single", "single", {:id => "button_single", :checked => true} %> single
+		<%= radio_button_tag "holiday_type", "range", "range", {:id => "button_range"} %> range
+	</div>
+	<div class="field">
+		<%= f.label :end_at, "Date" %><br />
 		<%= f.text_field :start_at %>
-	</div>
-	<div class="field">
-		<%= f.label :end_at, "Ending On" %><br />
-		<%= f.text_field :end_at %><br />
-	</div>
-	<div class="field">
+		<%= f.text_field :end_at %>
 		<%= f.hidden_field :name %>
+		<!%= f.text_field :end_at %>
 	</div>
 	<div class="actions">
 		<%= f.submit 'Book Holiday'%> |

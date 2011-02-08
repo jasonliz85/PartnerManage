@@ -37,7 +37,6 @@ class HolidaysController < ApplicationController
   # GET /holidays/1/edit
   def edit
     @partner = Partner.find(params[:partner_id])
-    @work_plan = @partner.work_plan
     @holiday = @partner.work_plan.holidays.find(params[:id])
   end
 
@@ -47,11 +46,11 @@ class HolidaysController < ApplicationController
   	@partner = Partner.find(params[:partner_id])
     @holiday = @partner.work_plan.holidays.build(params[:holiday])
 
-	if @holiday.save
-		redirect_to(@holiday.work_plan.partner, :notice => 'Holiday was successfully created.') 
-	else
-		render :action => "new" 
-	end
+		if @holiday.save
+			redirect_to(@holiday.work_plan.partner, :notice => 'Holiday was successfully created.') 
+		else
+			render :action => "new" 
+		end
   end
 
   # PUT /holidays/1
@@ -60,11 +59,15 @@ class HolidaysController < ApplicationController
   	@partner = Partner.find(params[:partner_id])
     @holiday = Holiday.find(params[:id])
 
-	if @holiday.update_attributes(params[:holiday])
-		redirect_to(@holiday.work_plan.partner, :notice => 'Holiday was successfully updated.') 
-	else
-		render :action => "edit" 
-	end
+		if @holiday.update_attributes(params[:holiday])
+			if params[:holiday_type] == "single"
+				@holiday.end_at = @holiday.start_at
+				@holiday.save()
+			end
+			redirect_to(@holiday.work_plan.partner, :notice => 'Holiday was successfully updated.') 
+		else
+			render :action => "edit" 
+		end
   end
 
   # DELETE /holidays/1

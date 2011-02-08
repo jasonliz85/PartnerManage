@@ -38,7 +38,6 @@ class WorkPlan < ActiveRecord::Base
 	#to comment
 	def shiftarraygen(weeklyrota, weeknom, begindate)
 		shiftentries= Array.new
-
 		weeklyrota.shift_templates.each_with_index do |shift_template, index|
 			weekdate = DateTime.commercial(begindate.year, weeknom, index+1) - 1.day
 			if shift_template.is_active and  (weekdate + 1.day) > begindate
@@ -48,13 +47,10 @@ class WorkPlan < ActiveRecord::Base
 				shiftstart_at = DateTime.new(year,month,day,shift_template.start_at.hour,shift_template.start_at.min)
 				shiftend_at = DateTime.new(year,month,day,shift_template.end_at.hour, shift_template.end_at.min)
 				shiftentries << {:partner_id => shift_template.weekly_rota.work_plan.partner.id, :name => shift_template.name, :start_at => shiftstart_at,:end_at =>  shiftend_at}
-#				return shiftentries
 			end
-
 		end
 		return shiftentries
 	end
-	
 end
 
 
