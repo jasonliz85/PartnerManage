@@ -22,4 +22,3 @@ $(function() {
 $(function() {
 	$("#populate_start_date").datepicker({autoSize: true, dateFormat: 'dd-mm-yy'}); /*appendText: '(dd-mm-yyyy)'*/
 });
-

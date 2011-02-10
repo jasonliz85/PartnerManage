@@ -22,6 +22,18 @@ class Partner < ActiveRecord::Base
 			end
 		end
 	public
+		#returns true if a partner has the input competency. note: competency a string name of the competency object
+		def is_competent_at(competency)
+			if self.competencies.nil? 
+				return false
+			end
+			self.competencies.each do |their_competency|
+				if their_competency.name.downcase == competency.downcase
+					return true 
+				end
+			end			
+			return false			
+		end
 		#finds all partners working on a given date
 		def self.find_all_partners_working_on(date)
 			no_of_shifts = Shift.find_all_shifts_on(date)
@@ -31,11 +43,9 @@ class Partner < ActiveRecord::Base
 			end
 			return partners
 		end
-
 		#this function will delete all future shifts belonging to a partner starting from the date
 		def delete_shifts_from(date)
 			self.shifts.where("start_at > ?", date.beginning_of_day).delete_all()
-
 		end
 end
 

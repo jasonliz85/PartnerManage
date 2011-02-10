@@ -1,39 +1,16 @@
 <h1>Bridge</h1>
-<% if @bridge_list.empty? %>
-	<table class = "bridgetable" >
-		<thead>
-			<tr>
-				<th>Section</th>
-				<th>Break 1</th>
-				<th>Break 2</th>
-				<th>Break 3</th>
-				<th>Break 4</th>
-			</tr>
-		</thead>
-		<tbody>		
-			<% @bridge_list.each do |t| %>	
-				<tr>
-					<td><%= t[:competency].name %></td>
-					<td><%= partner_first_and_last_initial(t[:partner]) %><td>
-					<td><%= partner_first_and_last_initial(t[:partner]) %><td>
-					<td><%= partner_first_and_last_initial(t[:partner]) %><td>
-					<td><%= partner_first_and_last_initial(t[:partner]) %><td>
-				</tr>
-			<% end %>
-		</tbody>
-	</table>
-	<br />
-	<br />
-	<br />
-	<br />
-
+<% if not @bridge_list.empty? %>
+	
 	<%= table_for(@bridge_list) do |t| %>
-		<%= t.head('Area', 'Break 1') %>
-		<%= t.body do |competency| %>
+		<%= t.head('Section', 'Break 1', 'Break 2', 'Break 3', 'Break 4') %>
+		<%= t.body do |row| %>
 			<%= t.r do %>
-				<!%= t.d(h(t[:competency].name)) %>
-				<!%= t.d(h(t[:partner].first_name)) %>
+				<%= t.d(h(row[:competency])) %>
+				<% row[:partner].each do | partner | %>
+					<%= t.d(h(partner_first_and_last_initial(partner))) %>	
+				<% end %>
 			<% end %>
 		<% end %>
 	<% end %>
+	
 <% end %>
