@@ -2,9 +2,11 @@
 
 <%= render @partner.contact %>
 
-<%= render  :template => 'competencies/_competencies.html.erb', :competencies => @partner.competencies %>
+<%= render :template => 'competencies/_competencies.html.erb', :competencies => @partner.competencies %>
 
 <%= render @partner.work_plan %>
+
+<%= render :template => 'holidays/_holidays_summary.html.erb', :work_plan => @partner.work_plan %>
 
 <div id = "navigation">
 	<h3><%= link_to "All Partners", partners_path%></h3>

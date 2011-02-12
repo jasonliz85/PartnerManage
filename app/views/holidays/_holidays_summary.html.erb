@@ -1,0 +1,31 @@
+<div class = 'holidays'>
+	<h3> 
+		Holidays 
+		<span class='actions'>
+			<%= link_to 'Edit', edit_partner_work_plan_path(@partner) %>
+		</span>
+	</h3>
+		<% if @partner.work_plan.holiday_entitle.nil? and @partner.work_plan.holiday_taken.nil? %>
+			<div class = 'element'>No holiday information has been set.</div>
+		<% else %>
+			<h4> Information</h4>
+			<div class = 'element'>Entitlement: <%= @partner.work_plan.holiday_entitle %> </div>
+			<div class = 'element'>Booked: <%= @partner.work_plan.holiday_booked %> </div>
+			<div class = 'element'>Left: <%= holidays_left(@partner.work_plan.holiday_entitle, @partner.work_plan.holiday_booked) %> </div>
+			<h4> Dates Booked</h4>
+				<div class='holiday_dates'>
+					<% if @partner.work_plan.holidays.empty? %>
+						<div class = 'element'><i>No holidays have been booked.</i></div>		 
+					<% else %>
+						<ul>
+							<%= render @partner.work_plan.holidays %>
+							<!%= render work_plan.holidays %>
+						</ul>
+					<% end %>
+					<div class = 'element'>
+						<%= show_all_holidays('View All Holidays', @partner.work_plan) %>
+						<%= show_book_holiday('Book a Holiday', @partner.work_plan) %>
+					</div>
+				</div>	
+		<% end %>
+</div>	

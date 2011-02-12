@@ -47,6 +47,14 @@ class Partner < ActiveRecord::Base
 		def delete_shifts_from(date)
 			self.shifts.where("start_at > ?", date.beginning_of_day).delete_all()
 		end
+		#searches the partner model
+		def self.search(search)
+			if search
+				where('first_name LIKE ? OR last_name LIKE ?', "%#{search}%", "%#{search}%")
+			else
+				scoped
+			end
+		end
 end
 
 

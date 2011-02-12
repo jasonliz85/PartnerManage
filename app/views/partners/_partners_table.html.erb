@@ -1,0 +1,25 @@
+<table class = 'PartnerList'>
+	<thead>
+	<tr>
+		<th><%= sortable "first_name", "Partner" %></th>
+		<th><%= sortable "employee_no", "Employee No" %></th>
+		<th>Actions</th>
+		<th><%= sortable "is_manager", "Manager" %></th>
+		<th><%= sortable "is_temp", "Contract" %></th>
+	</tr>
+	</thead>
+	<tbody>
+	<% @partners.each do |partner| %>
+		<tr>
+			<td><%= partner_full_name(partner) %></td>
+			<td><%= partner.employee_no %></td>
+			<td><%= link_to "Edit", edit_partner_path(partner) %> <%= link_to "Delete", partner, :confirm => "Are you sure?", :method => :delete %></td>
+			<td><% if partner.is_manager %> Yes <% else %> No <% end %></td>
+			<td><% if partner.is_temp %> Temporary <% else %> Permanent <% end %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+<%= will_paginate @partners %>
+<%= hidden_field_tag :direction, params[:direction] %>
+<%= hidden_field_tag :sort, params[:sort] %>

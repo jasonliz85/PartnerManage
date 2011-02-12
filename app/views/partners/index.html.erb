@@ -4,4 +4,16 @@
 		<%= link_to 'New Partner', new_partner_path %>
 	</span>
 </h1>
-	<%= render @partners %>
+<div class = 'partners' >
+	<%= form_tag partners_path, :method => 'get', :id => "partners_search" do %>
+		<p>
+		  <%= text_field_tag :search, params[:search] %>
+		  <%= submit_tag "Search", :name => nil %>
+		</p>
+		<br /><br />
+		<div id = 'partners'>
+			<%= render 'partners_table' %>
+		</div>
+	<% end %>
+</div>
+

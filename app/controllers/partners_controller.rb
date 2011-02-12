@@ -1,11 +1,13 @@
 class PartnersController < ApplicationController
-  # GET /partners
+	helper_method :sort_column, :sort_direction
+	
+	# GET /partners
   # GET /partners.xml
   def index
-    @partners = Partner.all
-
+    @partners = Partner.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 5, :page => params[:page])
     respond_to do |format|
       format.html # index.html.erb
+      format.js 
       format.xml  { render :xml => @partners }
     end
   end
@@ -77,4 +79,13 @@ class PartnersController < ApplicationController
 			format.xml  { head :ok }
 		end
 	end
+	private
+	#used for sorting by a field name in the partners model
+  def sort_column
+    Partner.column_names.include?(params[:sort]) ? params[:sort] : "first_name"
+  end
+  #used for sorting the order in the partners model
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
 end

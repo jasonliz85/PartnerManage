@@ -26,3 +26,13 @@ $(function() {
 	$("#populate_end_date").datepicker({autoSize: true, dateFormat: 'dd-mm-yy'}); /*appendText: '(dd-mm-yyyy)'*/
 });
 
+$(function() {
+  $("#partners th a, #partners .pagination a").live("click", function() {
+  	$.getScript(this.href);
+  	return false;
+	});
+	$("#partners_search input").keyup(function() {
+		$.get($("#partners_search").attr("action"), $("#partners_search").serialize(), null, "script");
+		return false;
+	});
+});

@@ -16,35 +16,5 @@
 				<%= link_to 'Populate', populate_partner_work_plan_path(work_plan.partner) %>
 			</div>
 		<% end %>
-	<h3> 
-		Holidays 
-		<span class='actions'>
-			<%= link_to 'Edit', edit_partner_work_plan_path(work_plan.partner) %>
-		</span>
-	</h3>
-		<% if work_plan.holiday_entitle.nil? and work_plan.holiday_taken.nil? %>
-			<div class = 'element'>No holiday information has been set.</div>
-		<% else %>
-			<h4> Information</h4>
-			<div class = 'element'>Entitlement: <%= work_plan.holiday_entitle %> </div>
-			<div class = 'element'>Booked: <%= work_plan.holiday_booked %> </div>
-			<!div class = 'element'Holidays Taken: <%= work_plan.holiday_taken %> <!/div>
-			<div class = 'element'>Left: <%= holidays_left(work_plan.holiday_entitle, work_plan.holiday_booked) %> </div>
-			<h4> Dates Booked</h4>
-				<div class='holiday_dates'>
-					<% if work_plan.holidays.empty? %>
-						<div class = 'element'><i>No holidays have been booked.</i></div>		 
-					<% else %>
-						<ul>
-							<%= render work_plan.holidays %>
-						</ul>
-					<% end %>
-					<div class = 'element'>
-						<%= show_all_holidays('View All Holidays', work_plan) %>
-						<%= show_book_holiday('Book a Holiday', work_plan) %>
-					</div>
-				</div>	
-			
-		<% end %>
 <% end %>
 

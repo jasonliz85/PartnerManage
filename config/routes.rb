@@ -1,5 +1,5 @@
 PartnerManager::Application.routes.draw do
-	root :to => "partners#index"
+	root :to => "calendar#index"
 	
 	match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 	match '/bridges(/:year(/:month(/:day)))' => 'bridges#index', :as => :bridges, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
@@ -23,9 +23,9 @@ end
 
 
 #== Route Map
-# Generated on 04 Feb 2011 02:04
+# Generated on 11 Feb 2011 23:59
 #
-#                               root        /(.:format)                                                     {:controller=>"partners", :action=>"index"}
+#                               root        /(.:format)                                                     {:controller=>"calendar", :action=>"index"}
 #                           calendar        /calendar(/:year(/:month))(.:format)                            {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"calendar", :action=>"index"}
 #                            bridges        /bridges(/:year(/:month(/:day)))(.:format)                      {:year=>/\d{4}/, :month=>/\d{1,2}/, :day=>/\d{1,2}/, :controller=>"bridges", :action=>"index"}
 #         populate_partner_work_plan GET    /partners/:partner_id/work_plan/populate(.:format)              {:action=>"populate", :controller=>"work_plans"}

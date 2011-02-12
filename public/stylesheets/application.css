@@ -284,4 +284,29 @@ a:hover {
 #weeklyRotaTable table tbody td{
 	border:none;
 }
+table.PartnerList {
+  border-collapse: collapse;
+}
 
+.PartnerList td, .PartnerList th {
+  padding: 4px 10px;
+  border: solid 1px #AAA;
+}
+
+.PartnerList .price {
+  text-align: right;
+}
+
+.PartnerList th .current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.PartnerList th .asc {
+  background-image: url(/images/up_arrow.gif);
+}
+
+.PartnerList th .desc {
+  background-image: url(/images/down_arrow.gif);
+}
