@@ -3,19 +3,19 @@
 	<tr>
 		<th><%= sortable "first_name", "Partner" %></th>
 		<th><%= sortable "employee_no", "Employee No" %></th>
-		<th>Actions</th>
 		<th><%= sortable "is_manager", "Manager" %></th>
 		<th><%= sortable "is_temp", "Contract" %></th>
+		<th></th>
 	</tr>
 	</thead>
 	<tbody>
 	<% @partners.each do |partner| %>
 		<tr>
-			<td><%= partner_full_name(partner) %></td>
+			<td><%= link_to partner_full_name(partner), partner_path(partner) %></td>
 			<td><%= partner.employee_no %></td>
-			<td><%= link_to "Edit", edit_partner_path(partner) %> <%= link_to "Delete", partner, :confirm => "Are you sure?", :method => :delete %></td>
 			<td><% if partner.is_manager %> Yes <% else %> No <% end %></td>
 			<td><% if partner.is_temp %> Temporary <% else %> Permanent <% end %></td>
+			<td><%= link_to "Edit", edit_partner_path(partner) %> <%= link_to "Delete", partner, :confirm => "Are you sure?", :method => :delete %> <%= link_to 'Populate', populate_partner_work_plan_path(partner) %></td>
 		</tr>
 	<% end %>
 	</tbody>

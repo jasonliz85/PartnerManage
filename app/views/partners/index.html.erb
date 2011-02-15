@@ -6,11 +6,10 @@
 </h1>
 <div class = 'partners' >
 	<%= form_tag partners_path, :method => 'get', :id => "partners_search" do %>
-		<p>
+		<div class="field">
 		  <%= text_field_tag :search, params[:search] %>
 		  <%= submit_tag "Search", :name => nil %>
-		</p>
-		<br /><br />
+		</div>
 		<div id = 'partners'>
 			<%= render 'partners_table' %>
 		</div>

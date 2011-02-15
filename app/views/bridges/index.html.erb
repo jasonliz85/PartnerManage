@@ -1,7 +1,7 @@
 <h1>Bridge</h1>
 <% if not @bridge_list.empty? %>
 	
-	<%= table_for(@bridge_list) do |t| %>
+	<%= table_for(@bridge_list, :html => {:class => 'BridgeTable'}) do |t| %>
 		<%= t.head('Section', 'Break 1', 'Break 2', 'Break 3', 'Break 4') %>
 		<%= t.body do |row| %>
 			<%= t.r do %>

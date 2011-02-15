@@ -9,4 +9,10 @@ class CalendarController < ApplicationController
     @event_strips = Shift.event_strips_for_month(@shown_month)
   end
   
+  def show
+  
+  	@calendar_date = DateTime.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
+  	
+  end
+  
 end

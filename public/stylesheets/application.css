@@ -286,15 +286,12 @@ a:hover {
 }
 table.PartnerList {
   border-collapse: collapse;
+  width:100%;
 }
 
 .PartnerList td, .PartnerList th {
   padding: 4px 10px;
   border: solid 1px #AAA;
-}
-
-.PartnerList .price {
-  text-align: right;
 }
 
 .PartnerList th .current {
@@ -310,3 +307,15 @@ table.PartnerList {
 .PartnerList th .desc {
   background-image: url(/images/down_arrow.gif);
 }
+
+table.BridgeTable {
+  border-collapse: collapse;
+  width:100%;
+}
+.BridgeTable td, .BridgeTable th {
+  padding: 4px 10px;
+  border: solid 1px #AAA;
+  text-align:center;
+}
+
+
