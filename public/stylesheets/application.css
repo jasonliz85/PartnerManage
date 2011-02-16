@@ -169,7 +169,12 @@ a:hover {
   margin-right: 10px;
   margin-bottom: 10px;
 }
-
+#main .partners form  input[type=submit] {
+  margin-left: 10px;
+  float:left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
 #main h3 {
   padding-top: 10px;
   height: 20px;
@@ -196,6 +201,7 @@ a:hover {
 #main div .element {
 	padding: 0 0 0 16px;	
 	font-size: 13px;
+	background-color: #FFFFCC;
 }
 #main li .actions {
 	font-size: 9px;
@@ -203,6 +209,10 @@ a:hover {
 }
 #main h4 {
 	padding: 0 0 0 8px;	
+	background-color: #FFFFCC;
+}
+#main div.holiday_dates {
+	background-color: #FFFFCC;
 }
 #main form div  {
 	padding: 15px 0 0 0;	
@@ -247,6 +257,9 @@ a:hover {
   font-size: 12px;
   list-style: square;
 }
+/*###########################################
+#############Tables########################
+###########################################*/
 #main form table input[type=checkbox] {
 }
 #weeklyRotaTable thead th {
@@ -318,4 +331,11 @@ table.BridgeTable {
   text-align:center;
 }
 
+/*###########################################
+#############Calendar Page###################
+###########################################*/
+div.CalendarCharts {
+	float:left;
+	background-color: #FFFFCC;
+}
 

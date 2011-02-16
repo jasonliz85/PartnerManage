@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110126121009) do
+ActiveRecord::Schema.define(:version => 20110216121546) do
 
   create_table "competencies", :force => true do |t|
     t.string   "name"
@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(:version => 20110126121009) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "partner_id"
+    t.string   "color"
+    t.integer  "shift_type"
   end
 
   create_table "weekly_rotas", :force => true do |t|

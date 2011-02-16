@@ -43,6 +43,15 @@ class Partner < ActiveRecord::Base
 			end
 			return partners
 		end
+		#finds all the partners who are on holiday on the given date
+		def self.find_all_partners_taking_holiday_on_range(date_from, date_to)
+			no_of_shifts = Holiday.find_all_holidays_on(date_from, date_to) 
+			partners = []
+			no_of_shifts.each do |shift|
+				partners << shift.partner			
+			end
+			return partners
+		end
 		#this function will delete all future shifts belonging to a partner starting from the date
 		def delete_shifts_from(date)
 			self.shifts.where("start_at > ?", date.beginning_of_day).delete_all()

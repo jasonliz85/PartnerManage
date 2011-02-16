@@ -2,15 +2,11 @@ PartnerManager::Application.routes.draw do
 	root :to => "calendar#index"
 	
 	match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-	match '/calendar(/:year(/:month(/:day)))' => 'calendar#show', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
+	match '/calendar/:year/:month/:day'=> 'calendar#day', :as => :calendar_day, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
 	match '/bridges(/:year(/:month(/:day)))' => 'bridges#index', :as => :bridges, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
-	#match '/shift_templates(/:year(/:month))' => 'shift_templates#index', :as => :shift_templates, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-	#match '/shifts(/:year(/:month))' => 'shifts#index', :as => :shifts, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-	#match 'partner/partner_id/update_shift' => 'work_plan#update_shift', :as => :update_shift
 	
 	resources :partners do 
 		resource :work_plan do
-
 			get 'populate', :on => :member
 			put 'update_shifts', :on => :member
 			resources :weekly_rotas
