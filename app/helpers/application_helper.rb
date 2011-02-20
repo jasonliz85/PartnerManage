@@ -32,6 +32,7 @@ module ApplicationHelper
 		direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
 		link_to title, params.merge(:sort => column, :direction => direction, :page => nil), {:class => css_class}
 	end
+	#displays a label if not empty
 	def display_if_not_empty(label, element)
 		if not element.nil? or not element.empty?
 			content_tag(:div, :class => "element") do 
@@ -55,4 +56,21 @@ module ApplicationHelper
 		end
 		link_to_function(name, "add_fields(this, '#{association}', '#{escape_javascript(fields)}')" )
 	end
+	#used to link to a particular day
+	def date_link(date)
+    link_to(simple_date(date), {:day => date.day, :month => date.month, :year => date.year})
+  end
+  # custom options for the calendar object
+  def event_calendar_opts
+    { 
+      :year => @year,
+      :month => @month,
+      :event_strips => @event_strips,
+      :month_name_text => I18n.localize(@shown_month, :format => "%B %Y"),
+      :previous_month_text => "<< " + month_link(@shown_month.prev_month),
+      :next_month_text => month_link(@shown_month.next_month) + " >>"
+      #:event_height => @event_height
+      #:link_to_day_action => @action
+     }
+  end
 end

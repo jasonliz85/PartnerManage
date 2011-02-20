@@ -3,28 +3,28 @@
 <head>
 	<title>PartnerManager</title>
 	<%= javascript_include_tag :all, :cache => true%>
-	<!%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js", "application" %>
+	<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js", "application" %>
 	<%= stylesheet_link_tag :all %>
-	<!%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css", "application" %>
+	<%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css", "application" %>
 	<%= csrf_meta_tag %>
 </head>
 <body>
-<div id = "header">
-	<%= image_tag "logo.gif", :size => "50x50"%>
-</div>
-<div id = "menubar">
-	<%= render :template => 'layouts/_menu_bar.html.erb' %>	
-</div>
-<div id = "main">
-	<div id="container">
-		<% flash.each do |name, msg| %>
-			<%= content_tag :div, msg, :id => "flash_#{name}" %>
-		<% end %>
+	<div id = "header">
+		<%= image_tag "logo.gif", :size => "50x50"%>
 	</div>
-	<%= yield %>
-</div>
-<div id="footer">
-	John Lewis &copy; 2010 Partner Manage Application, developed by Chris Gungaloo and Jason Lizarraga</a>
-</div>
+	<div id = "menubar">
+		<%= render :template => 'layouts/_menu_bar.html.erb' %>	
+	</div>
+	<div id = "main">
+		<div id="container">
+			<% flash.each do |name, msg| %>
+				<%= content_tag :div, msg, :id => "flash_#{name}" %>
+			<% end %>
+		</div>
+		<%= yield %>
+	</div>
+	<div id="footer">
+		John Lewis &copy; 2010 Partner Manage Application, developed by Chris Gungaloo and Jason Lizarraga
+	</div>
 </body>
 </html>

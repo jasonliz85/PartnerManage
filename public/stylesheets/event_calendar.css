@@ -141,6 +141,8 @@ a.ec-day-link {
   vertical-align: top;
   padding-right: 1px;
   padding-left: 2px;
+  text-align:center;
+  margin: auto;
 }
 
 .ec-event-cell a {
@@ -157,7 +159,7 @@ a.ec-day-link {
 .ec-event {
   color: white;
   padding-right: 1px;
-  padding-left: 11px;
+  padding-left: 1px;
   -webkit-border-radius: 3px;
   -khtml-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -171,6 +173,7 @@ a.ec-day-link {
 }
 
 .ec-event-bg a {
+	padding: 0;
   color: white;
 }
 

@@ -304,7 +304,7 @@ table.PartnerList {
 
 .PartnerList td, .PartnerList th {
   padding: 4px 10px;
-  border: solid 1px #AAA;
+  border: solid 1px #CCCCCC;
 }
 
 .PartnerList th .current {
@@ -327,8 +327,14 @@ table.BridgeTable {
 }
 .BridgeTable td, .BridgeTable th {
   padding: 4px 10px;
-  border: solid 1px #AAA;
+	border: solid 1px #CCCCCC;
   text-align:center;
+}
+table.DayCalendarHeader {
+  border-collapse: collapse;
+  width:100%;
+  height: 20px;
+  padding-top: 10px;
 }
 
 /*###########################################
@@ -337,5 +343,10 @@ table.BridgeTable {
 div.CalendarCharts {
 	float:left;
 	background-color: #FFFFCC;
+}
+
+div.BridgeCalendar a:hover{
+	background-color:transparent;
+  /*color:transparent;#FF813C;*/
 }
 
