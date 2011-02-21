@@ -1,0 +1,27 @@
+<% if not @bridge_list.empty? %>
+
+<table class = 'BridgeTable'>
+	<thead>
+		<tr>
+			<th>Section</th>
+			<% for slot in 1..@break_slots do %>
+				<th>Break <%= slot %></th>
+			<% end %>
+		</tr>
+	</thead>
+	<tbody>
+		<% @bridge_list.each do |table_row_section, table_row_break| %>
+			<tr>
+					<td><%= table_row_section %></td>
+					<% table_row_break.each do |table_row_break_no, table_row_break_partners| %>
+						<td>
+							<% table_row_break_partners.each do |partner| %>
+								<%= link_to partner_first_and_last_initial(partner) %>
+							<% end %>
+						</td>
+					<% end %>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+<% end %>

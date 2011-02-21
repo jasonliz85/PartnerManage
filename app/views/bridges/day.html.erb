@@ -1,0 +1,36 @@
+<h1>Bridge</h1>
+
+<%= render :template => 'layouts/_calendar_day_nav.html.erb', :locals => { :date => @bridge_date} %>	
+
+<div class = "BridgeTable">
+	<br/>
+	<%= render 'bridge_table' %>
+</div>
+<div class = "BridgeOther">
+	<h3> 
+		Information
+		<span class = actions>
+			<%= link_to 'More Stats...' %>  
+		</span>
+	</h3>
+	<div class = 'element'>
+		All Partners: 0
+		Managers: 1
+		Non-Managers: 4
+		Sections: 4
+	</div>
+	<h3> 
+		Notes 
+		<span class = actions>
+			<%= link_to 'Add a note' %> 
+		</span>
+	</h3>
+	<div class = 'element'>
+		"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+		"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+	</div>
+</div>
+<div class = "CalendarActions" >
+	<%= link_to 'Back to Bridges', bridges_url %>
+</div>
+
