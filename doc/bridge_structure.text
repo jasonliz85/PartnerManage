@@ -6,11 +6,11 @@ bridge_table =
 	}
 
 bridge_stats = 
-	{ partners_working => [partner_1, ... , partner_n], 
-		partners_not_working => [partner_1, ... , partner_n], 
+	{ *partners_working => [partner_1, ... , partner_n], 
+		*partners_not_working => [partner_1, ... , partner_n], 
 		competencies => [ competency_1 => x1,	competency_2 => x2,	... ,	competency_n => xn ],
 		shift_types => [shift_type_1 => y1, shift_type_2 => y2, ... , shift_type_n => yn],
-		total_working =>  a1,	
-		total_managers => a2
+		*total_working =>  a1,	
+		*total_managers => a2
 	}
 		

@@ -16,7 +16,7 @@ class BridgesController < ApplicationController
 			bridge.update_bridge!()				
 			@bridge_list, @bridge_stats = bridge.get_bridge_info()
 		end
-
+		print @bridge_stats
 		respond_to do |format|
 			format.html # day.html.erb
 		end

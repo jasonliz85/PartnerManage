@@ -30,15 +30,21 @@ class Bridge < ActiveRecord::Base
 		stats = {}
 		competencies = Competency.all
 		shifts_working, shifts_not_working = Shift.find_all_partners_who_are_working_on_date(date)
+		
 		if not shifts_working.empty?
 			partners = get_partner_object_from_shift(shifts_working)
 			partners_not_working = get_partner_object_from_shift(shifts_not_working)
+			stats['partners_working'] = partners
+			stats['partners_not_working'] = partners_not_working
+			stats['total_working'] = partners.count
+			
 			
 			#1.find managers and separate
 			table['Manager'] = {}
 			managers, partners_left = find_all_managers_from(partners)
 			if not managers.empty?
 				table['Manager'] = sort_partners_into_breaks(managers, break_slots)
+				stats['total_managers'] = managers.count
 			end
 			#2.find important sections and separate [in Audio and TV: Sasu and Task Team]
 			important_competencies = ['Sasu','Task Team']
@@ -56,11 +62,21 @@ class Bridge < ActiveRecord::Base
 				end
 			end
 		end
-		return table
+		return [table, stats]
 		#combine results 
 		#bridge_row = bridge_row_manager + bridge_row + bridge_row_sasu + bridge_row_task
 	end
 	protected
+		class Array
+			#overloaded functions (shuffle and shuffle!) which will shuffle randomly an array
+			def shuffle
+				sort_by { rand }
+			end
+			def shuffle!
+				self.replace shuffle
+			end
+		end
+
 		def self.find_all_managers_from(partners)
 			#this function simply finds all the is_manager fields from the partner(s) object
 			managers = []
@@ -79,10 +95,14 @@ class Bridge < ActiveRecord::Base
 			#this function sorts the given partner objects into the break slots
 			#more inteligence in allocating a break slot is needed
 			slots = {}
+			partners = partners.shuffle!
 			for break_no in 1..break_slots do
 				slots[break_no] = []
 				partners.each do |partner|
-					slots[break_no] << partner if slots[break_no].empty?
+					if slots[break_no].empty?
+						slots[break_no] << partner 
+						partners.delete(partner)
+					end
 				end
 			end
 			return slots
