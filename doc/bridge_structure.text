@@ -13,4 +13,10 @@ bridge_stats =
 		*total_working =>  a1,	
 		*total_managers => a2
 	}
-		
+
+grouped_partners = 
+	{
+	'competency_1' => [partner_1, ... , partner_n],
+	...,
+	'competency_m' => [partner_1, ... , partner_n],
+	}

@@ -8,6 +8,6 @@ gem 'jquery-rails', '>= 0.2.6' #to run this gem, first do bunde install, then ty
 gem 'will_paginate'
 
 group :development, :test do
-	gem 'capybara'
-	gem 'cucumber-rails'
+#	gem 'capybara'
+#	gem 'cucumber-rails'
 end

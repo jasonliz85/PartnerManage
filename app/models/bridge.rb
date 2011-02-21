@@ -68,7 +68,7 @@ class Bridge < ActiveRecord::Base
 	end
 	protected
 		class Array
-			#overloaded functions (shuffle and shuffle!) which will shuffle randomly an array
+			#functions (shuffle and shuffle!) which will shuffle randomly an array
 			def shuffle
 				sort_by { rand }
 			end
@@ -83,6 +83,73 @@ class Bridge < ActiveRecord::Base
 			non_managers =[]
 			partners.each do |partner| partner.is_manager ? managers << partner :	non_managers << partner	end		
 			return [managers, non_managers]
+		end
+		def self.sort_partners_into_competencies(partners, sections)
+			#this function sorts and groups a list of partners into a hash of competencies (section)
+			#i.e. fits partners into a section
+			#warning, potential problem if partner.competencies != sections
+			
+			#check partners.competency matches at all the sections
+#			partners.each do |partner|
+#				partners.competencies.each do |partner|end			
+#			end
+			
+			#initialise variables
+			grouped_partners = {}
+			sections.each do |section|
+				grouped_partners[section] = []
+			end
+			#first, find all partners without a competency - add these later
+			partners_with_no_competency = []
+			partners.each do |partner|
+				if partner.competencies.empty?
+					partners_with_no_competency << partner
+					partners.delete(partner)
+				end
+			end  
+			#now whilst partner list is not empty, loop through each competency 
+			#and allocate a partner to this competency
+			while not partners.empty?
+				#shuffle competencies
+				sections.shuffle!
+				#find section with lowest number of partners, if more than one with the lowest
+				#then between these lowest numbers choose it at random 
+				current_section = []
+				grouped_partners.each_with_index do |section, g_partners, index|
+					if index == 1
+						current_section = section
+					end
+					if g_partners.count == 0
+						if grouped_section[current_lowest] > grouped_partners[section]
+							current_section.delete(current_lowest)
+						end
+						current_section << section
+						current_lowest = section
+					else if g_partners.count < grouped_section[current_lowest].count
+						current_lowest = section
+						current_section = []
+						current_section << section
+					else if g_partners.count == grouped_partners[current_lowest].count
+						current_section << section
+					end
+				end
+				current_section = ...
+				#once section chosen, allocate a partner to it's list
+				#to do this, loop through the partners list and find a partner with a competency that matches
+				#its section
+				partner.each do |partner|
+					partner.competencies.each do |partner_competency|
+						if not sections.include?(partner_competency.name)
+							#this case must not happen, as it can potentially cause an infinite loop
+							return false
+						else if partner_competency == current_section
+							grouped_partners[current_section] << partner
+							partners.delete(partner)
+							break
+						end						
+					end
+				end
+			end
 		end
 		def self.find_all_partners_with_competency(partners, competency)
 			#this function finds all the partners who match the input competency
