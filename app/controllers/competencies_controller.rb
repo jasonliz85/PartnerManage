@@ -16,4 +16,23 @@ class CompetenciesController < ApplicationController
 		end
 	end
 
+	def wizardcompetencyupdate
+		@partner = Partner.find(params[:partner_id])
+		@competency = @partner.competency
+		if @partner.competency.update_attributes(params[:competency])
+			redirect_to(holidaywizard_partner_holidays_path(@partner), :notice => 'competency was successfully updated.' )
+		else
+			render :action => "edit" 
+		end
+	end
+
+
+		  def competencywizard
+		@partner = Partner.find(params[:partner_id])
+		respond_to do |format|
+			format.html
+			format.xml  { render :xml => @competencies }
+		end
+	end
+
 end

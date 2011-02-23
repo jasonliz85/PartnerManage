@@ -11,9 +11,9 @@
 	<tbody>
 	<% @partners.each do |partner| %>
 		<tr>
-			<td><%= partner_full_name(partner) %></td>
+			<td><%= link_to partner_full_name(partner), partner_path(partner) %></td>
 			<td><%= partner.employee_no %></td>
-			<td><%= link_to "Edit", edit_partner_path(partner) %> <%= link_to "Delete", partner, :confirm => "Are you sure?", :method => :delete %></td>
+			<td><%= link_to "Edit", edit_partner_path(partner) %> <%= link_to "Delete", partner, :confirm => "Are you sure?", :method => :delete %><%= link_to "populate", populate_partner_work_plan_path(partner) %></td>
 			<td><% if partner.is_manager %> Yes <% else %> No <% end %></td>
 			<td><% if partner.is_temp %> Temporary <% else %> Permanent <% end %></td>
 		</tr>

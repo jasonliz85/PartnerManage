@@ -9,16 +9,22 @@ PartnerManager::Application.routes.draw do
 	
 	resources :partners do 
 		resource :work_plan do
-
+			get 'workplanwizard', :on => :member
 			get 'populate', :on => :member
 			put 'update_shifts', :on => :member
+			put 'wizardworkplanupdate', :on => :member
 			resources :weekly_rotas
 		end
-		resources :holidays
+		resources :holidays do
+			get 'holidaywizard', :on => :member
+		end
 		resource :contact, :only => [:edit, :update]
 		resources :shifts
-		resource :competency, :only => [:edit, :update]
-	end
+		resource :competency, :only => [:edit, :update] do
+			get 'competencywizard', :on => :member
+			put 'wizardcompetencyupdate', :on => :member
+		end
+		end
 end
 
 

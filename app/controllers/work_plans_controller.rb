@@ -19,6 +19,15 @@ class WorkPlansController < ApplicationController
 		end
 	end
 
+	  def workplanwizard
+		@partner = Partner.find(params[:partner_id])
+		@work_plan = @partner.work_plan
+		respond_to do |format|
+			format.html
+			format.xml  { render :xml => @work_plans }
+		end
+	end
+
   # GET /work_plans/1
   # GET /work_plans/1.xml
   def show
@@ -79,11 +88,22 @@ class WorkPlansController < ApplicationController
 
   # PUT /work_plans/1
   # PUT /work_plans/1.xml
-	def update
+
+  	def update
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
 		if @partner.work_plan.update_attributes(params[:work_plan])
 			redirect_to(@partner, :notice => 'Work plan was successfully updated.') 
+		else
+			render :action => "edit"
+		end
+	end
+
+		
+	def wizardworkplanupdate
+		@partner = Partner.find(params[:partner_id])
+		if @partner.work_plan.update_attributes(params[:work_plan])
+			redirect_to(competencywizard_partner_competency_path(@partner), :notice => 'Work plan was successfully updated.') 
 		else
 			render :action => "edit"
 		end

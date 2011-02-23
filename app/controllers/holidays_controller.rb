@@ -9,6 +9,14 @@ class HolidaysController < ApplicationController
     @event_strips = @partner.work_plan.holidays.event_strips_for_month(@shown_month)
   end
 
+  		  def holidaywizard
+		@partner = Partner.find(params[:partner_id])
+		respond_to do |format|
+			format.html
+			format.xml  { render :xml => @holidays }
+		end
+	end
+
   # GET /holidays/1
   # GET /holidays/1.xml
   def show
