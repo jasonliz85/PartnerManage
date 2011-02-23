@@ -4,18 +4,22 @@ class Bridge < ActiveRecord::Base
   #relationships
   #callbacks
 	#functions
-	def self.find_bridge_on(date)
-		#finds the bridge on the given date
-		bridge = Bridge.where("start_at > ? AND start_at < ?", date.beginning_of_day(), date.end_of_day())		
-		return bridge
-	end
 	def update_bridge!()
 		#checks whether bridge has been updated (added new shifts) since it was created
 		return true		
 	end
-	def get_bridge_info()
+	def get_bridge_info
 		#returns the bridge table and bridge stats column in the database
-		return [self.bridge_table, self.bridge_stats ]
+		if self.bridge_table.nil? or self.bridge_stats.nil?
+			return [false, false]
+		else
+			return [JSON.parse(self.bridge_table), JSON.parse(self.bridge_stats) ]
+		end
+	end
+	def self.find_bridge_on(date)
+		#finds the bridge on the given date
+		bridge = Bridge.where("start_at > ? AND start_at < ?", date.beginning_of_day(), date.end_of_day())		
+		return bridge
 	end
 	def self.get_partner_object_from_shift(shifts_working)
 		#simply returns the partner linked to each shift (i.e. shift.partner)
@@ -23,7 +27,13 @@ class Bridge < ActiveRecord::Base
 		shifts_working.each {|shift| partners << shift.partner }
 		return partners
 	end
-	def self.create_bridge!(date, break_slots)
+	def self.create_bridge!(date, break_slots) 
+		b_table, b_stats = create_bridge_table_and_stats(date, break_slots)
+		#self.create(:name => "Bridge", :start_at => date.beginning_of_day(), :end_at => date.end_of_day(),
+		#						:bridge_table => b_table.to_json, :bridge_stats => b_stats.to_json )
+		return [b_table, b_stats]
+	end
+	def self.create_bridge_table_and_stats(date, break_slots)
 		#this function creates the bridge table format for the bridge page. 
 		#Each row has one competency and several partners, representing a row in the bridge table
 		table = {}
@@ -38,7 +48,6 @@ class Bridge < ActiveRecord::Base
 			stats['partners_working'] = partners
 			stats['partners_not_working'] = partners_not_working
 			stats['total_working'] = partners.count
-			
 			
 			#1.find managers and separate
 			table['Manager'] = {}
