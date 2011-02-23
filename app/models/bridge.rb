@@ -43,8 +43,8 @@ class Bridge < ActiveRecord::Base
 			#1.find managers and separate
 			table['Manager'] = {}
 			managers, partners_left = find_all_managers_from(partners)
-			table['Manager'] = sort_partners_into_breaks(managers, break_slots)
 			stats['total_managers'] = managers.count
+			table['Manager'] = sort_partners_into_breaks(managers, break_slots)
 
 			#2.find important sections and separate [in Audio and TV: Sasu and Task Team]
 			important_competencies.each do |competency|
