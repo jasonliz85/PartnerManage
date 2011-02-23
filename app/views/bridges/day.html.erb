@@ -15,7 +15,7 @@
 	</h3>
 	<div class = 'element'>
 		Total: Partners (<%= @bridge_stats['total_working'] %>), Managers (<%= @bridge_stats['total_managers'] %>),	Non-Managers (<%= @bridge_stats['total_working'] - @bridge_stats['total_managers'] %>) <br/>
-		Sections: Audio (4), Television (4), ... <br/>
+		Sections: <%= @bridge_stats['competencies'].map{|competency, numbers| competency + " (" + numbers.to_s + ")"}.to_sentence %><br/>
 		Holiday: Kelly and Barrat <br/>
 		Sick: Lee <br/>
 		Other Absences: None <br/>

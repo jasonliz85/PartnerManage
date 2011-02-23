@@ -24,11 +24,12 @@ class Bridge < ActiveRecord::Base
 		return partners
 	end
 	def self.create_bridge!(date, break_slots)
-		#this function creats the bridge table format for the bridge page. 
+		#this function creates the bridge table format for the bridge page. 
 		#Each row has one competency and several partners, representing a row in the bridge table
 		table = {}
 		stats = {}
-		competencies = Competency.all
+		competencies = Competency.find_all_by_priority(2).map {|f| f.name}
+		important_competencies = Competency.find_all_by_priority(1).map {|f| f.name }#['Sasu','Task Team']
 		shifts_working, shifts_not_working = Shift.find_all_partners_who_are_working_on_date(date)
 		
 		if not shifts_working.empty?
@@ -42,24 +43,22 @@ class Bridge < ActiveRecord::Base
 			#1.find managers and separate
 			table['Manager'] = {}
 			managers, partners_left = find_all_managers_from(partners)
-			if not managers.empty?
-				table['Manager'] = sort_partners_into_breaks(managers, break_slots)
-				stats['total_managers'] = managers.count
-			end
+			table['Manager'] = sort_partners_into_breaks(managers, break_slots)
+			stats['total_managers'] = managers.count
+
 			#2.find important sections and separate [in Audio and TV: Sasu and Task Team]
-			important_competencies = ['Sasu','Task Team']
 			important_competencies.each do |competency|
 				table[competency]	= {}		
 				partners, partners_left = find_all_partners_with_competency(partners_left, competency)
 				table[competency] = sort_partners_into_breaks(partners, break_slots)
 			end
 			#3.Sort all other partners
-			competencies.each do |competency|
-				if not important_competencies.include?(competency.name) 
-					table[competency.name]	= {}	
-					competent_partners, partners_left = find_all_partners_with_competency(partners_left, competency.name)
-					table[competency.name] = sort_partners_into_breaks(competent_partners, break_slots)
-				end
+			sorted_partners_with_competences = sort_partners_into_competencies(partners_left, competencies, important_competencies)
+			#stats['competencies'] =	sorted_partners_with_competences
+			stats['competencies'] = {}
+			sorted_partners_with_competences.each_pair do |competency, partners|
+				stats['competencies'][competency] = partners.count
+				table[competency] = sort_partners_into_breaks(partners, break_slots)
 			end
 		end
 		return [table, stats]
@@ -84,16 +83,9 @@ class Bridge < ActiveRecord::Base
 			partners.each do |partner| partner.is_manager ? managers << partner :	non_managers << partner	end		
 			return [managers, non_managers]
 		end
-		def self.sort_partners_into_competencies(partners, sections)
+		def self.sort_partners_into_competencies(partners, sections, excluded_sections)
 			#this function sorts and groups a list of partners into a hash of competencies (section)
-			#i.e. fits partners into a section
-			#warning, potential problem if partner.competencies != sections
-			
-			#check partners.competency matches at all the sections
-#			partners.each do |partner|
-#				partners.competencies.each do |partner|end			
-#			end
-			
+			#i.e. fits partners into a section	#warning, potential problem if partner.competencies != sections
 			#initialise variables
 			grouped_partners = {}
 			sections.each do |section|
@@ -109,47 +101,71 @@ class Bridge < ActiveRecord::Base
 			end  
 			#now whilst partner list is not empty, loop through each competency 
 			#and allocate a partner to this competency
+			checked_sections = []
+			repeat = true
 			while not partners.empty?
 				#shuffle competencies
 				sections.shuffle!
-				#find section with lowest number of partners, if more than one with the lowest
-				#then between these lowest numbers choose it at random 
-				current_section = []
-				grouped_partners.each_with_index do |section, g_partners, index|
-					if index == 1
-						current_section = section
-					end
-					if g_partners.count == 0
-						if grouped_section[current_lowest] > grouped_partners[section]
-							current_section.delete(current_lowest)
+				while repeat
+					#find section with lowest number of partners, if more than one with the lowest
+					#then between these lowest numbers choose it at rand
+					lowest_sections = []
+					set = 0
+					grouped_partners.each_pair do |section, list_of_partners|
+						if checked_sections.include?(section)
+							next #skip
+						elsif set == 0
+							set = 1
+							lowest_sections << section
+							next
+						elsif list_of_partners.count < grouped_partners[lowest_sections.first].count
+							lowest_sections.clear()
+							lowest_sections << section
+						elsif list_of_partners.count == grouped_partners[lowest_sections.first].count
+							lowest_sections << section
 						end
-						current_section << section
-						current_lowest = section
-					else if g_partners.count < grouped_section[current_lowest].count
-						current_lowest = section
-						current_section = []
-						current_section << section
-					else if g_partners.count == grouped_partners[current_lowest].count
-						current_section << section
 					end
-				end
-				current_section = ...
-				#once section chosen, allocate a partner to it's list
-				#to do this, loop through the partners list and find a partner with a competency that matches
-				#its section
-				partner.each do |partner|
-					partner.competencies.each do |partner_competency|
-						if not sections.include?(partner_competency.name)
-							#this case must not happen, as it can potentially cause an infinite loop
-							return false
-						else if partner_competency == current_section
-							grouped_partners[current_section] << partner
+					if lowest_sections.count > 1
+						current_section =  lowest_sections[rand(lowest_sections.length)]
+					else 
+						current_section = lowest_sections.first
+					end
+					#once section chosen, allocate a partner to it's list
+					#to do this, loop through the partners list and find a partner with a competency that matches
+					#its section
+					partners.shuffle!
+					partners.each do |partner|
+						#skip partners who have only one competency and belong to excluded sections (such as Sasu and Task Team)
+						if partner.competencies.count == 1 and excluded_sections.include?(partner.competencies.first.name)
 							partners.delete(partner)
-							break
-						end						
+							next
+						end
+						partner.competencies.each do |partner_competency|
+							if excluded_sections.include?(partner_competency.name)
+								next #skip
+							elsif not sections.include?(partner_competency.name)
+								#this case must not happen, as it can potentially cause an infinite loop
+								return []
+							elsif partner_competency.name == current_section
+								grouped_partners[current_section] << partner
+								partners.delete(partner)
+								repeat = false
+								break
+							end						
+						end
+						if partner == partners.last
+							checked_sections << current_section
+						end
+					end
+					if checked_sections.length == grouped_partners.length
+						repeat = false
 					end
 				end
+				checked_sections.clear()
+				repeat = true
 			end
+			#now deal with partners without competencies
+			return grouped_partners
 		end
 		def self.find_all_partners_with_competency(partners, competency)
 			#this function finds all the partners who match the input competency
@@ -162,13 +178,13 @@ class Bridge < ActiveRecord::Base
 			#this function sorts the given partner objects into the break slots
 			#more inteligence in allocating a break slot is needed
 			slots = {}
-			partners = partners.shuffle!
+			shuffled_partners = partners.shuffle!
 			for break_no in 1..break_slots do
 				slots[break_no] = []
-				partners.each do |partner|
+				shuffled_partners.each do |partner|
 					if slots[break_no].empty?
 						slots[break_no] << partner 
-						partners.delete(partner)
+						shuffled_partners.delete(partner)
 					end
 				end
 			end
