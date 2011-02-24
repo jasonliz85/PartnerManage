@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(:version => 20110222155131) do
     t.datetime "updated_at"
     t.integer  "partner_id"
     t.string   "color"
-    t.integer  "shift_type"
+    t.integer  "shift_type", :default => 1
   end
 
   create_table "weekly_rotas", :force => true do |t|
