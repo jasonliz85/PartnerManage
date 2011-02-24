@@ -1,4 +1,4 @@
-<%= form_for [@partner], :url => wizardcompetencyupdate_partner_competency_path(@partner) do |f| %>
+<%= form_for @partner, :url => wizardcompetencyupdate_partner_competency_path(@partner) do |f| %>
 	<div class="field">
 		<%= f.label 'Competencies'%><br />
 		<% for competency in Competency.all %>
