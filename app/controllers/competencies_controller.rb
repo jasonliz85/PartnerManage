@@ -18,7 +18,6 @@ class CompetenciesController < ApplicationController
 
 	def wizardcompetencyupdate
 		@partner = Partner.find(params[:partner_id])
-		puts params[:partner][:competency_ids]
 		if @partner.update_attributes(params[:partner])
 			redirect_to(partner_path(@partner), :notice => 'competency was successfully updated.' )
 		else
