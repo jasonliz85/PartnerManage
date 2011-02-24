@@ -1,0 +1,42 @@
+<%= form_for [@partner, @work_plan], :url => wizardworkplanupdate_partner_work_plan_path(@partner) do |f| %>
+	<% if @work_plan.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= pluralize(@work_plan.errors.count, "error") %> prohibited this work_plan from being saved:</h2>
+
+			<ul>
+				<% @work_plan.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<div class="WeeklyRota">
+		<h3>
+			Weekly Rotas 
+			<span class='actions'> 
+			</span>
+		</h3>
+	</div>
+	<%= f.fields_for :weekly_rotas do |rota_builder| %>
+		<%= render 'weekly_rota_fields', :f => rota_builder %>
+	<% end %> 
+	<div class = 'fields'>
+		<%= link_to_add_weekly_rota "Add New", f, :weekly_rotas, @work_plan %>
+	</div>
+	<div class="Holidays">
+		<h3> Holiday Details</h3>
+		<div class="field">
+			<%= f.label :holiday_entitle, "Holiday Entitlement" %><br />
+			<%= f.number_field :holiday_entitle %><br />
+		</div>
+		<div class="field">
+			<%= f.label :holiday_taken, "Holidays Taken" %><br />
+			<%= f.number_field :holiday_taken %>
+		</div>
+	</div>
+	<div class="actions">
+		<%= f.submit %>
+		|<%= link_to 'Cancel', @work_plan.partner %>
+	</div>
+	
+<% end %>
