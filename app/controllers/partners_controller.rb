@@ -24,12 +24,15 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
-	@partner = Partner.new
-	@partner.contact = Contact.new
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @partner }
-    end
+  	session[:partner_params] ||= {}
+		@partner = Partner.new(session[:partner_params])
+		@partner.current_step = session[:partner_step]
+#	@partner = Partner.new
+#	@partner.contact = Contact.new
+#    respond_to do |format|
+#      format.html # new.html.erb
+#      format.xml  { render :xml => @partner }
+#    end
   end
 
   # GET /partners/1/edit
@@ -40,15 +43,36 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
-    @partner = Partner.new(params[:partner])
-    respond_to do |format|
-      if @partner.save #and @partner.contact.save
-    		 format.html{redirect_to(workplanwizard_partner_work_plan_path(@partner), :notice => 'Partner was successfully created.')}
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
-      end
-    end
+  	session[:order_params].deep_merge!(params[:order]) if params[:order]
+		@partner = Partner.new(session[:order_params])
+		@partner.current_step = session[:order_step]
+		if @partner.valid?
+			if params[:back_button]
+				@partner.previous_step
+			elsif @partner.last_step?
+				@partner.save if @partner.all_valid?
+			else
+				@partner.next_step
+			end
+			session[:order_step] = @partner.current_step
+		end
+		if @partner.new_record?
+			render "new"
+		else
+			session[:order_step] = session[:order_params] = nil
+			flash[:notice] = "Partner saved!"
+			redirect_to @partner
+		end
+#    @partner = Partner.new(params[:partner])
+#    respond_to do |format|
+#      if @partner.save #and @partner.contact.save
+#    		format.html { redirect_to(@partner, :notice => 'Partner was successfully created.') }
+#        format.xml  { render :xml => @partner, :status => :created, :location => @partner }
+#      else
+#        format.html { render :action => "new" }
+#        format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
+#      end
+#    end
   end
 
   # PUT /partners/1
