@@ -26,7 +26,15 @@ class PartnersController < ApplicationController
   def new
   	session[:partner_params] ||= {}
 		@partner = Partner.new(session[:partner_params])
+		@partner.contact = Contact.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
+		if @partner.current_step == 'basic'
+			print 'BASIC'
+		elsif @partner.current_step == 'contact'
+			print 'CONTACT'
+		else 
+			print 'DONT KNOW'
+		end
 #	@partner = Partner.new
 #	@partner.contact = Contact.new
 #    respond_to do |format|
@@ -43,25 +51,35 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
-  	session[:order_params].deep_merge!(params[:order]) if params[:order]
-		@partner = Partner.new(session[:order_params])
-		@partner.current_step = session[:order_step]
-		if @partner.valid?
-			if params[:back_button]
-				@partner.previous_step
-			elsif @partner.last_step?
-				@partner.save if @partner.all_valid?
-			else
-				@partner.next_step
-			end
-			session[:order_step] = @partner.current_step
-		end
-		if @partner.new_record?
-			render "new"
+  	session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
+		@partner = Partner.new(session[:partner_params])
+		@partner.current_step = session[:partner_step]
+		if params[:cancel_button]
+			session[:partner_step] = session[:partner_params] = nil
+			redirect_to partners_path
 		else
-			session[:order_step] = session[:order_params] = nil
-			flash[:notice] = "Partner saved!"
-			redirect_to @partner
+			if @partner.valid?
+				if params[:back_button]
+					@partner.previous_step
+				elsif @partner.last_step?
+					@partner.save if @partner.all_valid?
+				else
+					@partner.next_step
+				end
+				session[:partner_step] = @partner.current_step
+			end
+			if @partner.new_record?
+				if @partner.current_step == 'contact'
+					@partner.contact = Contact.new()
+				elsif @partner.current_step == 'competency'
+					@partner.contact = Contact.new()
+				end
+				render "new"
+			else
+				session[:partner_step] = session[:partner_params] = nil
+				flash[:notice] = "Partner saved!"
+				redirect_to @partner
+			end
 		end
 #    @partner = Partner.new(params[:partner])
 #    respond_to do |format|
