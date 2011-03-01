@@ -1,5 +1,5 @@
 <% form_for @partner do |f| %>
-  <%= f.error_messages %>
+  <!%= f.error_messages %>
   <%= render "#{@partner.current_step}_step", :f => f %>
   <p><%= f.submit "Continue" %></p>
   <p><%= f.submit "Back", :name => "back_button" unless @partner.first_step? %></p>
