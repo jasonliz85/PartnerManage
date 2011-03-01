@@ -1,14 +1,19 @@
 class Bridge < ActiveRecord::Base
   has_event_calendar
   #validations
+	validates_presence_of :start_at, :end_at, :name
+	validates :start_at, 	:uniqueness => true
+	
   #relationships
+  
   #callbacks
+  
 	#functions
 	def update_bridge!()
 		#checks whether bridge has been updated (added new shifts) since it was created
 		return true		
 	end
-	def get_bridge_info
+	def get_bridge_info()
 		#returns the bridge table and bridge stats column in the database
 		if self.bridge_table.nil? or self.bridge_stats.nil?
 			return [false, false]
@@ -19,7 +24,7 @@ class Bridge < ActiveRecord::Base
 	def self.find_bridge_on(date)
 		#finds the bridge on the given date
 		bridge = Bridge.where("start_at > ? AND start_at < ?", date.beginning_of_day(), date.end_of_day())		
-		return bridge
+		return bridge.first
 	end
 	def self.get_partner_object_from_shift(shifts_working)
 		#simply returns the partner linked to each shift (i.e. shift.partner)
@@ -29,8 +34,8 @@ class Bridge < ActiveRecord::Base
 	end
 	def self.create_bridge!(date, break_slots) 
 		b_table, b_stats = create_bridge_table_and_stats(date, break_slots)
-		#self.create(:name => "Bridge", :start_at => date.beginning_of_day(), :end_at => date.end_of_day(),
-		#						:bridge_table => b_table.to_json, :bridge_stats => b_stats.to_json )
+		self.create(:name => "Bridge", :start_at => date.beginning_of_day(), :end_at => date.end_of_day(),
+								:bridge_table => b_table.to_json, :bridge_stats => b_stats.to_json, :color => '#3366FF' )
 		return [b_table, b_stats]
 	end
 	def self.create_bridge_table_and_stats(date, break_slots)
@@ -156,7 +161,7 @@ class Bridge < ActiveRecord::Base
 								#this case must not happen, as it can potentially cause an infinite loop
 								return []
 							elsif partner_competency.name == current_section
-								grouped_partners[current_section] << partner
+								grouped_partners[current_section] << partner.to_json
 								partners.delete(partner)
 								repeat = false
 								break
@@ -174,6 +179,7 @@ class Bridge < ActiveRecord::Base
 				repeat = true
 			end
 			#now deal with partners without competencies
+			#partners_with_no_competency??
 			return grouped_partners
 		end
 		def self.find_all_partners_with_competency(partners, competency)
@@ -185,7 +191,7 @@ class Bridge < ActiveRecord::Base
 		end
 		def self.sort_partners_into_breaks(partners, break_slots)
 			#this function sorts the given partner objects into the break slots
-			#more inteligence in allocating a break slot is needed
+			#more intelligence in allocating a break slot is needed
 			slots = {}
 			shuffled_partners = partners.shuffle!
 			for break_no in 1..break_slots do
