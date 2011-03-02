@@ -10,15 +10,31 @@
 	<h3> 
 		Information
 		<span class = actions>
+			<%= link_to 'Edit Bridge' %>   |
 			<%= link_to 'More Stats...' %>  
 		</span>
 	</h3>
 	<div class = 'element'>
 		Total: Partners (<%= @bridge_stats['total_working'] %>), Managers (<%= @bridge_stats['total_managers'] %>),	Non-Managers (<%= @bridge_stats['total_working'] - @bridge_stats['total_managers'] %>) <br/>
 		Sections: <%= @bridge_stats['competencies'].map{|competency, numbers| competency + " (" + numbers.to_s + ")"}.to_sentence %><br/>
-		Holiday: Kelly and Barrat <br/>
-		Sick: Lee <br/>
-		Other Absences: None <br/>
+		<% @bridge_stats['shift_types'].each_pair do |shift_type, partners| %> 
+			<% if not ['normal', 'normal_plus_overtime', 'overtime'].include?(shift_type) and ['holiday', 'sick'].include?(shift_type) %>
+				<%= shift_type.capitalize %>: 
+				<% if partners.empty? %> none <% else %>
+					<%= partners.map{|partner| partner['first_name']}.to_sentence%>
+				<% end %>
+				<br/>
+			<% end %>
+		<% end %>
+		Other Absences:
+		<% @bridge_stats['shift_types'].each_pair do |shift_type, partners| %> 
+			<% if ['normal', 'normal_plus_overtime', 'overtime', 'holiday', 'sick'].include?(shift_type) %>
+				<% next %>
+			<% else %>
+				<% if partners.empty? %>  <% else %>	<% end %> 
+			<% end %>
+		<% end %>
+		<br/>
 	</div>
 	<h3> 
 		Notes 
@@ -31,7 +47,7 @@
 		"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
 	</div>
 </div>
-<div class = "CalendarActions" >
-	<%= link_to 'Back to Bridges', bridges_url %>
+<div class = "BridgeActions" >
+	<%= link_to 'Bridge Calendar', bridges_url %> |
+	<%= link_to "Today's Calendar Summary", calendar_day_path(:day => @bridge_date.day, :month => @bridge_date.month, :year => @bridge_date.year) %> 
 </div>
-

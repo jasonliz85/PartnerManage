@@ -45,8 +45,8 @@ class Bridge < ActiveRecord::Base
 		stats = {}
 		competencies = Competency.find_all_by_priority(2).map {|f| f.name}
 		important_competencies = Competency.find_all_by_priority(1).map {|f| f.name }#['Sasu','Task Team']
-		shifts_working, shifts_not_working = Shift.find_all_partners_who_are_working_on_date(date)
-		
+		shifts_working, shifts_not_working, shift_types  = Shift.find_all_partners_who_are_working_on_date(date)
+		stats['shift_types'] = shift_types
 		if not shifts_working.empty?
 			partners = get_partner_object_from_shift(shifts_working)
 			partners_not_working = get_partner_object_from_shift(shifts_not_working)
@@ -94,7 +94,7 @@ class Bridge < ActiveRecord::Base
 			#this function simply finds all the is_manager fields from the partner(s) object
 			managers = []
 			non_managers =[]
-			partners.each do |partner| partner.is_manager ? managers << partner :	non_managers << partner	end		
+			partners.each do |partner| partner.is_manager ? managers << partner.to_json :	non_managers << partner	end		
 			return [managers, non_managers]
 		end
 		def self.sort_partners_into_competencies(partners, sections, excluded_sections)
@@ -186,7 +186,7 @@ class Bridge < ActiveRecord::Base
 			#this function finds all the partners who match the input competency
 			partners_competent = []
 			partners_not_competent = []
-			partners.each do |partner| partner.is_competent_at(competency) ? partners_competent << partner :	partners_not_competent << partner	end		
+			partners.each do |partner| partner.is_competent_at(competency) ? partners_competent << partner.to_json :	partners_not_competent << partner	end		
 			return [partners_competent, partners_not_competent]
 		end
 		def self.sort_partners_into_breaks(partners, break_slots)

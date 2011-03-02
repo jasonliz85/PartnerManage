@@ -15,8 +15,11 @@
 					<td><%= table_row_section %></td>
 					<% table_row_break.each do |table_row_break_no, table_row_break_partners| %>
 						<td>
-							<% table_row_break_partners.each do |partner| %>
-								<%= link_to partner_first_and_last_initial(partner) %>
+							<% table_row_break_partners.each do |partners| %>
+								<% partners = JSON.parse(partners)%>
+								<% partners.each do |key, partner| %>
+									<%= link_to partner["first_name"] %><!%= link_to partner_first_and_last_initial(partner) %>
+								<% end %>
 							<% end %>
 						</td>
 					<% end %>

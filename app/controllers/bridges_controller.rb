@@ -15,8 +15,6 @@ class BridgesController < ApplicationController
 		else
 			#bridge.update_bridge!()				
 			@bridge_list, @bridge_stats = bridge.get_bridge_info()
-			puts @bridge_list
-			puts @bridge_stats
 			@break_slots = 4
 		end
 		respond_to do |format|

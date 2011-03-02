@@ -13,7 +13,7 @@
         text: "Section Break-down"
       },
       xAxis: {
-        categories: ['Total','Audio', 'Camera', 'Computer', 'Television', 'Telephone', 'Sasu', 'Task Team', 'Manager' ]
+        categories: ['Total', 'Audio', 'Camera', 'Computer', 'Television', 'Telephone', 'Sasu', 'Task Team', 'Manager' ]
       },
       yAxis: {
         title: {
@@ -22,10 +22,20 @@
       },
       series: [
       {
-				name: "Section",
+				name: "Total",
 				type: 'column',
-        data: [<%= @shift_managers.count + @shift_non_managers.count%>,0, 5, 3, 5, 3, 3, 2, <%= @shift_managers.count %>]
+        data: [<%= @shift_managers.count + @shift_non_managers.count%>, <%= @shift_managers.count %>]
       },
+      {
+				name: "Sections",
+				type: 'column',
+        data: <%= @bridge_stats['competencies'].map{ |competency, numbers| numbers}%>
+      },
+      {
+				name: "Absent",
+				type: 'column',
+        data: [<%= @bridge_stats['partners_not_working'].count %>]
+      }
       ]
     });
   });
@@ -38,7 +48,7 @@
 		<span class = actions>
 					<%= link_to 'Book OverTime' %> |
 					<%= link_to 'Book Holiday'%> |
-					<%= link_to "Today's Bridge", bridges_url %> |
+					<%= link_to "Today's Bridge Plan", bridges_day_path(:day => @calendar_date.day, :month => @calendar_date.month, :year => @calendar_date.year) %> |
 					<%= link_to 'More Stats...' %> 
 		</span>
 	</h3>
@@ -49,23 +59,29 @@
 		</div>
 	<h4>Who's on Holiday?</h4>
 		<div class = 'element'> 
-			<% if not @shift_holidays.empty? %><%= @shift_holidays.map{|holiday| holiday.partner.first_name }.to_sentence %><% else %> None <% end %>
+			<!% if not @shift_holidays.empty? %><!%= @shift_holidays.map{|holiday| holiday.partner.first_name }.to_sentence %><!% else %> <!% end %>
+			<% @bridge_stats['shift_types'].each_pair do |shift_type, partners| %> 
+			<% if not ['normal', 'normal_plus_overtime', 'overtime'].include?(shift_type) and ['holiday'].include?(shift_type) %>
+				<% if partners.empty? %> no one... <% else %>
+					<%= partners.map{|partner| partner['first_name']}.to_sentence%>
+				<% end %>
+				<br/>
+			<% end %>
+		<% end %>
 		</div>
 	<h4>Which managers are in?</h4>
 		<div class = 'element'> 
-			<% if not @shift_managers.empty? %><%= @shift_managers.map{|manager| manager.partner.first_name }.to_sentence %><% else %> None <% end %>
+			<% if not @shift_managers.empty? %><%= @shift_managers.map{|manager| manager.partner.first_name + simple_start_end_time(manager.start_at, manager.end_at) }.to_sentence %><% else %> None <% end %>
 		</div>
 	<h4>The stats...</h4>
 		<div class = 'element'>
-			All Partners: <%= @shift_non_managers.count + @shift_managers.count %> <br>
-			Managers: <%= @shift_managers.count %> <br>
-			Non-Managers: <%= @shift_non_managers.count %> <br>
+			Total: Partners (<%= @bridge_stats['total_working'] %>), Managers (<%= @bridge_stats['total_managers'] %>),	Non-Managers (<%= @bridge_stats['total_working'] - @bridge_stats['total_managers'] %>) <br/>
 			Sections:<br>
 		</div>
 		<div id="CalendarCharts_1" class = "CalendarCharts" style="width:100%; height:250px;"></div>
 </div>
 <div class = "CalendarActions" >
-	<%= link_to 'Back to Calendar', partners_url %> |
-	<%= link_to "Today's Bridge", bridges_url %>
+	<%= link_to 'Calendar', calendar_url %> |
+	<%= link_to "Today's Bridge Plan", bridges_day_path(:day => @calendar_date.day, :month => @calendar_date.month, :year => @calendar_date.year) %>
 </div>
 

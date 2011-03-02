@@ -16,25 +16,26 @@ class CalendarController < ApplicationController
   	partners = Partner.find_all_partners_working_on(@calendar_date)
   	shifts = Shift.find_all_shifts_on(@calendar_date)
   	@shift_managers, @shift_non_managers, @shift_holidays = sort_managers_holidays_and_partners_from_shifts(shifts)
+  	
+  	bridge = Bridge.find_bridge_on(@calendar_date)
+		if bridge.nil? or bridge.bridge_table.nil? or bridge.bridge_table.empty?
+			@bridge_list, @bridge_stats = Bridge.create_bridge!(@calendar_date, @break_slots = 4)
+		else
+			#bridge.update_bridge!()				
+			@bridge_list, @bridge_stats = bridge.get_bridge_info()
+			@break_slots = 4
+		end
+		
   end
   
   private
   	#from shifts, sort all the partners who are managers, non_managers and on holiday
   	def sort_managers_holidays_and_partners_from_shifts(shifts)
   		return [get_all_managers_from_shifts(shifts),
-  						get_all_partners_from('Normal', shifts),
-  						get_all_partners_from('Holiday', shifts)]
+  						Shift.get_all_partners_from(shifts),
+  						Shift.get_all_partners_from(shifts)]
   	end 
-  	#returns partners from the shift array who have the input type ['Normal', 'Holiday'...etc]
-  	def get_all_partners_from(type, shifts)	
-  		partners = []
-  		shifts.each do |shift|
-  			if not shift.partner.is_manager#shift.type == type
-  				partners << shift
-  			end
-  		end
-  		return partners
-  	end
+  	
   	#gets and returns all managers from shift array
   	def get_all_managers_from_shifts(shifts)
   		managers = []
