@@ -23,4 +23,3 @@ class BridgesController < ApplicationController
 	end
 end
 
-

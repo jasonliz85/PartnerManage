@@ -149,6 +149,7 @@ class Bridge < ActiveRecord::Base
 					#its section
 					partners.shuffle!
 					partners.each do |partner|
+						puts partner.first_name
 						#skip partners who have only one competency and belong to excluded sections (such as Sasu and Task Team)
 						if partner.competencies.count == 1 and excluded_sections.include?(partner.competencies.first.name)
 							partners.delete(partner)

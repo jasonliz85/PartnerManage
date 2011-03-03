@@ -31,9 +31,8 @@ class Shift < ActiveRecord::Base
 			shift_types_all.each_pair { |key, types|	shift_types[types] =[] }
 			if not shifts.empty?
 				shifts.each do |shift|
-					partner = shift.partner
-					shift_types[shift_types_all[shift.shift_type]] << {	:start_at => shift.start_at, :end_at => shift.end_at,	:shift_type => shift.shift_type, 
-																															:first_name => partner.first_name, :last_name => partner.last_name,:partner_id => partner.id }
+					puts shift.partner.first_name
+					shift_types[shift_types_all[shift.shift_type]] << {	:start_at => shift.start_at, :end_at => shift.end_at,	:shift_type => shift.shift_type, :first_name => shift.partner.first_name, :last_name => shift.partner.last_name,:partner_id => shift.partner.id }
 					if [1,2,3].include?(shift.shift_type)
 						shifts_working << shift
 					else 
