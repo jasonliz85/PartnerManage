@@ -1,19 +1,6 @@
-<<<<<<< HEAD
+
 <% form_for @partner do |f| %>
   <!%= f.error_messages %>
-=======
-<%= form_for @partner do |f| %>
-  <% if @partner.errors.any? %>
-	<div id="error_explanation">
-		<h2><%= pluralize(@partner.errors.count, "error") %> prohibited this partner from being saved:</h2>
-		<ul>
-			<% @partner.errors.full_messages.each do |msg| %>
-			<li><%= msg %></li>
-			<% end %>
-		</ul>
-	</div>
-	<% end %>
->>>>>>> 867a61fb4346dd633d1f49abe8139f0581aba492
   <%= render "#{@partner.current_step}_step", :f => f %>
   <div class="field">
 	  <%= f.submit "Cancel", :name => "cancel_button" %> 
