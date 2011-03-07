@@ -48,15 +48,15 @@ class Bridge < ActiveRecord::Base
 		shifts_working, shifts_not_working, shift_types  = Shift.find_all_partners_who_are_working_on_date(date)
 		stats['shift_types'] = shift_types
 		if not shifts_working.empty?
-			partners = get_partner_object_from_shift(shifts_working)
-			partners_not_working = get_partner_object_from_shift(shifts_not_working)
-			stats['partners_working'] = partners.map{|partner| extract_partner_and_shift_info(partner)}
-			stats['partners_not_working'] = partners_not_working.map{|partner| extract_partner_and_shift_info(partner)}
-			stats['total_working'] = partners.count
+			#partners = get_partner_object_from_shift(shifts_working)
+			#partners_not_working = get_partner_object_from_shift(shifts_not_working)
+			stats['partners_working'] = shifts_working.map{|shift| extract_partner_and_shift_info(shift)}
+			stats['partners_not_working'] = shifts_not_working.map{|shift| extract_partner_and_shift_info(shift)}
+			stats['total_working'] = shifts_working.count
 			
 			#1.find managers and separate
 			table['Manager'] = {}
-			managers, partners_left = find_all_managers_from(partners)
+			managers, partners_left_shifts = find_all_managers_from(shifts_working)
 			stats['total_managers'] = managers.count
 			table['Manager'] = sort_partners_into_breaks(managers, break_slots)
 
@@ -64,12 +64,12 @@ class Bridge < ActiveRecord::Base
 			#2.find important sections and separate [in Audio and TV: Sasu and Task Team]
 			important_competencies.each do |competency|
 				table[competency]	= {}		
-				partners, partners_left = find_all_partners_with_competency(partners_left, competency)
+				partners, partners_left_shifts = find_all_partners_with_competency(partners_left_shifts, competency)
 				stats['competencies'][competency] = partners.count
 				table[competency] = sort_partners_into_breaks(partners, break_slots)
 			end
 			#3.Sort all other partners
-			sorted_partners_with_competences = sort_partners_into_competencies(partners_left, competencies, important_competencies)
+			sorted_partners_with_competences = sort_partners_into_competencies(partners_left_shifts, competencies, important_competencies)
 			sorted_partners_with_competences.each_pair do |competency, partners|
 				stats['competencies'][competency] = partners.count
 				table[competency] = sort_partners_into_breaks(partners, break_slots)
@@ -89,27 +89,30 @@ class Bridge < ActiveRecord::Base
 				self.replace shuffle
 			end
 		end
-		def self.extract_partner_and_shift_info(var)
-			return {'first_name' 	=> var.first_name, 
-							'last_name' 	=> var.last_name,
-							'partner_id' 	=> var.id, 
-							'is_manager' 	=> var.is_manager }
+		def self.extract_partner_and_shift_info(shift)
+			return {'start_at' 	=> shift.start_at.to_s, 
+							'end_at' 		=> shift.end_at.to_s,	
+							'shift_type'=> shift.shift_type, 
+							'first_name'=> shift.partner.first_name, 
+							'last_name' => shift.partner.last_name,
+							'partner_id'=> shift.partner.id,
+							'is_manager'=> shift.partner.is_manager }
 		end
-		def self.find_all_managers_from(partners)
+		def self.find_all_managers_from(partners_shift)
 			#this function simply finds all the is_manager fields from the partner(s) object
 			managers = []
 			non_managers =[]
-			partners.each do |partner| partner.is_manager ? managers << extract_partner_and_shift_info(partner):	non_managers << partner	end		
+			partners_shift.each do |shift| shift.partner.is_manager ? managers << extract_partner_and_shift_info(shift):	non_managers << shift	end		
 			return [managers, non_managers]
 		end
-		def self.find_all_partners_with_competency(partners, competency)
+		def self.find_all_partners_with_competency(partners_shift, competency)
 			#this function finds all the partners who match the input competency
 			partners_competent = []
 			partners_not_competent = []
-			partners.each do |partner| partner.is_competent_at(competency) ? partners_competent <<  extract_partner_and_shift_info(partner):	partners_not_competent << partner	end		
+			partners_shift.each do |shift| shift.partner.is_competent_at(competency) ? partners_competent <<  extract_partner_and_shift_info(shift):	partners_not_competent << shift	end		
 			return [partners_competent, partners_not_competent]
 		end
-		def self.sort_partners_into_competencies(partners, sections, excluded_sections)
+		def self.sort_partners_into_competencies(partners_shift, sections, excluded_sections)
 			#this function sorts and groups a list of partners into a hash of competencies (section)
 			#i.e. fits partners into a section	#warning, potential problem if partner.competencies != sections
 			#initialise variables
@@ -119,17 +122,17 @@ class Bridge < ActiveRecord::Base
 			end
 			#first, find all partners without a competency - add these later
 			partners_with_no_competency = []
-			partners.each do |partner|
-				if partner.competencies.empty?
-					partners_with_no_competency << partner
-					partners.delete(partner)
+			partners_shift.each do |shift|
+				if shift.partner.competencies.empty?
+					partners_with_no_competency << shift
+					partners_shift.delete(shift)
 				end
 			end  
 			#now whilst partner list is not empty, loop through each competency 
 			#and allocate a partner to this competency
 			checked_sections = []
 			repeat = true
-			while not partners.empty?
+			while not partners_shift.empty?
 				#shuffle competencies
 				sections.shuffle!
 				while repeat
@@ -159,28 +162,28 @@ class Bridge < ActiveRecord::Base
 					#once section chosen, allocate a partner to it's list
 					#to do this, loop through the partners list and find a partner with a competency that matches
 					#its section
-					partners.shuffle!
-					partners.each do |partner|
+					partners_shift.shuffle!
+					partners_shift.each do |shift|
 						#skip partners who have only one competency and belong to excluded sections (such as Sasu and Task Team)
-						if partner.competencies.count == 1 and excluded_sections.include?(partner.competencies.first.name)
-							partners.delete(partner)
+						if shift.partner.competencies.count == 1 and excluded_sections.include?(shift.partner.competencies.first.name)
+							partners_shift.delete(shift)
 							next
 						end
-						partner.competencies.each do |partner_competency|
+						shift.partner.competencies.each do |partner_competency|
 							if excluded_sections.include?(partner_competency.name)
 								next #skip
 							elsif not sections.include?(partner_competency.name)
 								#this case must not happen, as it can potentially cause an infinite loop
 								return []
 							elsif partner_competency.name == current_section
-								grouped_partners[current_section] << extract_partner_and_shift_info(partner)#partner.to_json
+								grouped_partners[current_section] << extract_partner_and_shift_info(shift)#partner.to_json
 								#{	:start_at => shift.start_at, :end_at => shift.end_at,	:shift_type => shift.shift_type, }
-								partners.delete(partner)
+								partners_shift.delete(shift)
 								repeat = false
 								break
 							end						
 						end
-						if partner == partners.last
+						if shift == partners_shift.last
 							checked_sections << current_section
 						end
 					end

@@ -16,11 +16,7 @@
 					<% table_row_break.each do |table_row_break_no, table_row_break_partners| %>
 						<td>
 							<% table_row_break_partners.each do |partner| %>
-								<%= link_to partner['first_name'] %>
-								<!% partners = JSON.parse(partners)%>
-								<!% partners.each do |key, partner| %>
-									<!%= link_to partner['first_name'] %><!%= link_to partner_first_and_last_initial(partner) %>
-								<!% end %>
+								<%= link_to partner['first_name'] + simple_start_end_time(DateTime.parse(partner['start_at']), DateTime.parse(partner['end_at'])) %>
 							<% end %>
 						</td>
 					<% end %>

@@ -77,40 +77,33 @@
 	</h3>
 	<h4>Who's working?</h4>
 		<div class = 'element'>
-			<%= @bridge_stats['partners_working'].map{|non_manager| non_manager['first_name'].capitalize if not non_manager['is_manager'] }.compact.to_sentence %>
-			<br/>
-			<% if not @shift_non_managers.empty? %>
-			<%= @shift_non_managers.map{|non_manager| non_manager.partner.first_name + simple_start_end_time(non_manager.start_at, non_manager.end_at) }.to_sentence %>
-			<% else %> None <% end %>	
+			<%= @bridge_stats['partners_working'].map{|non_manager| non_manager['first_name'].capitalize + simple_start_end_time(DateTime.parse(non_manager['start_at']), DateTime.parse(non_manager['end_at'])) if not non_manager['is_manager'] }.compact.to_sentence %>
 		</div>
 	<h4>Who's on Holiday?</h4>
 		<div class = 'element'> 
-			<!% if not @shift_holidays.empty? %><!%= @shift_holidays.map{|holiday| holiday.partner.first_name }.to_sentence %><!% else %> <!% end %>
 			<% @bridge_stats['shift_types'].each_pair do |shift_type, partners| %> 
-			<% if not ['normal', 'normal_plus_overtime', 'overtime'].include?(shift_type) and ['holiday'].include?(shift_type) %>
-				<% if partners.empty? %> none <% else %>
-					<%= partners.map{|partner| partner['first_name']}.to_sentence%>
+				<% if not ['normal', 'normal_plus_overtime', 'overtime'].include?(shift_type) and ['holiday'].include?(shift_type) %>
+					<% if partners.empty? %> none <% else %>
+						<%= partners.map{|partner| partner['first_name']}.to_sentence%>
+					<% end %>
+					<br/>
 				<% end %>
-				<br/>
 			<% end %>
-		<% end %>
 		</div>
 	<h4>Which managers are in?</h4>
 		<div class = 'element'> 
 			<% if not @bridge_stats['total_managers'] == 0%>
-				<%= @bridge_stats['partners_working'].map{|non_manager| non_manager['first_name'].capitalize if non_manager['is_manager'] }.compact.to_sentence %>
+				<%= @bridge_stats['partners_working'].map{|manager| manager['first_name'].capitalize + simple_start_end_time(DateTime.parse(manager['start_at']), DateTime.parse(manager['end_at']))  if manager['is_manager'] }.compact.to_sentence %>
 			<% else %>
 				none
 			<% end %>
-			<br/>
-			<% if not @shift_managers.empty? %><%= @shift_managers.map{|manager| manager.partner.first_name + simple_start_end_time(manager.start_at, manager.end_at) }.to_sentence %><% else %> None <% end %>
 		</div>
 	<h4>The stats...</h4>
 		<div class = 'element'>
-			Total: Partners (<%= @bridge_stats['total_working'] %>), Managers (<%= @bridge_stats['total_managers'] %>),	Non-Managers (<%= @bridge_stats['total_working'] - @bridge_stats['total_managers'] %>) <br/>
+			<b>Total:</b> Partners (<%= @bridge_stats['total_working'] %>), Managers (<%= @bridge_stats['total_managers'] %>),	Non-Managers (<%= @bridge_stats['total_working'] - @bridge_stats['total_managers'] %>) <br/>
 		</div>
-		<div id="CalendarCharts_2" class = "CalendarCharts" style="width:100%; height:225px;"></div>
-		<div id="CalendarCharts_1" class = "CalendarCharts" style="width:100%; height:250px;"></div>
+		<div id="CalendarCharts_1" class = "CalendarCharts" style="width:50%; height:250px;"></div>
+		<div id="CalendarCharts_2" class = "CalendarCharts" style="width:50%; height:250px;"></div>
 </div>
 <div class = "CalendarActions" >
 	<%= link_to 'Calendar', calendar_url %> |
