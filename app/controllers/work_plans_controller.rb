@@ -102,7 +102,7 @@ class WorkPlansController < ApplicationController
 		#
 		
 		if @partner.work_plan.update_attributes(params[:work_plan])
-			redirect_to(partner_shifts_path(@partner), :notice => 'Successfully populated shifts for #{@partner.first_name}.') 
+			redirect_to(partner_shifts_path(@partner), :notice => 'Successfully populated shifts for '+ @partner.first_name.capitalize +'.') 
 		else
 			render :action => "edit"
 		end

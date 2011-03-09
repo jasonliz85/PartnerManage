@@ -12,6 +12,11 @@ class Shift < ActiveRecord::Base
 			shifts = Shift.where("start_at > ? AND start_at < ?", date.beginning_of_day(), date.end_of_day())		
 			return shifts
 		end
+		#finds all the shifts between a date range for a given partner
+		def find_all_shifts_on(date_from, date_to)
+			shifts = self.where("start_at > ? AND start_at < ?", date.beginning_of_day(), date.end_of_day())		
+			return shifts
+		end
 		#check the shift_type field column and returns the partners who are working, not working and a sorted hash list of shift types and partners
 		#returns an empty array if no shifts are found and this hash list:
 		#{shift_type_1 => [partner_1, ... partner_m], shift_type_2 => [partner_1, ... partner_m], ... , shift_type_n => [partner_1, ... partner_m]},

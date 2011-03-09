@@ -9,16 +9,18 @@ class Holiday < ActiveRecord::Base
 	#callbacks
 	after_save :update_work_plan
 	
+	#scopes
+
 	#function definitions
 	protected	
 		def update_work_plan
 			self.work_plan.save
 		end
 	public
-	#finds all the holidays on the given date
+		#finds all the holidays on the given date
 		def self.find_all_holidays_on_range(date_from, date_to)
-			shifts = Holiday.where("start_at > ? AND start_at < ?", date_from.beginning_of_day(), date_to.end_of_day())		
-			return shifts
+			holidays = Holiday.where("start_at > ? AND start_at < ?", date_from.beginning_of_day(), date_to.end_of_day())		
+			return holidays
 		end	
 end
 
