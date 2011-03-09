@@ -1,4 +1,10 @@
-<h1>New partner</h1>
+<%= form_for(@partner) do |f| %>
 
-<%= render 'form' %>
+	<%= render "#{@partner.current_step}_step", :f =>f %>
+	
+		<p><%= f.submit  "Continue" %> | <%= link_to 'Cancel', @partner %></p>
+		<p><%= f.submit  "Back", :name => "back_button" unless @partner.first_step? %></p>
+
+	
+<% end %>
 

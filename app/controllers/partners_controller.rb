@@ -1,6 +1,5 @@
 class PartnersController < ApplicationController
 	helper_method :sort_column, :sort_direction
-	
 	# GET /partners
   # GET /partners.xml
   def index
@@ -24,12 +23,8 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
-	@partner = Partner.new
-	@partner.contact = Contact.new
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @partner }
-    end
+	@partner = Partner.new()
+	@Competency = Competency.new()
   end
 
   # GET /partners/1/edit
@@ -40,15 +35,22 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
-    @partner = Partner.new(params[:partner])
-    respond_to do |format|
-      if @partner.save #and @partner.contact.save
-    		 format.html{redirect_to(workplanwizard_partner_work_plan_path(@partner), :notice => 'Partner was successfully created.')}
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
-      end
-    end
+		@partner = Partner.new(session[:partner_params])
+	 @partner.current_step = session[:partner_step]
+	 if params[:back_button]
+	 		@partner.previous_step
+	 		session[:partner_step] = @partner.current_step
+	 
+	 	else
+    		@partner.next_step
+        session[:partner_step] = @partner.current_step
+    		if @partner.current_step == 'newcontact'
+					@partner.contact = Contact.new()
+			end
+
+		end
+		puts @partner.current_step
+    render "new"
   end
 
   # PUT /partners/1

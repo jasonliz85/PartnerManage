@@ -1,65 +1,11 @@
 <%= form_for(@partner) do |f| %>
-	<% if @partner.errors.any? %>
-	<div id="error_explanation">
-		<h2><%= pluralize(@partner.errors.count, "error") %> prohibited this partner from being saved:</h2>
-		<ul>
-			<% @partner.errors.full_messages.each do |msg| %>
-			<li><%= msg %></li>
-			<% end %>
-		</ul>
-	</div>
-	<% end %>
-	<div class="field">
-		<%= f.label :first_name %><br />
-		<%= f.text_field :first_name %>
-	</div>
-	<div class="field">
-		<%= f.label :last_name %><br />
-		<%= f.text_field :last_name %>
-	</div>
-	<div class="field">
-		<%= f.label :employee_no %><br />
-		<%= f.text_field :employee_no %>
-	</div>
-	<div class="field">
-		<%= f.label :is_manager, "Manager?" %><br />
-		Yes <%= f.radio_button :is_manager, "true" %>
-		No <%= f.radio_button :is_manager, "false" %>
-	</div>
-	<div class="field">
-		<%= f.label :is_temp, "Temporary?" %><br />
-		Yes <%= f.radio_button :is_temp, "true" %>
-		No <%= f.radio_button :is_temp, "false" %>
-	</div>
-	
-	<%= f.fields_for :contact do |contact_details| %>
-		<div class="field">
-			<%= contact_details.label :telephone_no %><br />
-			<%= contact_details.telephone_field :telephone_no %>
-		</div>
-		<div class="field">
-			<%= contact_details.label :address_line1,"Address Line 1" %><br />
-			<%= contact_details.text_field :address_line1 %>
-		</div>
-		<div class="field">
-			<%= contact_details.label :address_line2, "Address Line 2" %><br />
-			<%= contact_details.text_field :address_line2 %>
-		</div>
-		<div class="field">
-			<%= contact_details.label :city %><br />
-			<%= contact_details.text_field :city %>
-		</div>
-		<div class="field">
-			<%= contact_details.label :county %><br />
-			<%= contact_details.text_field :county %>
-		</div>
-		<div class="field">
-			<%= contact_details.label :post_code %><br />
-			<%= contact_details.text_field :post_code %>
-		</div>
-	<% end %>
+
+	<%= render "#{@partner.current_step}_step", :f =>f %>
 
 	<div class="actions">
 		<%= f.submit %> | <%= link_to 'Cancel', @partner %>
 	</div>
+
+	
 <% end %>
+
