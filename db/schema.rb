@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110222155131) do
+ActiveRecord::Schema.define(:version => 20110309153009) do
 
   create_table "bridges", :force => true do |t|
     t.string   "name"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20110222155131) do
     t.datetime "updated_at"
     t.text     "bridge_table"
     t.text     "bridge_stats"
+    t.boolean  "update_needed", :default => false
   end
 
   create_table "competencies", :force => true do |t|

@@ -21,9 +21,8 @@ class WorkPlan < ActiveRecord::Base
 			end
 		end
 	public
-		def book_holiday(date_from, date_to)
-			#book a holiday between two date ranges
-			#first check to see holiday has been booked for given date range
+		def book_holiday(date_from, date_to, name)
+			#book a holiday between two date ranges, first check to see holiday has been booked for given date range
 			date_span = date_from..date_to
 			holidays = self.holidays.all
 			date_span.each do |date|
@@ -35,27 +34,26 @@ class WorkPlan < ActiveRecord::Base
 					end	
 				end
 			end
-			
-			#find shifts when partner is working, change shift_type field to holiday - 4
-			shifts = self.shifts.find_all_shifts_on(date_from, date_to)
+			#find shifts when partner is working, change shift_type field to holiday - 4 - and update created bridges (update_needed? = true)
+			shifts = self.partner.shifts.find_shifts_between_dates(date_from, date_to)
+			#bridges = Bridge.find_bridge_on_date_range(date_from, date_to)
 			return false if shifts.empty?
 			holiday_count = 0
 			shifts.each do |shift|
 				if shift.shift_type == 1
 					holiday_count = holiday_count + 1
-					shift.update_attributes :shift_type => 4 # color CCFF00 or FFFF00
+					shift.update_attributes :shift_type => 4, :color => '#CCFF00' # or FFFF00
+					bridge = Bridge.find_bridge_on(shift.start_at)
+					puts bridge
+					if not bridge.empty?
+						bridge.update_attributes :update_needed => true
+					end
 				end				
 			end				 
-			#update created bridges
-			bridges = Bridge.find_bridge_on_date_range(date_from, date_to)
-			bridges.each do |bridge|
-							
-			end
-			
 			#book holiday in model
-			book_holiday = Holiday.new(:start_at => date_from.beginning_of_day(), :end_at => date_to , :name => self.work_plan.partner.first_name + self.work_plan.partner.last_name)
-			
-			if book_holiday.save() 			 
+			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name)
+			print book_holiday
+			if book_holiday.save 			 
 				return true
 			else
 				return false

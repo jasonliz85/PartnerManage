@@ -14,7 +14,7 @@ class Partner < ActiveRecord::Base
 	before_save :create_an_empty_work_plan #possibly change to after_create callback?
 	
 	#scopes
-	scope :search_first_name, lambda { |term| where("partners.first_name LIKE ?", "%#{term}%") }
+	scope :search_first_names, lambda { |term| where("partners.first_name LIKE ?", "%#{term}%") }
 	
 	#protected functions
 	protected

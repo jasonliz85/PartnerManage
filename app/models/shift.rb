@@ -2,7 +2,8 @@ class Shift < ActiveRecord::Base
 	#relationships
 	has_event_calendar
 	belongs_to :partner
-	
+	#scopes
+	scope :find_shifts_between_dates, lambda { |date_from, date_to| where("start_at > ? AND start_at < ?", date_from.beginning_of_day(), date_to.end_of_day()) }
 	#validations
 	validates_presence_of :start_at, :end_at, :name
 	#functions
@@ -10,11 +11,6 @@ class Shift < ActiveRecord::Base
 		#finds all the shifts on the given date
 		def self.find_all_shifts_on(date)
 			shifts = Shift.where("start_at > ? AND start_at < ?", date.beginning_of_day(), date.end_of_day())		
-			return shifts
-		end
-		#finds all the shifts between a date range for a given partner
-		def find_all_shifts_on(date_from, date_to)
-			shifts = self.where("start_at > ? AND start_at < ?", date.beginning_of_day(), date.end_of_day())		
 			return shifts
 		end
 		#check the shift_type field column and returns the partners who are working, not working and a sorted hash list of shift types and partners
