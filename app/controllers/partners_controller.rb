@@ -40,7 +40,9 @@ class PartnersController < ApplicationController
 	 if params[:back_button]
 	 		@partner.previous_step
 	 		session[:partner_step] = @partner.current_step
-	 
+	 		if @partner.current_step == 'newcontact'
+					@partner.contact = Contact.new()
+			end
 	 	else
     		@partner.next_step
         session[:partner_step] = @partner.current_step
