@@ -23,6 +23,7 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
+  	session[:partner_params] ||= {}
 	@partner = Partner.new()
 	@Competency = Competency.new()
   end
@@ -35,6 +36,7 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
+  		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
 		@partner = Partner.new(session[:partner_params])
 	 @partner.current_step = session[:partner_step]
 	 if params[:back_button]
