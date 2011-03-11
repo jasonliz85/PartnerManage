@@ -13,6 +13,9 @@ class Partner < ActiveRecord::Base
 	#callbacks
 	before_save :create_an_empty_work_plan #possibly change to after_create callback?
 	
+	#scopes
+	scope :search_first_names, lambda { |term| where("partners.first_name LIKE ?", "%#{term}%") }
+	
 	#protected functions
 	protected
 		#create a blank work_plan if a new partner is created
@@ -37,6 +40,15 @@ class Partner < ActiveRecord::Base
 		#finds all partners working on a given date
 		def self.find_all_partners_working_on(date)
 			no_of_shifts = Shift.find_all_shifts_on(date)
+			partners = []
+			no_of_shifts.each do |shift|
+				partners << shift.partner			
+			end
+			return partners
+		end
+		#finds all the partners who are on holiday on the given date
+		def self.find_all_partners_taking_holiday_on_range(date_from, date_to)
+			no_of_shifts = Holiday.find_all_holidays_on(date_from, date_to) 
 			partners = []
 			no_of_shifts.each do |shift|
 				partners << shift.partner			

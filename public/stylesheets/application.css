@@ -97,7 +97,7 @@ a:hover {
   font-size: 18px;
   padding: 10px 0 10px 0;
   border-bottom: 1px solid #bbb;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 #main h2 {
   padding-top: 10px;
@@ -169,7 +169,12 @@ a:hover {
   margin-right: 10px;
   margin-bottom: 10px;
 }
-
+#main .partners form  input[type=submit] {
+  margin-left: 10px;
+  float:left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
 #main h3 {
   padding-top: 10px;
   height: 20px;
@@ -196,6 +201,7 @@ a:hover {
 #main div .element {
 	padding: 0 0 0 16px;	
 	font-size: 13px;
+	background-color: #FFFFCC;
 }
 #main li .actions {
 	font-size: 9px;
@@ -203,6 +209,10 @@ a:hover {
 }
 #main h4 {
 	padding: 0 0 0 8px;	
+	background-color: #FFFFCC;
+}
+#main div.holiday_dates {
+	background-color: #FFFFCC;
 }
 #main form div  {
 	padding: 15px 0 0 0;	
@@ -247,6 +257,9 @@ a:hover {
   font-size: 12px;
   list-style: square;
 }
+/*###########################################
+#############Tables########################
+###########################################*/
 #main form table input[type=checkbox] {
 }
 #weeklyRotaTable thead th {
@@ -286,15 +299,12 @@ a:hover {
 }
 table.PartnerList {
   border-collapse: collapse;
+  width:100%;
 }
 
 .PartnerList td, .PartnerList th {
   padding: 4px 10px;
-  border: solid 1px #AAA;
-}
-
-.PartnerList .price {
-  text-align: right;
+  border: solid 1px #CCCCCC;
 }
 
 .PartnerList th .current {
@@ -310,3 +320,39 @@ table.PartnerList {
 .PartnerList th .desc {
   background-image: url(/images/down_arrow.gif);
 }
+
+table.BridgeTable {
+  border-collapse: collapse;
+  width:100%;
+}
+.BridgeTable td, .BridgeTable th {
+  padding: 4px 10px;
+	border: solid 1px #CCCCCC;
+  text-align:center;
+}
+table.DayCalendarHeader {
+  border-collapse: collapse;
+  width:100%;
+  height: 20px;
+  padding-top: 10px;
+}
+#row_left {
+	text-align: left;
+}
+#row_right {
+	text-align: right;
+}
+
+/*###########################################
+#############Calendar Page###################
+###########################################*/
+div.CalendarCharts {
+	float:left;
+	background-color: #FFFFCC;
+}
+
+div.BridgeCalendar a:hover{
+	background-color:transparent;
+  /*color:transparent;#FF813C;*/
+}
+

@@ -1,16 +1,4 @@
 <h1>Bridge</h1>
-<% if not @bridge_list.empty? %>
-	
-	<%= table_for(@bridge_list) do |t| %>
-		<%= t.head('Section', 'Break 1', 'Break 2', 'Break 3', 'Break 4') %>
-		<%= t.body do |row| %>
-			<%= t.r do %>
-				<%= t.d(h(row[:competency])) %>
-				<% row[:partner].each do | partner | %>
-					<%= t.d(h(partner_first_and_last_initial(partner))) %>	
-				<% end %>
-			<% end %>
-		<% end %>
-	<% end %>
-	
-<% end %>
+<div class = "BridgeCalendar">
+<%= raw(event_calendar_bridge) %>
+</div>

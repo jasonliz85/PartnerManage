@@ -1,6 +1,10 @@
 <%= div_for holiday do %>
 	<li>
-		<%= simple_date(holiday.start_at) %> 
+		<% if holiday.start_at.day == holiday.end_at.day %>
+			<%= simple_date(holiday.start_at) %>
+		<% else %>	
+			<%= simple_date_range(holiday.start_at, holiday.end_at) %>
+		<% end %>
 		<span class = 'actions'>
 			<% if (holiday.start_at >= DateTime.now.beginning_of_day()) %> 
 				<%= link_to "edit", edit_partner_holiday_path(holiday.work_plan.partner, holiday)%>

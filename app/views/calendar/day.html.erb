@@ -1,0 +1,112 @@
+<!-- orders/index.html.erb -->
+<script type="text/javascript" charset="utf-8">
+	var categories =	['<%= @bridge_stats['competencies'].keys.join('\',\'') %>']
+  $(function() {
+    new Highcharts.Chart({
+      chart: {
+        renderTo: "CalendarCharts_1",
+        backgroundColor: null
+      },
+      credits: { enabled: false },
+      title: { text: "Section Break-down" },
+      xAxis: { categories: categories },
+      yAxis: { title: { text: "Number of Partners" } },
+      series: [
+		    {
+					name: "Sections",
+					type: 'column',
+		      data: <%= @bridge_stats['competencies'].values%>
+		    }
+      ]
+    });
+  });
+  var chart;
+	$(function() {
+		new Highcharts.Chart({
+		chart: {
+				renderTo: 'CalendarCharts_2',
+				backgroundColor: null
+			},
+			credits: { enabled: false },
+			title: {
+				text: 'Partner Break-down'
+			},
+			tooltip: {
+				formatter: function() {
+					return '<b>'+ this.point.name +'</b>: '+ this.y +' partners';
+					}
+			},
+			plotOptions: {
+				pie: {
+					allowPointSelect: true,
+					cursor: 'pointer',
+					dataLabels: { enabled: false },
+					showInLegend: true
+				}
+			},
+			series: [
+				{
+					type: 'pie',
+					name: 'Browser share',
+					data: [
+						['Not Working', <%= @bridge_stats['partners_not_working'].count %>],
+						['Non-Managers', <%= @bridge_stats['total_working'] - @bridge_stats['total_managers'] %>],
+						{
+							name: 'Managers',    
+							y: <%= @bridge_stats['total_managers'] %>,
+							sliced: true,
+							selected: true
+						}
+					]
+				}
+			]
+		});
+	});
+
+</script>
+<h1> Calendar Work Plan </h1>
+<%= render :template => 'layouts/_calendar_day_nav.html.erb', :locals => { :date =>@calendar_date} %>
+<div class = "CalendarBreakdown">
+	<h3>
+		Break-down 
+		<span class = actions>
+					<%= link_to 'Book Over-time' %> |
+					<%= link_to 'Book Holiday'%> |
+					<%= link_to 'More Stats...' %> 
+		</span>
+	</h3>
+	<h4>Who's working?</h4>
+		<div class = 'element'>
+			<%= @bridge_stats['partners_working'].map{|non_manager| non_manager['first_name'].capitalize + simple_start_end_time(DateTime.parse(non_manager['start_at']), DateTime.parse(non_manager['end_at'])) if not non_manager['is_manager'] }.compact.to_sentence %>
+		</div>
+	<h4>Who's on Holiday?</h4>
+		<div class = 'element'> 
+			<% @bridge_stats['shift_types'].each_pair do |shift_type, partners| %> 
+				<% if not ['normal', 'normal_plus_overtime', 'overtime'].include?(shift_type) and ['holiday'].include?(shift_type) %>
+					<% if partners.empty? %> none <% else %>
+						<%= partners.map{|partner| partner['first_name']}.to_sentence%>
+					<% end %>
+					<br/>
+				<% end %>
+			<% end %>
+		</div>
+	<h4>Which managers are in?</h4>
+		<div class = 'element'> 
+			<% if not @bridge_stats['total_managers'] == 0%>
+				<%= @bridge_stats['partners_working'].map{|manager| manager['first_name'].capitalize + simple_start_end_time(DateTime.parse(manager['start_at']), DateTime.parse(manager['end_at']))  if manager['is_manager'] }.compact.to_sentence %>
+			<% else %>
+				none
+			<% end %>
+		</div>
+	<h4>The stats...</h4>
+		<div class = 'element'>
+			<b>Total:</b> Partners (<%= @bridge_stats['total_working'] %>), Managers (<%= @bridge_stats['total_managers'] %>),	Non-Managers (<%= @bridge_stats['total_working'] - @bridge_stats['total_managers'] %>) <br/>
+		</div>
+		<div id="CalendarCharts_1" class = "CalendarCharts" style="width:50%; height:250px;"></div>
+		<div id="CalendarCharts_2" class = "CalendarCharts" style="width:50%; height:250px;"></div>
+</div>
+<div class = "CalendarActions" >
+	<%= link_to 'Calendar', calendar_url %> |
+	<%= link_to "Today's Bridge Plan", bridges_day_path(:day => @calendar_date.day, :month => @calendar_date.month, :year => @calendar_date.year) %>
+</div>
+

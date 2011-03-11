@@ -1,0 +1,53 @@
+<h1>Bridge Plan</h1>
+
+<%= render :template => 'layouts/_calendar_day_nav.html.erb', :locals => { :date => @bridge_date} %>	
+
+<div class = "BridgeTable">
+	<br/>
+	<%= render 'bridge_table' %>
+</div>
+<div class = "BridgeOther">
+	<h3> 
+		Information
+		<span class = actions>
+			<%= link_to 'Edit Bridge Plan' %>   |
+			<%= link_to 'More Stats...' %>  
+		</span>
+	</h3>
+	<div class = 'element'>
+		<b>Total:</b> Partners (<%= @bridge_stats['total_working'] %>), Managers (<%= @bridge_stats['total_managers'] %>),	Non-Managers (<%= @bridge_stats['total_working'] - @bridge_stats['total_managers'] %>) <br/>
+		<b>Sections:</b> <%= @bridge_stats['competencies'].map{|competency, numbers| competency + " (" + numbers.to_s + ")"}.to_sentence %><br/>
+		<% @bridge_stats['shift_types'].each_pair do |shift_type, partners| %> 
+			<% if not ['normal', 'normal_plus_overtime', 'overtime'].include?(shift_type) and ['holiday', 'sick'].include?(shift_type) %>
+				<b><%= shift_type.capitalize %>:</b> 
+				<% if partners.empty? %> none <% else %>
+					<%= partners.map{|partner| partner['first_name']}.to_sentence%>
+				<% end %>
+				<br/>
+			<% end %>
+		<% end %>
+		<b>Other Absences:</b>
+		<% @bridge_stats['shift_types'].each_pair do |shift_type, partners| %> 
+			<% if ['normal', 'normal_plus_overtime', 'overtime', 'holiday', 'sick'].include?(shift_type) %>
+				<% next %>
+			<% else %>
+				<% if partners.empty? %>  <% else %>	<% end %> 
+			<% end %>
+		<% end %>
+		<br/>
+	</div>
+	<h3> 
+		Notes 
+		<span class = actions>
+			<%= link_to 'Add a note' %> 
+		</span>
+	</h3>
+	<div class = 'element'>
+		"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+		"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+	</div>
+</div>
+<div class = "BridgeActions" >
+	<%= link_to 'Bridge Calendar', bridges_url %> |
+	<%= link_to "Today's Calendar Summary", calendar_day_path(:day => @bridge_date.day, :month => @bridge_date.month, :year => @bridge_date.year) %> 
+</div>

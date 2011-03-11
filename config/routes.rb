@@ -1,15 +1,16 @@
 PartnerManager::Application.routes.draw do
+  match '/bridges(/:year(/:month))' => 'bridges#index', :as => :bridges, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+
 	root :to => "calendar#index"
 	
 	match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-	match '/bridges(/:year(/:month(/:day)))' => 'bridges#index', :as => :bridges, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
-	#match '/shift_templates(/:year(/:month))' => 'shift_templates#index', :as => :shift_templates, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-	#match '/shifts(/:year(/:month))' => 'shifts#index', :as => :shifts, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-	#match 'partner/partner_id/update_shift' => 'work_plan#update_shift', :as => :update_shift
-	
+	match '/calendar/:year/:month/:day'=> 'calendar#day', :as => :calendar_day, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
+
+	match '/bridges(/:year(/:month))' => 'bridges#index', :as => :bridges, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}
+	match '/bridges/:year/:month/:day'=> 'bridges#day', :as => :bridges_day, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/, :day => /\d{1,2}/}	
+
 	resources :partners do 
 		resource :work_plan do
-			get 'workplanwizard', :on => :member
 			get 'populate', :on => :member
 			put 'update_shifts', :on => :member
 			put 'wizardworkplanupdate', :on => :member
@@ -20,20 +21,21 @@ PartnerManager::Application.routes.draw do
 		end
 		resource :contact, :only => [:edit, :update]
 		resources :shifts
-		resource :competency, :only => [:edit, :update] do
-			get 'competencywizard', :on => :member
-			put 'wizardcompetencyupdate', :on => :member
-		end
-		end
+		resource :competency, :only => [:edit, :update]
+	end
+	
 end
 
 
 #== Route Map
-# Generated on 11 Feb 2011 23:59
+# Generated on 18 Feb 2011 11:17
 #
+#                            bridges        /bridges(/:year(/:month))(.:format)                             {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"bridges", :action=>"index"}
 #                               root        /(.:format)                                                     {:controller=>"calendar", :action=>"index"}
 #                           calendar        /calendar(/:year(/:month))(.:format)                            {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"calendar", :action=>"index"}
-#                            bridges        /bridges(/:year(/:month(/:day)))(.:format)                      {:year=>/\d{4}/, :month=>/\d{1,2}/, :day=>/\d{1,2}/, :controller=>"bridges", :action=>"index"}
+#                       calendar_day        /calendar/:year/:month/:day(.:format)                           {:year=>/\d{4}/, :month=>/\d{1,2}/, :day=>/\d{1,2}/, :controller=>"calendar", :action=>"day"}
+#                            bridges        /bridges(/:year(/:month))(.:format)                             {:year=>/\d{4}/, :month=>/\d{1,2}/, :controller=>"bridges", :action=>"index"}
+#                        bridges_day        /bridges/:year/:month/:day(.:format)                            {:year=>/\d{4}/, :month=>/\d{1,2}/, :day=>/\d{1,2}/, :controller=>"bridges", :action=>"day"}
 #         populate_partner_work_plan GET    /partners/:partner_id/work_plan/populate(.:format)              {:action=>"populate", :controller=>"work_plans"}
 #    update_shifts_partner_work_plan PUT    /partners/:partner_id/work_plan/update_shifts(.:format)         {:action=>"update_shifts", :controller=>"work_plans"}
 #     partner_work_plan_weekly_rotas GET    /partners/:partner_id/work_plan/weekly_rotas(.:format)          {:action=>"index", :controller=>"weekly_rotas"}

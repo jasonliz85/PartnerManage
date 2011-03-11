@@ -1,0 +1,22 @@
+bridge_table = 
+	{ competency_1 => {break_slot_id_1 => [*partner_1,...,partner_n], break_slot_id_2 => [...], ... , break_slot_id_n => [...]},
+		competency_2 => {break_slot_id_1 => [*partner_1,...,partner_n], break_slot_id_2 => [...], ... , break_slot_id_n => [...]},
+		...,
+		competency_n => {break_slot_id_1 => [*partner_1,...,partner_n], break_slot_id_2 => [...], ... , break_slot_id_n => [...]}
+	}
+	*partner_n = {"partner" => {"created_at"=>..., "employee_no"=> ..., "first_name"=> ..., "id"=> ..., "is_manager"=> ..., "is_temp"=> ..., "last_name"=> ..., "updated_at"=> ...}}
+bridge_stats = 
+	{ partners_working => [partner_1, ... , partner_n], 
+		partners_not_working => [partner_1, ... , partner_n], 
+		competencies => { competency_1 => x1,	competency_2 => x2,	... ,	competency_n => xn },
+		~shift_types => {shift_type_1 => y1, shift_type_2 => y2, ... , shift_type_n => yn},
+		total_working =>  a1,	
+		total_managers => a2
+	}
+
+grouped_partners = 
+	{
+	'competency_1' => [partner_1, ... , partner_n],
+	...,
+	'competency_m' => [partner_1, ... , partner_n],
+	}
