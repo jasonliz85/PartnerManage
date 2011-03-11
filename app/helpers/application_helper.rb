@@ -3,6 +3,15 @@ module ApplicationHelper
 		date.strftime('%a, %d %b %Y')
 		#example format: Mon, 5th Sep 2011
 	end
+	def simple_date_range(date_from, date_to)
+		if date_from.month == date_to.month
+			return date_from.strftime('%d-') + date_to.strftime('%d %b %Y')
+			#example format: 5th-11th Sep 2011
+		else
+			return date_from.strftime('%d %b %Y - ') + date_to.strftime('%d %b %Y')
+			#example format: 5th Sep 2011 - 7th Oct 2011
+		end
+	end
 	def simple_day_of_week(date)
 		date.strftime('%A')
 		#example format: Monday

@@ -42,16 +42,15 @@ class WorkPlan < ActiveRecord::Base
 			shifts.each do |shift|
 				if shift.shift_type == 1
 					holiday_count = holiday_count + 1
-					shift.update_attributes :shift_type => 4, :color => '#CCFF00' # or FFFF00
-					bridge = Bridge.find_bridge_on(shift.start_at)
-					puts bridge
+					shift.update_attributes :shift_type => 4, :color => '#FF6600'
+					bridge = Bridge.find_bridge_on_date_range(shift.start_at, shift.end_at)
 					if not bridge.empty?
 						bridge.update_attributes :update_needed => true
 					end
 				end				
 			end				 
 			#book holiday in model
-			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name)
+			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name, :color => '#FF6600')
 			print book_holiday
 			if book_holiday.save 			 
 				return true
@@ -66,20 +65,16 @@ class WorkPlan < ActiveRecord::Base
 			count = 0
 			begindateweeknumber = begindate.cweek
 			enddateweeknumber = enddate.cweek
-		
-			puts enddate.year
 			if enddate.year > begindate.year 
 				enddateweeknumber = enddateweeknumber +52
 			end
 			puts enddateweeknumber
 			for weeknom in begindateweeknumber..enddateweeknumber do
 				allshift << shiftarraygen(self.weekly_rotas[count], weeknom,begindate)
-
 				count = count + 1
-				if count > (noworkplan -1)
+				if count > (noworkplan - 1)
 					count = 0
 				end
-
 			end
 			partner.delete_shifts_from(begindate)
 			Shift.create(allshift)
@@ -87,20 +82,18 @@ class WorkPlan < ActiveRecord::Base
 		#to comment
 		def shiftarraygen(weeklyrota, weeknom, begindate)
 			shiftentries= Array.new
-				if weeknom >52
-					tempweeknom = weeknom - 52
-					yearofshift = begindate.year
-					yearofshift = yearofshift+1
-				else
-					tempweeknom = weeknom
-					yearofshift = begindate.year
-				end
+			if weeknom > 52
+				tempweeknom = weeknom - 52
+				yearofshift = begindate.year
+				yearofshift = yearofshift + 1
+			else
+				tempweeknom = weeknom
+				yearofshift = begindate.year
+			end
 			weeklyrota.shift_templates.each_with_index do |shift_template, index|
 				weekdate = DateTime.commercial(yearofshift, tempweeknom, index+1) - 1.day
 				if shift_template.is_active and  (weekdate + 1.day) > begindate
-					day = weekdate.day
-					month = weekdate.mon
-					year = weekdate.year
+					day, month, year = weekdate.day, weekdate.mon, weekdate.year
 					shiftstart_at = DateTime.new(year,month,day,shift_template.start_at.hour,shift_template.start_at.min)
 					shiftend_at = DateTime.new(year,month,day,shift_template.end_at.hour, shift_template.end_at.min)
 					shiftentries << {:partner_id => shift_template.weekly_rota.work_plan.partner.id, :name => shift_template.name, :start_at => shiftstart_at,:end_at =>  shiftend_at, :shift_type => 1, :color => '#00CC66'}

@@ -8,6 +8,7 @@ class Holiday < ActiveRecord::Base
 	
 	#callbacks
 	after_save :update_work_plan
+	#before_delete :change_shifts_to_normal
 	
 	#scopes
 

@@ -4,6 +4,8 @@ class Bridge < ActiveRecord::Base
 	validates_presence_of :start_at, :end_at, :name
 	validates :start_at, 	:uniqueness => true
 	
+	#scopes
+	
   #relationships
   
   #callbacks
@@ -23,7 +25,7 @@ class Bridge < ActiveRecord::Base
 	end
 	def self.find_bridge_on(date)
 		#finds the bridge on the given date
-		bridges = Bridge.find_bridge_on_date_range(date, date)	
+		bridges = find_bridge_on_date_range(date, date)	
 		return bridges.first
 	end
 	def self.find_bridge_on_date_range(date_from, date_to)
