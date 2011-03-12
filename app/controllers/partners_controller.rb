@@ -43,7 +43,7 @@ class PartnersController < ApplicationController
     @partner = Partner.new(params[:partner])
     respond_to do |format|
       if @partner.save #and @partner.contact.save
-    		 format.html{redirect_to(workplanwizard_partner_work_plan_path(@partner), :notice => 'Partner was successfully created.')}
+    		 format.html{redirect_to(@partner, :notice => 'Partner was successfully created.')}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }

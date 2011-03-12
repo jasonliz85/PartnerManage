@@ -7,7 +7,7 @@
 	</h3>
 		<h4>Telephone </h4>
 		<div class = 'element'> 
-			<%= number_to_phone contact.telephone_no, :area_code => true , :country_code => 44%> 
+			<% if not contact.telephone_no.nil? %><%= number_to_phone contact.telephone_no, :area_code => true , :country_code => 44%> <% else %> none <% end %>
 		</div>
 		<h4>Address </h4>
 		<%= display_if_not_empty('',contact.address_line1) %>

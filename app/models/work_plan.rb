@@ -11,7 +11,7 @@ class WorkPlan < ActiveRecord::Base
 	
 	#callbacks
 	before_save :update_holiday_variables
-	
+	before_delete :update_shifts_and_bridges	
 	#functions
 	private
 		def update_holiday_variables
@@ -19,6 +19,9 @@ class WorkPlan < ActiveRecord::Base
 			if not self.holiday_booked == self.holidays.count		
 				self.holiday_booked = self.holidays.count
 			end
+		end
+		def update_shifts_and_bridges
+			#this function changes the shifts_type field in the shift model and changes the update_needed field in the bridge model
 		end
 	public
 		def book_holiday(date_from, date_to, name)
@@ -45,14 +48,18 @@ class WorkPlan < ActiveRecord::Base
 					shift.update_attributes :shift_type => 4, :color => '#FF6600'
 					bridge = Bridge.find_bridge_on_date_range(shift.start_at, shift.end_at)
 					if not bridge.empty?
-						bridge.update_attributes :update_needed => true
+						bridge.update_attributes :update_needed => true, :color => '#FF6600'
 					end
 				end				
 			end				 
+			if holiday_count == 0:
+				return false
+			end
 			#book holiday in model
-			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name, :color => '#FF6600')
+			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name)
 			print book_holiday
 			if book_holiday.save 			 
+				self.holiday_booked = holiday_count
 				return true
 			else
 				return false
