@@ -15,6 +15,9 @@ class Partner < ActiveRecord::Base
 	#callbacks
 	before_save :create_an_empty_work_plan #possibly change to after_create callback?
 	
+	#attributes
+	attr_writer :current_step
+
 	#protected functions
 	protected
 		#create a blank work_plan if a new partner is created
@@ -24,6 +27,36 @@ class Partner < ActiveRecord::Base
 			end
 		end
 	public
+		def current_step
+			@current_step || steps.first
+		end
+
+		def steps
+			%w[basic contact competency]
+		end
+
+		def next_step
+			self.current_step = steps[steps.index(current_step)+1]
+		end
+
+		def previous_step
+			self.current_step = steps[steps.index(current_step)-1]
+		end
+
+		def first_step?
+			current_step == steps.first
+		end
+
+		def last_step?
+			current_step == steps.last
+		end
+
+		def all_valid?
+			steps.all? do |step|
+				self.current_step = step
+				valid?
+			end
+		end
 		#returns true if a partner has the input competency. note: competency a string name of the competency object
 		def is_competent_at(competency)
 			if self.competencies.nil? 
