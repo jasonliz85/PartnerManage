@@ -3,7 +3,7 @@ class PartnersController < ApplicationController
 	# GET /partners
   # GET /partners.xml
   def index
-    @partners = Partner.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 5, :page => params[:page])
+    @partners = Partner.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.js 
@@ -55,6 +55,7 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
+<<<<<<< HEAD
 <<<<<<< HEAD
   		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
 		@partner = Partner.new(session[:partner_params])
@@ -117,6 +118,17 @@ class PartnersController < ApplicationController
 #      end
 #    end
 >>>>>>> b05de798bc0be9b55f803f5491e82f9de3d4a98a
+=======
+    @partner = Partner.new(params[:partner])
+    respond_to do |format|
+      if @partner.save #and @partner.contact.save
+    		 format.html{redirect_to(@partner, :notice => 'Partner was successfully created.')}
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
+      end
+    end
+>>>>>>> ee7f6fb7aa940d37e30b72c18193485ab30d2482
   end
 
   # PUT /partners/1

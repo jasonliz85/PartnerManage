@@ -10,12 +10,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110126121009) do
+ActiveRecord::Schema.define(:version => 20110309153009) do
+
+  create_table "bridges", :force => true do |t|
+    t.string   "name"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.string   "color"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "bridge_table"
+    t.text     "bridge_stats"
+    t.boolean  "update_needed", :default => false
+  end
 
   create_table "competencies", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "priority"
   end
 
   create_table "competencies_partners", :id => false, :force => true do |t|
@@ -71,6 +84,8 @@ ActiveRecord::Schema.define(:version => 20110126121009) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "partner_id"
+    t.string   "color"
+    t.integer  "shift_type", :default => 1
   end
 
   create_table "weekly_rotas", :force => true do |t|
