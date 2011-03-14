@@ -24,10 +24,6 @@ class PartnersController < ApplicationController
   # GET /partners/new.xml
   def new
   	session[:partner_params] ||= {}
-<<<<<<< HEAD
-	@partner = Partner.new()
-	@Competency = Competency.new()
-=======
 		@partner = Partner.new(session[:partner_params])
 		@partner.contact = Contact.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
@@ -44,7 +40,6 @@ class PartnersController < ApplicationController
 #      format.html # new.html.erb
 #      format.xml  { render :xml => @partner }
 #    end
->>>>>>> b05de798bc0be9b55f803f5491e82f9de3d4a98a
   end
 
   # GET /partners/1/edit
@@ -55,28 +50,6 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
-<<<<<<< HEAD
-<<<<<<< HEAD
-  		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
-		@partner = Partner.new(session[:partner_params])
-	 @partner.current_step = session[:partner_step]
-	 if params[:back_button]
-	 		@partner.previous_step
-	 		session[:partner_step] = @partner.current_step
-	 		if @partner.current_step == 'newcontact'
-					@partner.contact = Contact.new()
-			end
-	 	else
-    		@partner.next_step
-        session[:partner_step] = @partner.current_step
-    		if @partner.current_step == 'newcontact'
-					@partner.contact = Contact.new()
-			end
-
-		end
-		puts @partner.current_step
-    render "new"
-=======
   	session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
@@ -116,9 +89,6 @@ class PartnersController < ApplicationController
 #        format.html { render :action => "new" }
 #        format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
 #      end
-#    end
->>>>>>> b05de798bc0be9b55f803f5491e82f9de3d4a98a
-=======
     @partner = Partner.new(params[:partner])
     respond_to do |format|
       if @partner.save #and @partner.contact.save
@@ -128,7 +98,6 @@ class PartnersController < ApplicationController
         format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
       end
     end
->>>>>>> ee7f6fb7aa940d37e30b72c18193485ab30d2482
   end
 
   # PUT /partners/1
