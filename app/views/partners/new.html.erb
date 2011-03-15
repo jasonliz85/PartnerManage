@@ -1,10 +1,16 @@
 <%= form_for(@partner) do |f| %>
-
+	<% if @partner.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@partner.errors.count, "error") %> prohibited this from being saved:</h2>
+      <ul>
+		    <% @partner.errors.full_messages.each do |msg| %>
+		      <li><%= msg %></li>
+		    <% end %>
+      </ul>
+    </div>
+  <% end %>
 	<%= render "#{@partner.current_step}_step", :f =>f %>
-	
-		<p><%= f.submit  "Continue" %> | <%= link_to 'Cancel', @partner %></p>
-		<p><%= f.submit  "Back", :name => "back_button" unless @partner.first_step? %></p>
-
-	
+	<p><%= f.submit  "Continue" %> | <%= link_to 'Cancel', @partner %></p>
+	<p><%= f.submit  "Back", :name => "back_button" unless @partner.first_step? %></p>
 <% end %>
 

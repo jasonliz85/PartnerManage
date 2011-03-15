@@ -23,10 +23,12 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
+  	session[:partner_params] = session[:partner_step] = nil
   	session[:partner_params] ||= {}
-	@partner = Partner.new(session[:partner_params])
-	@partner.contact = Contact.new()
-	@Competency = Competency.new()
+		@partner = Partner.new(session[:partner_params])
+		@partner.current_step = session[:partner_step]
+		print "Session Info:"
+		puts session[:partner_params]
   end
 
   # GET /partners/1/edit
@@ -37,25 +39,35 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
-  		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
+		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
+  	print "Partner Info:"
+		puts params[:partner]
+		print "Session Info:"
+		puts session[:partner_params]
 		@partner = Partner.new(session[:partner_params])
-	 @partner.current_step = session[:partner_step]
-	 if params[:back_button]
-	 		@partner.previous_step
-	 		session[:partner_step] = @partner.current_step
-	 		if @partner.current_step == 'newcontact'
-					@partner.contact = Contact.new()
+		@partner.current_step = session[:partner_step]
+		if @partner.valid?
+			print "Partner Valid?"
+			puts @partner.valid?
+			if params[:back_button]
+				@partner.previous_step
+			elsif @partner.current_step == 'newcontact'
+				@partner.contact = Contact.new()
+				@partner.next_step
+			elsif @partner.last_step?
+				@partner.save if @partner.all_valid?
+			else
+				@partner.next_step
 			end
-	 	else
-    		@partner.next_step
-        session[:partner_step] = @partner.current_step
-    		if @partner.current_step == 'newcontact'
-					@partner.contact = Contact.new()
-			end
-
+			session[:partner_step] = @partner.current_step
 		end
-		puts @partner.current_step
-    render "new"
+		if @partner.new_record?
+			render "new"
+		else
+			session[:partner_step] = session[:partner_params] = nil
+			flash[:notice] = "Partner saved!"
+			redirect_to @partner
+	  end
   end
 
   # PUT /partners/1

@@ -11,7 +11,7 @@ class WorkPlan < ActiveRecord::Base
 	
 	#callbacks
 	before_save :update_holiday_variables
-	before_delete :update_shifts_and_bridges	
+
 	#functions
 	private
 		def update_holiday_variables
@@ -52,7 +52,7 @@ class WorkPlan < ActiveRecord::Base
 					end
 				end				
 			end				 
-			if holiday_count == 0:
+			if holiday_count == 0
 				return false
 			end
 			#book holiday in model

@@ -1,6 +1,5 @@
 class Partner < ActiveRecord::Base
-		attr_accessible :newpartner, :newcontact
-		attr_writer :current_step
+	attr_writer :current_step
 	#validations
 	validates_presence_of 		:first_name, :last_name, :employee_no
 	validates :employee_no, 	:uniqueness => true
