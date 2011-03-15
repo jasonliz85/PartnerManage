@@ -11,7 +11,7 @@ class WorkPlan < ActiveRecord::Base
 	
 	#callbacks
 	before_save :update_holiday_variables
-	before_delete :update_shifts_and_bridges	
+
 	#functions
 	private
 		def update_holiday_variables
@@ -22,44 +22,52 @@ class WorkPlan < ActiveRecord::Base
 		end
 		def update_shifts_and_bridges
 			#this function changes the shifts_type field in the shift model and changes the update_needed field in the bridge model
+			pass
 		end
 	public
 		def book_holiday(date_from, date_to, name)
 			#book a holiday between two date ranges, first check to see holiday has been booked for given date range
 			date_span = date_from..date_to
-			holidays = self.holidays.all
 			date_span.each do |date|
-				holidays.each do |holiday| 
-					if holiday.start_at.to_date == date.to_date or holiday.end_at.to_date == date.to_date 		
-						return false
-					elsif holiday.start_at.to_date < date.to_date and holiday.end_at.to_date > date.to_date 
-						return true
-					end	
+				self.holidays.each do |holiday_range| 
+					(holiday_range.start_at..holiday_range.end_at).each do |holiday|
+						if holiday.start_at.to_date == date.to_date or holiday.end_at.to_date == date.to_date 		
+							return false
+						elsif holiday.start_at.to_date < date.to_date and holiday.end_at.to_date > date.to_date 
+							return false
+						end	
+					end
 				end
 			end
 			#find shifts when partner is working, change shift_type field to holiday - 4 - and update created bridges (update_needed? = true)
 			shifts = self.partner.shifts.find_shifts_between_dates(date_from, date_to)
-			#bridges = Bridge.find_bridge_on_date_range(date_from, date_to)
-			return false if shifts.empty?
-			holiday_count = 0
+			return false if shifts.empty? #no holiday to book
+			holiday_count, shifts_to_holidays, bridges_to_update = 0, [], []
 			shifts.each do |shift|
-				if shift.shift_type == 1
+				if shift.shift_type == 1 #other cases are also valid
 					holiday_count = holiday_count + 1
-					shift.update_attributes :shift_type => 4, :color => '#FF6600'
+					shifts_to_holidays << shift
+					#shift.update_attributes :shift_type => 4, :color => '#FF6600'
+					#!potential performance issue!#
 					bridge = Bridge.find_bridge_on_date_range(shift.start_at, shift.end_at)
+					#!potential performance issue!#
 					if not bridge.empty?
-						bridge.update_attributes :update_needed => true, :color => '#FF6600'
+						bridges_to_update << bridge
+						#bridge.update_attributes :update_needed => true, :color => '#FF6600'
 					end
 				end				
 			end				 
-			if holiday_count == 0:
-				return false
-			end
+			return false if holiday_count == 0
 			#book holiday in model
 			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name)
-			print book_holiday
-			if book_holiday.save 			 
-				self.holiday_booked = holiday_count
+			if book_holiday.save 	
+				shifts_to_holidays.each {|shift| shift.update_attributes :shift_type => 4, :color => '#FF6600'}
+				bridges_to_update.each {|bridge| bridge.update_attributes :update_needed => true, :color => '#FF6600'}
+				if self.holiday.nil?
+					self.holiday_booked = holiday_count
+				else		 
+					self.holiday_booked = self.holiday_booked + holiday_count
+				end
 				return true
 			else
 				return false
@@ -85,6 +93,7 @@ class WorkPlan < ActiveRecord::Base
 			end
 			partner.delete_shifts_from(begindate)
 			Shift.create(allshift)
+			#!potential performance issue!#
 		end
 		#to comment
 		def shiftarraygen(weeklyrota, weeknom, begindate)
