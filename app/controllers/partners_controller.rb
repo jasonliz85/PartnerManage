@@ -3,7 +3,7 @@ class PartnersController < ApplicationController
 	# GET /partners
   # GET /partners.xml
   def index
-    @partners = Partner.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
+    @partners = Partner.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 5, :page => params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.js 
@@ -24,22 +24,9 @@ class PartnersController < ApplicationController
   # GET /partners/new.xml
   def new
   	session[:partner_params] ||= {}
-		@partner = Partner.new(session[:partner_params])
-		@partner.contact = Contact.new(session[:partner_params])
-		@partner.current_step = session[:partner_step]
-		if @partner.current_step == 'basic'
-			print 'BASIC'
-		elsif @partner.current_step == 'contact'
-			print 'CONTACT'
-		else 
-			print 'DONT KNOW'
-		end
-#	@partner = Partner.new
-#	@partner.contact = Contact.new
-#    respond_to do |format|
-#      format.html # new.html.erb
-#      format.xml  { render :xml => @partner }
-#    end
+	@partner = Partner.new(session[:partner_params])
+	@partner.contact = Contact.new()
+	@Competency = Competency.new()
   end
 
   # GET /partners/1/edit
@@ -50,54 +37,25 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
-  	session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
+  		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
 		@partner = Partner.new(session[:partner_params])
-		@partner.current_step = session[:partner_step]
-		if params[:cancel_button]
-			session[:partner_step] = session[:partner_params] = nil
-			redirect_to partners_path
-		else
-			if @partner.valid?
-				if params[:back_button]
-					@partner.previous_step
-				elsif @partner.last_step?
-					@partner.save if @partner.all_valid?
-				else
-					@partner.next_step
-				end
-				session[:partner_step] = @partner.current_step
-			end
-			if @partner.new_record?
-				if @partner.current_step == 'contact'
+	 @partner.current_step = session[:partner_step]
+	 if params[:back_button]
+	 		@partner.previous_step
+	 		session[:partner_step] = @partner.current_step
+	 		if @partner.current_step == 'newcontact'
 					@partner.contact = Contact.new()
-				elsif @partner.current_step == 'competency'
-					@partner.contact = Contact.new()
-				end
-				render "new"
-			else
-				session[:partner_step] = session[:partner_params] = nil
-				flash[:notice] = "Partner saved!"
-				redirect_to @partner
 			end
+	 	else
+    		@partner.next_step
+        session[:partner_step] = @partner.current_step
+    		if @partner.current_step == 'newcontact'
+					@partner.contact = Contact.new()
+			end
+
 		end
-#    @partner = Partner.new(params[:partner])
-#    respond_to do |format|
-#      if @partner.save #and @partner.contact.save
-#    		format.html { redirect_to(@partner, :notice => 'Partner was successfully created.') }
-#        format.xml  { render :xml => @partner, :status => :created, :location => @partner }
-#      else
-#        format.html { render :action => "new" }
-#        format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
-#      end
-    @partner = Partner.new(params[:partner])
-    respond_to do |format|
-      if @partner.save #and @partner.contact.save
-    		 format.html{redirect_to(@partner, :notice => 'Partner was successfully created.')}
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @partner.errors, :status => :unprocessable_entity }
-      end
-    end
+		puts @partner.current_step
+    render "new"
   end
 
   # PUT /partners/1
