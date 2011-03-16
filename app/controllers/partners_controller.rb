@@ -27,8 +27,6 @@ class PartnersController < ApplicationController
   	session[:partner_params] ||= {}
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
-		print "Session Info:"
-		puts session[:partner_params]
   end
 
   # GET /partners/1/edit
@@ -44,22 +42,32 @@ class PartnersController < ApplicationController
 		puts params[:partner]
 		print "Session Info:"
 		puts session[:partner_params]
+
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
+		
+#		if @partner.current_step == 'newcontact'
+#			@partner.contact = Contact.new(params[:partner])
+#			print "Contact Object Saved? "
+#			puts @partner.valid?
+#		end
+
 		if @partner.valid?
-			print "Partner Valid?"
-			puts @partner.valid?
+			print "Current Step: "
+			puts @partner.current_step
 			if params[:back_button]
 				@partner.previous_step
-			elsif @partner.current_step == 'newcontact'
-				@partner.contact = Contact.new()
-				@partner.next_step
 			elsif @partner.last_step?
 				@partner.save if @partner.all_valid?
 			else
 				@partner.next_step
 			end
 			session[:partner_step] = @partner.current_step
+			if @partner.current_step == 'newcontact'
+				@partner = Partner.new(session[:partner_params])
+				print "Partner.contact: "
+				puts @partner.contact
+			end
 		end
 		if @partner.new_record?
 			render "new"
