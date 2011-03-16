@@ -23,8 +23,9 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
-  	session[:partner_params] = session[:partner_step] = nil
+  	session[:partner_params] = session[:partner_step] = session[:contact_params] = nil
   	session[:partner_params] ||= {}
+  	session[:contact_params] ||= {}
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
   end
@@ -37,24 +38,26 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
+  	if params[:cancel_button]
+  		session[:partner_step] = session[:partner_params] = nil
+  		redirect_to(partners_url)
+  		return
+  	end
 		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
+#		session[:contact_params].deep_merge!(params[:partner][:contact]) if params[:contact]
+		
   	print "Partner Info:"
-		puts params[:partner]
-		print "Session Info:"
 		puts session[:partner_params]
+		print "Partner Contact Info:"
+		puts session[:partner_params][:contact_attributes]
 
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
 		
-#		if @partner.current_step == 'newcontact'
-#			@partner.contact = Contact.new(params[:partner])
-#			print "Contact Object Saved? "
-#			puts @partner.valid?
-#		end
-
-		if @partner.valid?
+		if @partner.valid? 
 			print "Current Step: "
 			puts @partner.current_step
+
 			if params[:back_button]
 				@partner.previous_step
 			elsif @partner.last_step?
@@ -62,12 +65,19 @@ class PartnersController < ApplicationController
 			else
 				@partner.next_step
 			end
-			session[:partner_step] = @partner.current_step
-			if @partner.current_step == 'newcontact'
-				@partner = Partner.new(session[:partner_params])
-				print "Partner.contact: "
-				puts @partner.contact
+			
+			if @partner.current_step == 'contact'
+				@partner.contact = Contact.new(session[:partner_params][:contact_attributes])
 			end
+			session[:partner_step] = @partner.current_step
+			print "Next Step: "
+			puts @partner.current_step
+			
+#			if @partner.current_step == 'contact'
+#				@partner.contact = Contact.new(session[:contact_params])
+#				print "Partner.contact: "
+#				puts @partner.contact
+#			end
 		end
 		if @partner.new_record?
 			render "new"

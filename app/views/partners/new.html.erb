@@ -1,11 +1,11 @@
 <h1> New Partner Wizard</h1>
 <%= form_for(@partner) do |f| %>
   <h3>
-  	<%= @partner.current_step.capitalize %> Information (Step 1 of 4)
+  	<%= @partner.current_step.capitalize %> Information (Step <%= @partner.steps.index(@partner.current_step)+1 %> of <%= @partner.steps.count %>)
 	</h3>
 		<% if @partner.errors.any? %>
-		  <div id="error_explanation">
-		    <h2><%= pluralize(@partner.errors.count, "error") %> prohibited this from being saved:</h2>
+		  <div id="errorExplanation">
+		    <h2>Please correct the following <%= pluralize(@partner.errors.count, "error") %> before continuing to the next step:</h2>
 		    <ul>
 				  <% @partner.errors.full_messages.each do |msg| %>
 				    <li><%= msg %></li>
@@ -18,7 +18,7 @@
 		<ul>
 			<% if not @partner.first_step? %>	<li><%= f.submit  "Back", :name => "back_button" unless @partner.first_step? %></li> <% end %>
 			<li><%= f.submit  "Continue" %> </li>
-			<li><%= link_to 'Cancel', @partner %></li>
+			<li><%= f.submit  "Cancel",:name => "cancel_button" %></li>
 		</ul>
 	</div>
 <% end %>

@@ -57,7 +57,7 @@ class Partner < ActiveRecord::Base
 			end
 		end
 
-			def current_step
+		def current_step
 			@current_step || steps.first
 		end
 
