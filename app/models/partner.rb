@@ -62,7 +62,7 @@ class Partner < ActiveRecord::Base
 		end
 
 		def steps
-			%w[newpartner newcontact newcompetency]
+			%w[partner contact competency]
 		end
 
 		def next_step
