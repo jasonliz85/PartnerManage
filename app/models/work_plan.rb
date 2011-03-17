@@ -52,7 +52,7 @@ class WorkPlan < ActiveRecord::Base
 					end
 				end				
 			end				 
-			if holiday_count == 0:
+			if holiday_count == 0
 				return false
 			end
 			#book holiday in model
@@ -65,6 +65,7 @@ class WorkPlan < ActiveRecord::Base
 				return false
 			end
 		end
+		
 		def yearshiftgen(begindate, enddate)
 			#this function is responsible for create shifts from the begindate (DateTime) to week 52 of the commercial calendar
 			allshift = Array.new
