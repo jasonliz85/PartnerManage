@@ -16,8 +16,14 @@
 	<%= render "new_#{@partner.current_step}_step", :f =>f %>
 	<div class="list_actions">
 		<ul>
-			<% if not @partner.first_step? %>	<li><%= f.submit  "Back", :name => "back_button" unless @partner.first_step? %></li> <% end %>
-			<li><%= f.submit  "Continue" %> </li>
+			<% if not @partner.first_step? %>	
+				<li><%= f.submit  "Back", :name => "back_button" unless @partner.first_step? %></li> 
+			<% end %>
+			<% if @partner.last_step? %>
+				<li><%= f.submit  "Finish" %> </li>
+			<% else %>
+				<li><%= f.submit  "Continue" %> </li>
+			<% end %>
 			<li><%= f.submit  "Cancel",:name => "cancel_button" %></li>
 		</ul>
 	</div>

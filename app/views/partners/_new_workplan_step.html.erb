@@ -1,0 +1,6 @@
+<%= f.fields_for :weekly_rotas do |rota_builder| %>
+	<%= render :template => 'work_plans/_weekly_rota_fields.html.erb', :locals => {:f => rota_builder}%>
+<% end %> 
+<div class = "fields">
+	<%= link_to_add_weekly_rota "Add New", f.work_plan, :weekly_rotas, @partner.work_plan %>
+</div>

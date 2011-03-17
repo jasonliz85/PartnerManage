@@ -81,6 +81,13 @@ class Partner < ActiveRecord::Base
 			current_step == steps.last
 		end
 		
+		def all_valid?
+  		steps.all? do |step|
+  	  	self.current_step = step
+  	  	valid?
+		  end
+		end
+		
 end
 
 

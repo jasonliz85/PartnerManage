@@ -29,7 +29,7 @@ ul.topnav li span { /*--Drop down trigger styles--*/
     height: 35px;  
     float: left;  
     background: url(/images/menu_bar/subnav_btn.gif) no-repeat center top transparent;  
-}  
+}
 ul.topnav li span.subhover {
 	background-position: center bottom;
 	cursor: pointer;} /*--Hover effect for trigger--*/  

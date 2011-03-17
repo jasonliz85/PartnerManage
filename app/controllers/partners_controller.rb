@@ -23,9 +23,8 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
-  	session[:partner_params] = session[:partner_step] = session[:contact_params] = nil
+  	session[:partner_params] = session[:partner_step] = nil
   	session[:partner_params] ||= {}
-  	session[:contact_params] ||= {}
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
   end
@@ -44,12 +43,11 @@ class PartnersController < ApplicationController
   		return
   	end
 		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
-#		session[:contact_params].deep_merge!(params[:partner][:contact]) if params[:contact]
 		
   	print "Partner Info:"
 		puts session[:partner_params]
 		print "Partner Contact Info:"
-		puts session[:partner_params][:contact_attributes]
+		puts session[:partner_params]["contact_attributes"]
 
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
@@ -67,17 +65,19 @@ class PartnersController < ApplicationController
 			end
 			
 			if @partner.current_step == 'contact'
-				@partner.contact = Contact.new(session[:partner_params][:contact_attributes])
+				@partner.contact = Contact.new(session[:partner_params]["contact_attributes"])
+#			elsif @partner.current_step == 'workplan'
+#				@partner.work_plan = WorkPlan.new(session[:partner_params]["work_plan_attributes"])
+#				#@partner.work_plan.build_7_shift_templates!(partner)
+#				weekly_plan = @partner.work_plan.weekly_rotas.build
+#				time_template = DateTime.parse("Sun, 01 Jan 2006 09:00:00 UTC +00:00")
+#				7.times do |i|
+#					weekly_plan.shift_templates.build(:name => @partner.first_name + " " + @partner.last_name,:start_at => time_template + i, :end_at => time_template + i + 8.hours)
+#				end
 			end
 			session[:partner_step] = @partner.current_step
 			print "Next Step: "
 			puts @partner.current_step
-			
-#			if @partner.current_step == 'contact'
-#				@partner.contact = Contact.new(session[:contact_params])
-#				print "Partner.contact: "
-#				puts @partner.contact
-#			end
 		end
 		if @partner.new_record?
 			render "new"
