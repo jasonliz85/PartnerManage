@@ -5,6 +5,7 @@
 		<% else %>	
 			<%= simple_date_range(holiday.start_at, holiday.end_at) %>
 		<% end %>
+		(<%= pluralize(holiday.days_taken, "day") %>)
 		<span class = 'actions'>
 			<% if (holiday.start_at >= DateTime.now.beginning_of_day()) %> 
 				<%= link_to "edit", edit_partner_holiday_path(holiday.work_plan.partner, holiday)%>

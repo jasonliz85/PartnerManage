@@ -27,15 +27,10 @@ class WorkPlan < ActiveRecord::Base
 	public
 		def book_holiday(date_from, date_to, name)
 			#book a holiday between two date ranges, first check to see holiday has been booked for given date range
-			date_span = date_from..date_to
-			date_span.each do |date|
+			(date_from..date_to).each do |book_date|
 				self.holidays.each do |holiday_range| 
-					(holiday_range.start_at..holiday_range.end_at).each do |holiday|
-						if holiday.start_at.to_date == date.to_date or holiday.end_at.to_date == date.to_date 		
-							return false
-						elsif holiday.start_at.to_date < date.to_date and holiday.end_at.to_date > date.to_date 
-							return false
-						end	
+					(holiday_range.start_at.to_date..holiday_range.end_at.to_date).each do |holiday|
+						return false if holiday == book_date 
 					end
 				end
 			end
@@ -59,11 +54,11 @@ class WorkPlan < ActiveRecord::Base
 			end				 
 			return false if holiday_count == 0
 			#book holiday in model
-			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name)
+			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name, :days_taken => holiday_count)
 			if book_holiday.save 	
 				shifts_to_holidays.each {|shift| shift.update_attributes :shift_type => 4, :color => '#FF6600'}
 				bridges_to_update.each {|bridge| bridge.update_attributes :update_needed => true, :color => '#FF6600'}
-				if self.holiday.nil?
+				if self.holidays.nil? or self.holidays == 0
 					self.holiday_booked = holiday_count
 				else		 
 					self.holiday_booked = self.holiday_booked + holiday_count

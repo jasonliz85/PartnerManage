@@ -25,8 +25,7 @@ class Bridge < ActiveRecord::Base
 	end
 	def self.find_bridge_on(date)
 		#finds the bridge on the given date
-		bridges = find_bridge_on_date_range(date, date)	
-		return bridges.first
+		return find_bridge_on_date_range(date, date).first
 	end
 	def self.find_bridge_on_date_range(date_from, date_to)
 		#finds the bridge on the given date range

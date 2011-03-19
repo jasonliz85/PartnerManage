@@ -34,7 +34,7 @@ class HolidaysController < ApplicationController
   def new
   	@partner = Partner.find(params[:partner_id])
   	@work_plan = @partner.work_plan
-	@holiday = @partner.work_plan.holidays.build :name => @partner.first_name + " " + @partner.last_name
+		@holiday = @partner.work_plan.holidays.build :name => @partner.first_name + " " + @partner.last_name
 
     respond_to do |format|
       format.html # new.html.erb
