@@ -1,7 +1,8 @@
 class Partner < ActiveRecord::Base
+	attr_writer :current_step
 	#validations
-	validates_presence_of 		:first_name, :last_name, :employee_no
-	validates :employee_no, 	:uniqueness => true
+#	validates_presence_of 		:first_name, :last_name, :employee_no
+#	validates :employee_no, 	:uniqueness => true
 	
 	#relationships
 	has_one :contact, :dependent => :destroy
@@ -12,9 +13,6 @@ class Partner < ActiveRecord::Base
 	
 	#callbacks
 	before_save :create_an_empty_work_plan #possibly change to after_create callback?
-	
-	#scopes
-	scope :search_first_names, lambda { |term| where("partners.first_name LIKE ?", "%#{term}%") }
 	
 	#protected functions
 	protected
@@ -46,15 +44,6 @@ class Partner < ActiveRecord::Base
 			end
 			return partners
 		end
-		#finds all the partners who are on holiday on the given date
-		def self.find_all_partners_taking_holiday_on_range(date_from, date_to)
-			no_of_shifts = Holiday.find_all_holidays_on(date_from, date_to) 
-			partners = []
-			no_of_shifts.each do |shift|
-				partners << shift.partner			
-			end
-			return partners
-		end
 		#this function will delete all future shifts belonging to a partner starting from the date
 		def delete_shifts_from(date)
 			self.shifts.where("start_at > ?", date.beginning_of_day).delete_all()
@@ -67,6 +56,38 @@ class Partner < ActiveRecord::Base
 				scoped
 			end
 		end
+
+		def current_step
+			@current_step || steps.first
+		end
+
+		def steps
+			%w[partner contact competency workplan]
+		end
+
+		def next_step
+			self.current_step = steps[steps.index(current_step)+1]
+		end
+
+		def previous_step
+			self.current_step = steps[steps.index(current_step)-1]
+		end
+
+		def first_step?
+			current_step == steps.first
+		end
+
+		def last_step?
+			current_step == steps.last
+		end
+		
+		def all_valid?
+  		steps.all? do |step|
+  	  	self.current_step = step
+  	  	valid?
+		  end
+		end
+		
 end
 
 

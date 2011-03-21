@@ -140,12 +140,29 @@ a:hover {
   background-color: #FFF;
   border: none;
 }
-
-#main form .field, #main form .actions {
-  padding-top: 10px;
-  clear: both;
+#main form .list_field ul {
+  list-style: none; 
+	margin: 0 0 0 10px;
+	padding: 0;
+	float:left;
 }
-
+#main form .list_field ul li {
+  text-align: left;
+  background-color: #ccc;
+}
+#main form .list_field ul li label {
+  width: auto;
+  display: inline;
+  text-align: right;
+  line-height: 21px;
+  vertical-align: center;
+  background-color: #FFF;
+  border: none;
+}
+#main form .field, #main form .list_field, #main form .actions {
+  padding-top: 10px;
+  clear:both;
+}
 #main form input[type=text],#main form input[type=tel], #main form input[type=password], #main form textarea {
   float: left;
   font-size: 14px;
@@ -153,27 +170,38 @@ a:hover {
   padding: 2px;
   border: 2px solid #ccc;
 }
-
 #main form input[type=checkbox] {
   margin: 4px;
   float: left;
 }
-
 #main form textarea {
   height: 150px;
 }
-
 #main form input[type=submit] {
   margin-left: 175px;
   float:left;
   margin-right: 10px;
   margin-bottom: 10px;
 }
-#main .partners form  input[type=submit] {
-  margin-left: 10px;
-  float:left;
-  margin-right: 10px;
-  margin-bottom: 10px;
+#main form .partners  {
+	width: 100%;
+  clear:both;
+}
+#main form .list_actions ul {
+	list-style: none; 
+	margin: 10px 10px 10px 175px;
+	padding: 0;
+	float:left;
+	clear:both;
+}
+#main form .list_actions ul li{
+  position: relative;
+  float: left;  
+  margin: 0;  
+  padding: 0 10px 0 0;  
+}
+#main form .list_actions ul li input[type=submit] {
+	margin: 0px;
 }
 #main h3 {
   padding-top: 10px;
@@ -191,6 +219,13 @@ a:hover {
   /*display: inline;*/
 }
 
+#main form .field_with_errors {
+	padding: 0px;
+}
+#main form .field_with_errors label, #main form .field_with_errors input[type=text], #main form .field_with_errors input[type=tel], #main form .field_with_errors input[type=password]{
+	border: 2px solid #c00;
+	display: inline;
+}
 .fieldWithErrors {
   display:table;
   float:left;
@@ -215,7 +250,7 @@ a:hover {
 	background-color: #FFFFCC;
 }
 #main form div  {
-	padding: 15px 0 0 0;	
+	padding: 0 0 0 0;	
 }
 #main form .fieldWithErrors label{
   border: 2px solid red;
@@ -228,13 +263,11 @@ a:hover {
 }
 
 #errorExplanation {
-  width: 413px;
-  border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 12px;
+  width: 500px;
+  border: 2px solid #c00;
   margin-bottom: 20px;
   background-color: #f0f0f0;
-  margin: 0;
+  margin: 15px 0 0 0;
 }
 
 #errorExplanation h2 {
@@ -242,7 +275,7 @@ a:hover {
   font-weight: bold;
   padding: 5px 5px 5px 15px;
   font-size: 12px;
-  margin: -7px;
+  margin: 0px;
   background-color: #c00;
   color: #fff;
 }
