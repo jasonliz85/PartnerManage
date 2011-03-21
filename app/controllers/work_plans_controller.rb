@@ -89,7 +89,7 @@ class WorkPlansController < ApplicationController
   # PUT /work_plans/1
   # PUT /work_plans/1.xml
 
-  	def update
+	def update
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
 		if @partner.work_plan.update_attributes(params[:work_plan])
