@@ -23,13 +23,10 @@ class PartnersController < ApplicationController
   # GET /partners/new
   # GET /partners/new.xml
   def new
+  	session[:partner_params] = session[:partner_step] = nil
   	session[:partner_params] ||= {}
-	@partner = Partner.new(session[:partner_params])
-			@Competency = Competency.new(session[:competency_params])
+		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
-		print "Session Info:"
-		puts session[:partner_params]
-		puts @partner.current_step
   end
 
   # GET /partners/1/edit
@@ -40,25 +37,65 @@ class PartnersController < ApplicationController
   # POST /partners
   # POST /partners.xml
   def create
-# 		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
-		@partner = Partner.new(session[:partner_params])
-	 @partner.current_step = session[:partner_step]
-	 if params[:back_button]
-	 		@partner.previous_step
-	 		session[:partner_step] = @partner.current_step
-	 		if @partner.current_step == 'newcontact'
-					@partner.contact = Contact.new(session[:contact_params])
-			end
-	 	else
-    		@partner.next_step
-        session[:partner_step] = @partner.current_step
-    		if @partner.current_step == 'newcontact'
-					@partner.contact = Contact.new(session[:contact_params])
-			end
+  	if params[:cancel_button]
+  		session[:partner_step] = session[:partner_params] = nil
+  		redirect_to(partners_url)
+  		return
+  	end
+		session[:partner_params].deep_merge!(params[:partner]) if params[:partner]
+		
+  	print "Partner Info:"
+		puts session[:partner_params]
+		print "Partner Contact Info:"
+		puts session[:partner_params]["contact_attributes"]
 
+		@partner = Partner.new(session[:partner_params])
+		@partner.current_step = session[:partner_step]
+		
+		if @partner.valid? 
+			print "Current Step: "
+			puts @partner.current_step
+
+			if params[:back_button]
+				@partner.previous_step
+			elsif @partner.last_step?
+				@partner.save if @partner.all_valid?
+			else
+				@partner.next_step
+			end
+			
+			if @partner.current_step == 'contact'
+				@partner.contact = Contact.new(session[:partner_params]["contact_attributes"])
+			elsif @partner.current_step == 'workplan'
+				puts "you are now in workplans"
+				@partner.work_plan = WorkPlan.new()
+				@work_plan = @partner.work_plan
+				weekly_plan= @partner.work_plan.weekly_rotas.build
+				
+				time_template = DateTime.parse("Sun, 01 Jan 2006 09:00:00 UTC +00:00")
+				
+				7.times do |i|
+					puts i
+					weekly_plan.shift_templates.build(:name => @partner.first_name + " " + @partner.last_name,
+											:start_at => time_template + i, 
+											:end_at => time_template + i + 8.hours)
+					puts weekly_plan.shift_templates
+				end
+				weekly_plan.shift_templates.each do |a|
+					puts a.start_at
+				end
+			end
+			session[:partner_step] = @partner.current_step
+			print "Next Step: "
+			puts @partner.current_step
 		end
-		puts @partner.current_step
-    render "new"
+		if @partner.new_record?
+			render "new"
+		else
+			session[:partner_step] = session[:partner_params] = nil
+			flash[:notice] = "Partner saved!"
+			redirect_to @partner
+	  end
   end
 
   # PUT /partners/1
@@ -97,4 +134,5 @@ class PartnersController < ApplicationController
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
+
 end

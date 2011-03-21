@@ -1,23 +1,23 @@
-<h2>Basic Information</h2>
 <div class="field">
-	<%= f.label :first_name %><br />
+	<%= f.label :first_name %>
 	<%= f.text_field :first_name %>
 </div>
 <div class="field">
-	<%= f.label :last_name %><br />
+	<%= f.label :last_name %>
 	<%= f.text_field :last_name %>
 </div>
 <div class="field">
-	<%= f.label :employee_no %><br />
+	<%= f.label :employee_no %>
 	<%= f.text_field :employee_no %>
 </div>
 <div class="field">
-	<%= f.label :is_manager, "Manager?" %><br />
+	<%= f.label :is_manager, "Manager?" %>
 	Yes <%= f.radio_button :is_manager, "true" %>
-	No <%= f.radio_button :is_manager, "false" %>
+	No <%= f.radio_button :is_manager, "false", :checked => true %>
 </div>
 <div class="field">
-	<%= f.label :is_temp, "Temporary?" %><br />
+	<%= f.label :is_temp, "Temporary?" %>
 	Yes <%= f.radio_button :is_temp, "true" %>
-	No <%= f.radio_button :is_temp, "false" %>
+	No <%= f.radio_button :is_temp, "false", :checked => true %>
 </div>
+

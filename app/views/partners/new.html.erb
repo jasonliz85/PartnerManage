@@ -1,10 +1,31 @@
+<h1> New Partner Wizard</h1>
 <%= form_for(@partner) do |f| %>
-
-	<%= render "#{@partner.current_step}_step", :f =>f %>
-	
-		<p><%= f.submit  "Continue" %> | <%= link_to 'Cancel', @partner %></p>
-		<p><%= f.submit  "Back", :name => "back_button" unless @partner.first_step? %></p>
-
-	
+  <h3>
+  	<%= @partner.current_step.capitalize %> Information (Step <%= @partner.steps.index(@partner.current_step)+1 %> of <%= @partner.steps.count %>)
+	</h3>
+		<% if @partner.errors.any? %>
+		  <div id="errorExplanation">
+		    <h2>Please correct the following <%= pluralize(@partner.errors.count, "error") %> before continuing to the next step:</h2>
+		    <ul>
+				  <% @partner.errors.full_messages.each do |msg| %>
+				    <li><%= msg %></li>
+				  <% end %>
+		    </ul>
+		  </div>
+		<% end %>
+	<%= render "new_#{@partner.current_step}_step", :f =>f %>
+	<div class="list_actions">
+		<ul>
+			<% if not @partner.first_step? %>	
+				<li><%= f.submit  "Back", :name => "back_button" unless @partner.first_step? %></li> 
+			<% end %>
+			<% if @partner.last_step? %>
+				<li><%= f.submit  "Finish" %> </li>
+			<% else %>
+				<li><%= f.submit  "Continue" %> </li>
+			<% end %>
+			<li><%= f.submit  "Cancel",:name => "cancel_button" %></li>
+		</ul>
+	</div>
 <% end %>
 

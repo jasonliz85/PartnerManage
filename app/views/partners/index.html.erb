@@ -4,15 +4,12 @@
 		<%= link_to 'New Partner', new_partner_path %>
 	</span>
 </h1>
-<div class = 'partners' >
-	<%= form_tag partners_path, :method => 'get', :id => "partners_search" do %>
-		<div class="field">
-		  <%= text_field_tag :search, params[:search] %>
-		</div>
-	  <%= submit_tag "Search", :name => nil %>
-		<div id = 'partners'>
-			<%= render 'partners_table' %>
-		</div>
-	<% end %>
-</div>
-
+<%= form_tag partners_path, :method => 'get', :id => "partners_search" do %>
+	<div class="field">
+	  <%= text_field_tag :search, params[:search] %>
+  	<%= submit_tag "Search", :name => nil %>
+	</div>
+	<div class="partners">
+		<%= render 'partners_table' %>
+	</div>
+<% end %>

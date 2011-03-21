@@ -1,9 +1,8 @@
 class Partner < ActiveRecord::Base
-		attr_accessible :newpartner, :newcontact
-		attr_writer :current_step
+	attr_writer :current_step
 	#validations
-	validates_presence_of 		:first_name, :last_name, :employee_no
-	validates :employee_no, 	:uniqueness => true
+#	validates_presence_of 		:first_name, :last_name, :employee_no
+#	validates :employee_no, 	:uniqueness => true
 	
 	#relationships
 	has_one :contact, :dependent => :destroy
@@ -58,12 +57,12 @@ class Partner < ActiveRecord::Base
 			end
 		end
 
-			def current_step
+		def current_step
 			@current_step || steps.first
 		end
 
 		def steps
-			%w[newpartner newcontact newcompetency]
+			%w[partner contact competency workplan]
 		end
 
 		def next_step
@@ -80,6 +79,13 @@ class Partner < ActiveRecord::Base
 
 		def last_step?
 			current_step == steps.last
+		end
+		
+		def all_valid?
+  		steps.all? do |step|
+  	  	self.current_step = step
+  	  	valid?
+		  end
 		end
 		
 end

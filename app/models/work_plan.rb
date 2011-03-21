@@ -11,7 +11,7 @@ class WorkPlan < ActiveRecord::Base
 	
 	#callbacks
 	before_save :update_holiday_variables
-	before_delete :update_shifts_and_bridges	
+
 	#functions
 	private
 		def update_holiday_variables

@@ -1,0 +1,8 @@
+<%= fields_for @work_plan do |h| %>
+	<%= h.fields_for :weekly_rotas do |rota_builder| %>
+		<%= render :template => 'work_plans/_weekly_rota_fields.html.erb', :locals => {:f => rota_builder} %>
+	<% end %>
+
+<% end %>
+
+
