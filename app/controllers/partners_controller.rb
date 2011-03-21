@@ -66,14 +66,15 @@ class PartnersController < ApplicationController
 			
 			if @partner.current_step == 'contact'
 				@partner.contact = Contact.new(session[:partner_params]["contact_attributes"])
-#			elsif @partner.current_step == 'workplan'
-#				@partner.work_plan = WorkPlan.new(session[:partner_params]["work_plan_attributes"])
-#				#@partner.work_plan.build_7_shift_templates!(partner)
-#				weekly_plan = @partner.work_plan.weekly_rotas.build
-#				time_template = DateTime.parse("Sun, 01 Jan 2006 09:00:00 UTC +00:00")
-#				7.times do |i|
-#					weekly_plan.shift_templates.build(:name => @partner.first_name + " " + @partner.last_name,:start_at => time_template + i, :end_at => time_template + i + 8.hours)
-#				end
+			elsif @partner.current_step == 'workplan'
+				@partner.work_plan = WorkPlan.new()
+				@work_plan = @partner.work_plan
+				weekly_plan = @partner.work_plan.weekly_rotas.build
+				time_template = DateTime.parse("Sun, 01 Jan 2006 09:00:00 UTC +00:00")
+				7.times do |i|
+					weekly_plan.shift_templates.build(:name => @partner.first_name + " " + @partner.last_name,:start_at => time_template + i, :end_at => time_template + i + 8.hours)
+				end
+				weekly_plan.shift_templates.each {|w| puts w.name}
 			end
 			session[:partner_step] = @partner.current_step
 			print "Next Step: "
