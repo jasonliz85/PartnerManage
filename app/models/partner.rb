@@ -1,8 +1,8 @@
 class Partner < ActiveRecord::Base
 	attr_writer :current_step
 	#validations
-	validates_presence_of 		:first_name, :last_name, :employee_no
-	validates :employee_no, 	:uniqueness => true
+#	validates_presence_of 		:first_name, :last_name, :employee_no
+#	validates :employee_no, 	:uniqueness => true
 	
 	#relationships
 	has_one :contact, :dependent => :destroy
