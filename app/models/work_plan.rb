@@ -38,26 +38,32 @@ class WorkPlan < ActiveRecord::Base
 			shifts = self.partner.shifts.find_shifts_between_dates(date_from, date_to)
 			return false if shifts.empty? #no holiday to book
 			holiday_count, shifts_to_holidays, bridges_to_update = 0, [], []
-			shifts.each do |shift|
+			shifts.each do |shift|	
 				if shift.shift_type == 1 #other cases are also valid
 					holiday_count = holiday_count + 1
 					shifts_to_holidays << shift
-					#shift.update_attributes :shift_type => 4, :color => '#FF6600'
-					#!potential performance issue!#
-					bridge = Bridge.find_bridge_on_date_range(shift.start_at, shift.end_at)
-					#!potential performance issue!#
-					if not bridge.empty?
-						bridges_to_update << bridge
-						#bridge.update_attributes :update_needed => true, :color => '#FF6600'
-					end
+					found_bridge = Bridge.find_bridge_on_date_range(shift.start_at, shift.end_at)
+					print "A.Shift start_at:"
+					puts shift.start_at				
+					print "B.Bridge (nil?):"
+					puts found_bridge.nil?
+					puts found_bridge.bridge_stats
+					#!performance issue!#
+					bridges_to_update << found_bridge if not found_bridge.nil?
+					print "1.bridges_to_update :"
+					puts bridges_to_update
 				end				
 			end				 
 			return false if holiday_count == 0
 			#book holiday in model
 			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name, :days_taken => holiday_count)
 			if book_holiday.save 	
-				shifts_to_holidays.each {|shift| shift.update_attributes :shift_type => 4, :color => '#FF6600'}
-				bridges_to_update.each {|bridge| bridge.update_attributes :update_needed => true, :color => '#FF6600'}
+				print "2.bridges_to_update :"
+				puts bridges_to_update
+				bridges_to_update.each {|b| b.update_attributes(:update_needed => true, :color => '#FF6600')}
+				print "shifts_to_holidays :"
+				puts shifts_to_holidays
+				shifts_to_holidays.each {|shift| shift.update_attributes(:shift_type => 4, :color => '#FF6600')}
 				if self.holidays.nil? or self.holidays == 0
 					self.holiday_booked = holiday_count
 				else		 

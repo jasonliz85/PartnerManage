@@ -30,6 +30,9 @@ class Bridge < ActiveRecord::Base
 	def self.find_bridge_on_date_range(date_from, date_to)
 		#finds the bridge on the given date range
 		bridges = Bridge.where("start_at > ? AND start_at < ?", date_from.beginning_of_day(), date_to.end_of_day())		
+		bridges.each do |bridge| 
+			puts bridge.name 
+		end
 		return bridges
 	end
 	def self.get_partner_object_from_shift(shifts_working)
