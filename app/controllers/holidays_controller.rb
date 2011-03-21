@@ -53,7 +53,7 @@ class HolidaysController < ApplicationController
   def create
   	@partner = Partner.find(params[:partner_id])
     result = @partner.work_plan.book_holiday(DateTime.parse(params[:holiday][:start_at]), DateTime.parse(params[:holiday][:end_at]), params[:holiday][:name])#.build(params[:holiday])
-		if @partner.save
+		if @partner.save and result
 			redirect_to(@partner.work_plan.partner, :notice => 'Holiday was successfully created.') 
 		else
 			render :action => "new" 

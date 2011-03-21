@@ -36,24 +36,20 @@ class WorkPlan < ActiveRecord::Base
 			end
 			#find shifts when partner is working, change shift_type field to holiday - 4 - and update created bridges (update_needed? = true)
 			shifts = self.partner.shifts.find_shifts_between_dates(date_from, date_to)
+			found_bridges = Bridge.find_bridge_on_date_range(date_from, date_to)
 			return false if shifts.empty? #no holiday to book
 			holiday_count, shifts_to_holidays, bridges_to_update = 0, [], []
 			shifts.each do |shift|	
+				found_bridges.each do |bridge|
+					if bridge.start_at.to_date == shift.start_at.to_date
+						bridges_to_update << bridge if not bridge.nil?
+					end
+				end
 				if shift.shift_type == 1 #other cases are also valid
 					holiday_count = holiday_count + 1
 					shifts_to_holidays << shift
-					found_bridge = Bridge.find_bridge_on_date_range(shift.start_at, shift.end_at)
-					print "A.Shift start_at:"
-					puts shift.start_at				
-					print "B.Bridge (nil?):"
-					puts found_bridge.nil?
-					puts found_bridge.bridge_stats
-					#!performance issue!#
-					bridges_to_update << found_bridge if not found_bridge.nil?
-					print "1.bridges_to_update :"
-					puts bridges_to_update
 				end				
-			end				 
+			end		
 			return false if holiday_count == 0
 			#book holiday in model
 			book_holiday = self.holidays.new(:start_at => date_from, :end_at => date_to, :name => name, :days_taken => holiday_count)

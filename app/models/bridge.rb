@@ -13,7 +13,14 @@ class Bridge < ActiveRecord::Base
 	#functions
 	def update_bridge!()
 		#checks whether bridge has been updated (added new shifts) since it was created
-		return true		
+		if self.update_needed? and not self.bridge_table.nil?
+			#do update algorithm
+			print "Update Needed?: "
+			puts self.update_needed
+			self.
+			return true
+		end
+		return false		
 	end
 	def get_bridge_info()
 		#returns the bridge table and bridge stats column in the database
@@ -29,10 +36,7 @@ class Bridge < ActiveRecord::Base
 	end
 	def self.find_bridge_on_date_range(date_from, date_to)
 		#finds the bridge on the given date range
-		bridges = Bridge.where("start_at > ? AND start_at < ?", date_from.beginning_of_day(), date_to.end_of_day())		
-		bridges.each do |bridge| 
-			puts bridge.name 
-		end
+		bridges = where("start_at > ? AND start_at < ?", date_from.beginning_of_day(), date_to.end_of_day())		
 		return bridges
 	end
 	def self.get_partner_object_from_shift(shifts_working)
