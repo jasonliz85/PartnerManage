@@ -25,6 +25,8 @@ class PartnersController < ApplicationController
   def new
   	session[:partner_params] = session[:partner_step] = nil
   	session[:partner_params] ||= {}
+  	session[:workplan_params] = session[:workplan_step] = nil
+  	session[:workplan_params] ||= {}
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
   end
@@ -48,9 +50,11 @@ class PartnersController < ApplicationController
 		puts session[:partner_params]
 		print "Partner Contact Info:"
 		puts session[:partner_params]["contact_attributes"]
-
+		print "workplansinformation: "
+		puts params[:work_plan]
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
+		
 		
 		if @partner.valid? 
 			print "Current Step: "
@@ -60,6 +64,9 @@ class PartnersController < ApplicationController
 				@partner.previous_step
 			elsif @partner.last_step?
 				@partner.save if @partner.all_valid?
+				if @partner.save == true
+				@partner.work_plan.save
+				end
 			else
 				@partner.next_step
 			end
