@@ -48,24 +48,22 @@ class PartnersController < ApplicationController
 		
   	print "Partner Info:"
 		puts session[:partner_params]
-		print "Partner Contact Info:"
-		puts session[:partner_params]["contact_attributes"]
-		print "workplansinformation: "
+
+		print "WorkPlan Params - params[:work_plan]: "
 		puts params[:work_plan]
+
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
 		
 		
 		if @partner.valid? 
-			print "Current Step: "
-			puts @partner.current_step
 
 			if params[:back_button]
 				@partner.previous_step
 			elsif @partner.last_step?
-				@partner.save if @partner.all_valid?
-				if @partner.save == true
-				@partner.work_plan.save
+
+				if @partner.all_valid?
+					@partner.work_plan.update_attributes(params[:work_plan]) if @partner.save 
 				end
 			else
 				@partner.next_step
@@ -91,6 +89,15 @@ class PartnersController < ApplicationController
 		else
 			session[:partner_step] = session[:partner_params] = nil
 			flash[:notice] = "Partner saved!"
+			print "Shift Objects?: "
+			print @partner.work_plan.weekly_rotas.all 
+#			each do |wr|
+#				wr.each do |st|
+#					print st.start_at
+#					print " - "
+#					puts st.name
+#				end
+#			end
 			redirect_to @partner
 	  end
   end
