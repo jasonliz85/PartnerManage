@@ -1,11 +1,14 @@
-
-<%= @partner.first_name %>
 <%= fields_for @work_plan do |h| %>
 	<%= h.fields_for :weekly_rotas do |rota_builder| %>
 		<%= render :template => 'work_plans/_weekly_rota_fields.html.erb', :locals => {:f => rota_builder}%>
 	<% end %> 
 	<div class = "fields">
 		<%= link_to_add_weekly_rota "Add New", h, :weekly_rotas, partner_full_name(@partner)%>
+	</div>
+	<div class="field">
+		<%= h.label :holiday_entitle, "Holiday Entitlement" %><br />
+		<%= h.select :holiday_entitle, (0..25).to_a  %> <br />
+		<!%= h.number_field :holiday_entitle %><br />
 	</div>
 <% end %>
 

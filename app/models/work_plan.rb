@@ -4,10 +4,10 @@ class WorkPlan < ActiveRecord::Base
 	has_many :weekly_rotas, :dependent => :destroy
 	has_many :holidays, :dependent => :destroy, :order => "start_at ASC"
 
-	accepts_nested_attributes_for :weekly_rotas, :allow_destroy => true #, :reject_if => lambda { |a| a[:]}
+	accepts_nested_attributes_for :weekly_rotas, :allow_destroy => false #, :reject_if => lambda { |a| a[:]}
 	
 	#validations
-	validates_presence_of :partner_id
+	#validates_presence_of :partner_id
 	
 	#callbacks
 	before_save :update_holiday_variables
@@ -68,7 +68,7 @@ class WorkPlan < ActiveRecord::Base
 		
 		def yearshiftgen(begindate, enddate)
 			#this function is responsible for create shifts from the begindate (DateTime) to week 52 of the commercial calendar
-			allshift = Array.new
+			allshifts = []
 			noworkplan = self.weekly_rotas.count
 			count = 0
 			begindateweeknumber = begindate.cweek
@@ -76,20 +76,23 @@ class WorkPlan < ActiveRecord::Base
 			if enddate.year > begindate.year 
 				enddateweeknumber = enddateweeknumber +52
 			end
-			puts enddateweeknumber
 			for weeknom in begindateweeknumber..enddateweeknumber do
-				allshift << shiftarraygen(self.weekly_rotas[count], weeknom,begindate)
+				allshifts.concat(shiftarraygen(self.weekly_rotas[count], weeknom,begindate))
 				count = count + 1
 				if count > (noworkplan - 1)
 					count = 0
 				end
 			end
 			partner.delete_shifts_from(begindate)
-			Shift.create(allshift)
+			shifts_not_saved = allshifts.collect{|shift| Shift.new(shift) }
+			if shifts_not_saved.all?(&:valid?)
+				shifts_not_saved.each(&:save!)
+			end
+			#Shift.create(allshifts)
 		end
 		#to comment
 		def shiftarraygen(weeklyrota, weeknom, begindate)
-			shiftentries= Array.new
+			shiftentries = []
 			if weeknom > 52
 				tempweeknom = weeknom - 52
 				yearofshift = begindate.year

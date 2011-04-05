@@ -1,8 +1,8 @@
 class Partner < ActiveRecord::Base
 	attr_writer :current_step
 	#validations
-#	validates_presence_of 		:first_name, :last_name, :employee_no
-#	validates :employee_no, 	:uniqueness => true
+	validates_presence_of 		:first_name, :last_name, :employee_no
+	validates :employee_no, 	:uniqueness => true
 	
 	#relationships
 	has_one :contact, :dependent => :destroy
@@ -11,8 +11,10 @@ class Partner < ActiveRecord::Base
 	has_many :shifts
 	has_and_belongs_to_many :competencies
 	
+	#accepts_nested_attributes_for :work_plan, :allow_destroy => true
+	
 	#callbacks
-	before_save :create_an_empty_work_plan #possibly change to after_create callback?
+	#before_save :create_an_empty_work_plan #possibly change to after_create callback?
 	
 	#protected functions
 	protected

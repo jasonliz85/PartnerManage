@@ -46,20 +46,41 @@ class PartnersController < ApplicationController
 		
   	print "Partner Info:"
 		puts session[:partner_params]
-		print "WorkPlan Params - params[:work_plan]: "
-		puts params[:work_plan]
 
 		@partner = Partner.new(session[:partner_params])
 		@partner.current_step = session[:partner_step]
 		
+		print "@partner.valid? "
+		puts @partner.valid?
 		if @partner.valid? 
-
 			if params[:back_button]
 				@partner.previous_step
 			elsif @partner.last_step?
-				if @partner.all_valid?
-					@partner.work_plan.update_attributes(params[:work_plan]) if @partner.save 
+				print "WorkPlan Params - params[:work_plan]: "
+				puts params[:work_plan]
+				wp = WorkPlan.new(params[:work_plan]) 
+				print "wp.valid? "
+				puts wp.valid?
+				if wp.valid? and wp.save
+					puts "wp has been saved!"
+					@partner.work_plan = wp
+					print "WorkPlan weekly_rotas "
+					wp.weekly_rotas.first.shift_templates.each do |st|
+						puts st.start_at
+					end
+					if @partner.all_valid?
+						@partner.save
+						@partner.work_plan = wp
+						@partner.save
+						@partner.work_plan.weekly_rotas.first.shift_templates.each do |st|
+							puts st.start_at
+						end
+					end
+					#@partner.save if @partner.all_valid?
+					#print "Partner Saved? "
+					#puts @partner.save
 				end
+
 			else
 				@partner.next_step
 			end
@@ -84,15 +105,6 @@ class PartnersController < ApplicationController
 		else
 			session[:partner_step] = session[:partner_params] = nil
 			flash[:notice] = "Partner saved!"
-			print "Shift Objects?: "
-			print @partner.work_plan.weekly_rotas.all 
-#			each do |wr|
-#				wr.each do |st|
-#					print st.start_at
-#					print " - "
-#					puts st.name
-#				end
-#			end
 			redirect_to @partner
 	  end
   end
