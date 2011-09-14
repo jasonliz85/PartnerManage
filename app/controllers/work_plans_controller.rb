@@ -19,7 +19,7 @@ class WorkPlansController < ApplicationController
 		end
 	end
 
-	  def workplanwizard
+  def workplanwizard
 		@partner = Partner.find(params[:partner_id])
 		@work_plan = @partner.work_plan
 		respond_to do |format|

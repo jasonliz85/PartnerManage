@@ -44,7 +44,7 @@ module ApplicationHelper
 	#displays a label if not empty
 	def display_if_not_empty(label, element)
 		if not element.nil? or not element.empty?
-			content_tag(:div, :class => "element") do 
+			content_tag(:p, :class => "element") do 
 				if label.empty? 
 					element
 				else
@@ -64,6 +64,10 @@ module ApplicationHelper
 			render(association.to_s.singularize + "_fields", :f => builder)
 		end
 		link_to_function(name, "add_fields(this, '#{association}', '#{escape_javascript(fields)}')" )
+	end
+	#used to hide/unhide html div tags
+	def link_to_toggle_ids(name, tag_id)
+		link_to_function(name, "toggle_id_tags(this, '#{tag_id}')" )
 	end
 	#used to link to a particular day
 	def date_link(date)

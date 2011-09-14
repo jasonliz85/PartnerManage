@@ -3,17 +3,20 @@
 		Contact
 		<span class='actions'>
 			<%= link_to 'Edit', edit_partner_contact_path(contact.partner, contact) %>
+			<%= link_to_toggle_ids '[Hide/Unhide]', contact.id %>
 		</span>
 	</h3>
-		<h4>Telephone </h4>
-		<div class = 'element'> 
-			<% if not contact.telephone_no.nil? %><%= number_to_phone contact.telephone_no, :area_code => true , :country_code => 44%> <% else %> none <% end %>
-		</div>
-		<h4>Address </h4>
-		<%= display_if_not_empty('',contact.address_line1) %>
-		<%= display_if_not_empty('',contact.address_line2) %>
-		<%= display_if_not_empty('',contact.city) %>
-		<%= display_if_not_empty('',contact.county) %>
-		<%= display_if_not_empty('',contact.post_code)%>
+	<div class='element' id='<%=contact.id%>'> 
+	<h4>Telephone </h4>
+	<p class='element'> 
+		<% if not contact.telephone_no.nil? %><%= number_to_phone contact.telephone_no, :area_code => true , :country_code => 44%> <% else %> none <% end %>
+	</p>
+	<h4>Address </h4>
+	<%= display_if_not_empty('',contact.address_line1) %>
+	<%= display_if_not_empty('',contact.address_line2) %>
+	<%= display_if_not_empty('',contact.city) %>
+	<%= display_if_not_empty('',contact.county) %>
+	<%= display_if_not_empty('',contact.post_code)%>
+	</div>
 <% end %>
 

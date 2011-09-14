@@ -1,9 +1,13 @@
 class Partner < ActiveRecord::Base
 	attr_writer :current_step
-	#validations
-#	validates_presence_of 		:first_name, :last_name, :employee_no
-#	validates :employee_no, 	:uniqueness => true
 	
+	#validations
+	validates_presence_of 		:first_name, :last_name, :employee_no
+	validates :employee_no, 	:uniqueness => true
+	#validate :namenumber
+	validate :namecheck
+	validate :empnumbercheck
+
 	#relationships
 	has_one :contact, :dependent => :destroy
 	accepts_nested_attributes_for :contact
@@ -11,8 +15,61 @@ class Partner < ActiveRecord::Base
 	has_many :shifts
 	has_and_belongs_to_many :competencies
 	
+	#accepts_nested_attributes_for :work_plan, :allow_destroy => true
+	
 	#callbacks
-	before_save :create_an_empty_work_plan #possibly change to after_create callback?
+	#before_save :create_an_empty_work_plan #possibly change to after_create callback?
+	
+	#def namenumber
+	#	puts first_name
+	#	if first_name.count("0-9") > 0
+	#	errors.add(:first_name, "Must not contain numbers") 
+	#	end
+	##	errors.add(:last_name, "Must not contain numbers") if last_name.count("0-9") > 0
+	#	puts "in the loop"
+	#end
+
+	def namecheck
+		if first_name[0..0] =~ /[A-Z]/
+			elsif
+			errors.add(:first_name, "first letter must be a capital letter")
+		end
+
+			if last_name[0..0] =~ /[A-Z]/
+			elsif
+			errors.add(:last_name, "first letter must be a capital letter")
+		end
+
+		if first_name =~ /[:%^_#";{}\/|@$&*+=<>?]/
+			errors.add(:first_name, "Has invalid characters")
+		end
+
+			if last_name =~ /[:%^_#";{}\/|@$&*+=<>?]/
+			errors.add(:last_name, "Has invalid characters")
+		end
+
+		if first_name =~ /[0-9]/
+					errors.add(:first_name, "Must not contain numbers")
+		end
+
+			if last_name =~ /[0-9]/
+					errors.add(:last_name, "Must not contain numbers")
+		end
+	end
+
+	def empnumbercheck
+		if employee_no =~ /[A-Z][a-z]/
+			errors.add(:employee_no, "must only contain numbers")
+		end
+		if employee_no =~ /[:%^_#";{}\/|@$&*+=<>?]/
+			errors.add(:employee_no, "has invalid characters")
+		end
+		#	if employee_no =~ /\s/
+		#		elsif
+		#			errors.add(:employee_no, "must not have spaces")
+		#	end
+	end
+	
 	
 	#protected functions
 	protected
