@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20110319172152) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "priority"
+    t.integer  "priority",   :default => 2
   end
 
   create_table "competencies_partners", :id => false, :force => true do |t|

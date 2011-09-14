@@ -5,7 +5,10 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
-
+################################################################################################################################################
+Competency.create([{:name => 'Camera', :priority => 2}, {:name => 'Audio', :priority => 2}, {:name => 'Television',:priority => 2}, {:name => 'Computer',:priority => 2}, {:name => 'Telephone',:priority => 2}, {:name => 'Task Team',:priority => 1}, {:name => 'Sasu',:priority => 1}])
+#[{:name => 'Camera'}, {:name => 'Audio Equipment'}, {:name => 'Television'}, {:name => 'Computer'}, {:name => 'Telephone'}, {:name => 'Printer'}, {:name => 'Task Team'}, {:name => 'Sasu'}]
+################################################################################################################################################
 partner = Partner.create ({:first_name => 'Jason',	:last_name => 'Lizarraga',	:employee_no => '789654321', :is_manager => true,
 									:is_temp => false})
 
@@ -48,6 +51,4 @@ partner = Partner.create({ :first_name => 'John', :last_name => 'Lewis', :employ
 									:is_temp => true})
 Contact.create({:partner_id => partner.id, :telephone_no  => '02074125465', :address_line1 => 'Flat C', :address_line2 => '245 Commercial Road', :city => 'London',
 					:county  => '', :post_code => 'E3 5GH' })
-################################################################################################################################################
-Competency.create([{:name => 'Camera', :priority => 2}, {:name => 'Audio', :priority => 2}, {:name => 'Television',:priority => 2}, {:name => 'Computer',:priority => 2}, {:name => 'Telephone',:priority => 2}, {:name => 'Task Team',:priority => 1}, {:name => 'Sasu',:priority => 1}])
-#[{:name => 'Camera'}, {:name => 'Audio Equipment'}, {:name => 'Television'}, {:name => 'Computer'}, {:name => 'Telephone'}, {:name => 'Printer'}, {:name => 'Task Team'}, {:name => 'Sasu'}]
+
