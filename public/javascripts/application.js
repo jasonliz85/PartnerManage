@@ -7,11 +7,17 @@ function remove_fields(link) {
 
 function add_fields(link, association, content) {
   var new_id = new Date().getTime();
-  var regexp = new RegExp("new_" + association, "g")
+  var regexp = new RegExp("new_" + association, "g");
   $(link).parent().before(content.replace(regexp, new_id));
 }
 function add_remove_date(type, link) {
 	$(link).closest("dates").hide();
+}
+function toggle_id_tags(link, id_tag_name){
+	$(link).ready(function () {
+			var tag_string = "#" + id_tag_name;
+			$(tag_string).toggle("slow");
+		});
 }
 $(function() {
 	$("#holiday_start_at").datepicker({ autoSize: true, dateFormat: 'dd-mm-yy'});

@@ -3,7 +3,7 @@ class PartnersController < ApplicationController
 	# GET /partners
   # GET /partners.xml
   def index
-    @partners = Partner.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 5, :page => params[:page])
+    @partners = Partner.search(params[:search]).order(sort_column + " " + sort_direction).paginate(:per_page => 10, :page => params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.js 
