@@ -1,12 +1,5 @@
 class Partner < ActiveRecord::Base
 	attr_writer :current_step
-	
-	#validations
-	validates_presence_of 		:first_name, :last_name, :employee_no
-	validates :employee_no, 	:uniqueness => true
-	#validate :namenumber
-	validate :namecheck
-	validate :empnumbercheck
 
 	#relationships
 	has_one :contact, :dependent => :destroy
@@ -15,73 +8,61 @@ class Partner < ActiveRecord::Base
 	has_many :shifts
 	has_and_belongs_to_many :competencies
 	
-	#accepts_nested_attributes_for :work_plan, :allow_destroy => true
-	
+	#validations
+	validates_presence_of :first_name, :last_name, :employee_no
+	validates_uniqueness_of :employee_no, :message => 'Employee no must be unique.' 
+	validate :first_last_name_check
+	validate :employee_no_check
+
 	#callbacks
+	before_save :format_first_last_names
+	
+	#accepts_nested_attributes_for :work_plan, :allow_destroy => true
 	#before_save :create_an_empty_work_plan #possibly change to after_create callback?
 	
-	#def namenumber
-	#	puts first_name
-	#	if first_name.count("0-9") > 0
-	#	errors.add(:first_name, "Must not contain numbers") 
-	#	end
-	##	errors.add(:last_name, "Must not contain numbers") if last_name.count("0-9") > 0
-	#	puts "in the loop"
-	#end
-
-	def namecheck
-		if first_name[0..0] =~ /[A-Z]/
-			elsif
-			errors.add(:first_name, "first letter must be a capital letter")
+	private: 
+		def first_last_name_check
+			## sanity checks on first and last name
+			#first and last name uniqueness?
+			if not (first_name[0] =~ /[A-Z]/ or last_name[0] =~ /[A-Z]/ )
+				errors.add(:first_name, :last_name, "must begin with a capital letter.")
+			end
+			if (first_name + last_name) =~ /[:%^_#"';{}\/|@£$&*+=<>?]/ 
+				errors.add(:first_name, :last_name "must not have the following characters [:%^_#\";{}\\/|@$&*+=<>?].")
+			end
+			if (first_name + last_name) =~ /[0-9]/ 
+				errors.add(:first_name, :last_name, "must not contain numbers [0-9].")
+			end
 		end
 
-			if last_name[0..0] =~ /[A-Z]/
-			elsif
-			errors.add(:last_name, "first letter must be a capital letter")
+		def employee_no_check
+			## simple sanity check on employee number
+			if employee_no =~ /[A-Z][a-z]/
+				errors.add(:employee_no, "must not contain numbers [0-9].")
+			end
+			if employee_no =~ /[:%^_#"';{}\/|@£$&*+=<>?]/
+				errors.add(:employee_no, "must not have the following characters [:%^_#\";{}\\/|@$&*+=<>?].")
+			end
 		end
-
-		if first_name =~ /[:%^_#";{}\/|@$&*+=<>?]/
-			errors.add(:first_name, "Has invalid characters")
+		
+		def format_first_last_names
+			## formatting first and last name (capitalise)
+			self.first_name.capitalize
+			self.last_name.capitalize
 		end
-
-			if last_name =~ /[:%^_#";{}\/|@$&*+=<>?]/
-			errors.add(:last_name, "Has invalid characters")
-		end
-
-		if first_name =~ /[0-9]/
-					errors.add(:first_name, "Must not contain numbers")
-		end
-
-			if last_name =~ /[0-9]/
-					errors.add(:last_name, "Must not contain numbers")
-		end
-	end
-
-	def empnumbercheck
-		if employee_no =~ /[A-Z][a-z]/
-			errors.add(:employee_no, "must only contain numbers")
-		end
-		if employee_no =~ /[:%^_#";{}\/|@$&*+=<>?]/
-			errors.add(:employee_no, "has invalid characters")
-		end
-		#	if employee_no =~ /\s/
-		#		elsif
-		#			errors.add(:employee_no, "must not have spaces")
-		#	end
-	end
-	
 	
 	#protected functions
 	protected
-		#create a blank work_plan if a new partner is created
 		def create_an_empty_work_plan
+			#create a blank work_plan if a new partner is created
 			if self.work_plan.nil?
 				self.work_plan = WorkPlan.create()			
 			end
 		end
+		
 	public
-		#returns true if a partner has the input competency. note: competency a string name of the competency object
 		def is_competent_at(competency)
+			#returns true if a partner has the input competency. note: competency a string name of the competency object
 			if self.competencies.nil? 
 				return false
 			end
@@ -92,8 +73,8 @@ class Partner < ActiveRecord::Base
 			end			
 			return false			
 		end
-		#finds all partners working on a given date
 		def self.find_all_partners_working_on(date)
+			#finds all partners working on a given date
 			no_of_shifts = Shift.find_all_shifts_on(date)
 			partners = []
 			no_of_shifts.each do |shift|
@@ -101,12 +82,12 @@ class Partner < ActiveRecord::Base
 			end
 			return partners
 		end
-		#this function will delete all future shifts belonging to a partner starting from the date
 		def delete_shifts_from(date)
+			#this function will delete all future shifts belonging to a partner starting from the date
 			self.shifts.where("start_at > ?", date.beginning_of_day).delete_all()
 		end
-		#searches the partner model
 		def self.search(search)
+			#searches the partner model
 			if search
 				where('first_name LIKE ? OR last_name LIKE ?', "%#{search}%", "%#{search}%")
 			else
