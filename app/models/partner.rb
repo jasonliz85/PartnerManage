@@ -27,7 +27,7 @@ class Partner < ActiveRecord::Base
 			if not (first_name[0] =~ /[A-Z]/ or last_name[0] =~ /[A-Z]/ )
 				errors.add(:first_name, :last_name, "must begin with a capital letter.")
 			end
-			if (first_name + last_name) =~ /[:%^_#"';{}\/|@£$&*+=<>?]/ 
+			if (first_name + last_name) =~ /[:%^_#"';{}\/|@£$\&*+=<>?]/ 
 				errors.add(:first_name, :last_name "must not have the following characters [:%^_#\";{}\\/|@$&*+=<>?].")
 			end
 			if (first_name + last_name) =~ /[0-9]/ 
@@ -40,7 +40,7 @@ class Partner < ActiveRecord::Base
 			if employee_no =~ /[A-Z][a-z]/
 				errors.add(:employee_no, "must not contain numbers [0-9].")
 			end
-			if employee_no =~ /[:%^_#"';{}\/|@£$&*+=<>?]/
+			if employee_no =~ /[:%^_#"';{}\/|@£$\&*+=<>?]/
 				errors.add(:employee_no, "must not have the following characters [:%^_#\";{}\\/|@$&*+=<>?].")
 			end
 		end
@@ -141,5 +141,5 @@ end
 #  is_temp     :boolean
 #  created_at  :datetime
 #  updated_at  :datetime
-#
+# Partner.new(:first_name=> 'jSAson', :last_name => 'D$kks', :employee_no => '234324A', :is_manager => True, :is_temp => false)
 
