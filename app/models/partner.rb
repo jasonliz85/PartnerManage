@@ -10,9 +10,11 @@ class Partner < ActiveRecord::Base
 	
 	#validations
 	validates_presence_of :first_name, :last_name, :employee_no
-	validates_uniqueness_of :employee_no, :message => 'Employee no must be unique.' 
-	validate :first_last_name_check
-	validate :employee_no_check
+	validates_uniqueness_of :employee_no, :message => 'Employee No must be unique.'
+	validates_associated :contact, :work_plan, :shifts
+	validates :employee_no, :length => { :maximum => 15 }, :numericality => { :only_integer => true, :message => "Only numbers are allowed for Employee No"}
+	validates :first_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Only letters are allows for First Name" }
+	validates :last_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Only letters are allows for Last Name" }
 
 	#callbacks
 	before_save :format_first_last_names
@@ -20,31 +22,7 @@ class Partner < ActiveRecord::Base
 	#accepts_nested_attributes_for :work_plan, :allow_destroy => true
 	#before_save :create_an_empty_work_plan #possibly change to after_create callback?
 	
-	private: 
-		def first_last_name_check
-			## sanity checks on first and last name
-			#first and last name uniqueness?
-			if not (first_name[0] =~ /[A-Z]/ or last_name[0] =~ /[A-Z]/ )
-				errors.add(:first_name, :last_name, "must begin with a capital letter.")
-			end
-			if (first_name + last_name) =~ /[:%^_#"';{}\/|@£$\&*+=<>?]/ 
-				errors.add(:first_name, :last_name "must not have the following characters [:%^_#\";{}\\/|@$&*+=<>?].")
-			end
-			if (first_name + last_name) =~ /[0-9]/ 
-				errors.add(:first_name, :last_name, "must not contain numbers [0-9].")
-			end
-		end
-
-		def employee_no_check
-			## simple sanity check on employee number
-			if employee_no =~ /[A-Z][a-z]/
-				errors.add(:employee_no, "must not contain numbers [0-9].")
-			end
-			if employee_no =~ /[:%^_#"';{}\/|@£$\&*+=<>?]/
-				errors.add(:employee_no, "must not have the following characters [:%^_#\";{}\\/|@$&*+=<>?].")
-			end
-		end
-		
+	private
 		def format_first_last_names
 			## formatting first and last name (capitalise)
 			self.first_name.capitalize
