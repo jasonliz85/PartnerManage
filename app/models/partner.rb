@@ -25,8 +25,8 @@ class Partner < ActiveRecord::Base
 	private
 		def format_first_last_names
 			## formatting first and last name (capitalise)
-			self.first_name.capitalize
-			self.last_name.capitalize
+			self.first_name = self.first_name.capitalize
+			self.last_name = self.last_name.capitalize
 		end
 	
 	#protected functions
@@ -120,4 +120,4 @@ end
 #  created_at  :datetime
 #  updated_at  :datetime
 # Partner.new(:first_name=> 'jSAson', :last_name => 'D$kks', :employee_no => '234324A', :is_manager => True, :is_temp => false)
-
+# Partner.new(:first_name=> 'pEter', :last_name => 'andrews', :employee_no => '234324', :is_manager => true, :is_temp => false)
