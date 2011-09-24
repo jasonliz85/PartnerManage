@@ -67,21 +67,6 @@ class Shift < ActiveRecord::Base
 								'is_manager'=> shift.partner.is_manager }
 		end
 end
-# == Schema Information
-#
-# Table name: shifts
-#
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  start_at   :datetime
-#  end_at     :datetime
-#  created_at :datetime
-#  updated_at :datetime
-#  partner_id :integer
-#  color      :string(255)
-#  shift_type :integer
-#
-
 #shift_type = 
 #	[	'normal' => 1, #normal contract hours
 #		'normal_plus_overtime' => 2, #normal contract hours plus additional hours
@@ -104,4 +89,20 @@ end
 #			6 => 'absent_pa', # Paid Authorised (pa) absence
 #			7 => 'absent_u' # Unauthorised (u) absence
 #		}
+
+
+# == Schema Information
+#
+# Table name: shifts
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  start_at   :datetime
+#  end_at     :datetime
+#  created_at :datetime
+#  updated_at :datetime
+#  partner_id :integer
+#  color      :string(255)
+#  shift_type :integer         default(1)
+#
 

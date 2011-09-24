@@ -230,18 +230,20 @@ class Bridge < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: bridges
 #
-#  id           :integer         not null, primary key
-#  name         :string(255)
-#  start_at     :datetime
-#  end_at       :datetime
-#  color        :string(255)
-#  created_at   :datetime
-#  updated_at   :datetime
-#  bridge_table :text
-#  bridge_stats :text
+#  id            :integer         not null, primary key
+#  name          :string(255)
+#  start_at      :datetime
+#  end_at        :datetime
+#  color         :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  bridge_table  :text
+#  bridge_stats  :text
+#  update_needed :boolean         default(FALSE)
 #
 

@@ -27,6 +27,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: holidays
@@ -38,5 +39,6 @@ end
 #  created_at   :datetime
 #  updated_at   :datetime
 #  work_plan_id :integer
+#  days_taken   :integer         default(0)
 #
 

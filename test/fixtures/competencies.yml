@@ -8,6 +8,7 @@ two:
 
 
 
+
 # == Schema Information
 #
 # Table name: competencies
@@ -16,6 +17,6 @@ two:
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  priority   :integer
+#  priority   :integer         default(2)
 #
 

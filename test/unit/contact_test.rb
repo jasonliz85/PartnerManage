@@ -8,13 +8,14 @@ class ContactTest < ActiveSupport::TestCase
 end
 
 
+
 # == Schema Information
 #
 # Table name: contacts
 #
 #  id            :integer         not null, primary key
 #  partner_id    :integer
-#  telephone_no  :integer
+#  telephone_no  :string(20)
 #  address_line1 :string(255)
 #  address_line2 :string(255)
 #  city          :string(255)
