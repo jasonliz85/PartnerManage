@@ -6,6 +6,8 @@ gem 'event-calendar', :require => 'event_calendar'
 gem 'annotate'
 gem 'jquery-rails', '>= 0.2.6' #to run this gem, first do bunde install, then type rails generate jquery:install and make sure to overwrite the rails.js file
 gem 'will_paginate'
+gem 'uk_postcode'
+gem 'tuk'
 
 group :development, :test do
 #	gem 'capybara'
