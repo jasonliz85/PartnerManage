@@ -1,13 +1,31 @@
 class Contact < ActiveRecord::Base
+	#relationships
 	belongs_to :partner
+	has_many :telephones
+	has_one :county
+	has_one :country
 	
-	validates :telephone_no, :format => {:with => /^(\d[ -\.]?)?(\d{3}[ -\.]?)?\d{3}[ -\.]?\d{4}(x\d+)?$/ }
-	#validates :post_code, :format => { :with => /(\b[A-Z]{1,2}[0-9][0-9A-Z]{0,1} {1,}\d[A-Z]{2}\b)/ }
-	#validates :post_code, :format => { :with => /(((^[BEGLMNS][1-9]\d?) | (^W[2-9] ) | ( ^( A[BL] | B[ABDHLNRST] | C[ABFHMORTVW] | D[ADEGHLNTY] | E[HNX] | F[KY] | G[LUY] | H[ADGPRSUX] | I[GMPV] | JE | K[ATWY] | L[ADELNSU] | M[EKL] | N[EGNPRW] | O[LX] | P[AEHLOR] | R[GHM] | S[AEGKL-PRSTWY] | T[ADFNQRSW] | UB | W[ADFNRSV] | YO | ZE ) \d\d?) | (^W1[A-HJKSTUW0-9]) | (( (^WC[1-2]) | (^EC[1-4]) | (^SW1) ) [ABEHMNPRVWXY] ) ) (\s*)? ([0-9][ABD-HJLNP-UW-Z]{2})) | (^GIR\s?0AA)/ }
+	#validations
+	validate :is_post_code_valid
+	#validates :telephone_no, :format => {:with => /^(\d[ -\.]?)?(\d{3}[ -\.]?)?\d{3}[ -\.]?\d{4}(x\d+)?$/ }
 	#validates_presence_of :partner_id
+	
+	#callbacks
+	before_save :format_post_code
+	
+	public 
+		def is_post_code_valid
+			pc = UKPostcode.new(self.post_code)
+			if not (pc.valid? and pc.full?)
+				errors.add(:post_code, "is not a valid post code.")
+			end
+		end
+		
+	private
+		def format_post_code
+			self.post_code = UKPostcode.new(self.post_code).norm
+		end		
 end
-
-
 
 # == Schema Information
 #
@@ -18,10 +36,11 @@ end
 #  telephone_no  :string(20)
 #  address_line1 :string(255)
 #  address_line2 :string(255)
-#  city          :string(255)
+#  town/city          :string(255)
 #  county        :string(255)
 #  post_code     :string(255)
 #  created_at    :datetime
 #  updated_at    :datetime
 #
+# country
 
