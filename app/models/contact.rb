@@ -2,7 +2,6 @@ class Contact < ActiveRecord::Base
 	#relationships
 	belongs_to :partner
 	has_many :telephones
-	has_one :county
 	has_one :country
 	
 	#validations
