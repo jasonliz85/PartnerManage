@@ -8,7 +8,6 @@ class CalendarController < ApplicationController
 #		start_d, end_d = Shift.get_start_and_end_dates(@shown_month) # optionally pass in @first_day_of_week
 #		@events = Shift.events_for_date_range(start_d, end_d)
 #		@event_strips = Shift.create_event_strips(start_d, end_d, @events)
-
   end
   
   def day

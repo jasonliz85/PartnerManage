@@ -26,20 +26,19 @@ class Contact < ActiveRecord::Base
 		end		
 end
 
+
 # == Schema Information
 #
 # Table name: contacts
 #
 #  id            :integer         not null, primary key
 #  partner_id    :integer
-#  telephone_no  :string(20)
 #  address_line1 :string(255)
 #  address_line2 :string(255)
-#  town/city          :string(255)
+#  city          :string(255)
 #  county        :string(255)
 #  post_code     :string(255)
 #  created_at    :datetime
 #  updated_at    :datetime
 #
-# country
 

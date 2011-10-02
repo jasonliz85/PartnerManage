@@ -105,23 +105,6 @@ class Partner < ActiveRecord::Base
 		end
 		
 end
-
-
-# == Schema Information
-#
-# Table name: partners
-#
-#  id          :integer         not null, primary key
-#  first_name  :string(255)
-#  last_name   :string(255)
-#  employee_no :integer
-#  is_manager  :boolean
-#  is_temp     :boolean
-#  created_at  :datetime
-#  updated_at  :datetime
-# Partner.new(:first_name=> 'jSAson', :last_name => 'D$kks', :employee_no => '234324A', :is_manager => True, :is_temp => false)
-# Partner.new(:first_name=> 'pEter', :last_name => 'andrews', :employee_no => '234324', :is_manager => true, :is_temp => false)
-
 # == Schema Information
 #
 # Table name: partners

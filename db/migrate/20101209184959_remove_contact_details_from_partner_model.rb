@@ -6,7 +6,7 @@ class RemoveContactDetailsFromPartnerModel < ActiveRecord::Migration
   end
 
   def self.down
- 	add_column :partners, :contact_tel
+    add_column :partners, :contact_tel
   	add_column :partners, :contact_address
   	add_column :partners, :contact_email
   end
