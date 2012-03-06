@@ -6,7 +6,6 @@ class Contact < ActiveRecord::Base
 	
 	#validations
 	validate :is_post_code_valid
-	#validates :telephone_no, :format => {:with => /^(\d[ -\.]?)?(\d{3}[ -\.]?)?\d{3}[ -\.]?\d{4}(x\d+)?$/ }
 	#validates_presence_of :partner_id
 	
 	#callbacks
@@ -25,7 +24,6 @@ class Contact < ActiveRecord::Base
 			self.post_code = UKPostcode.new(self.post_code).norm
 		end		
 end
-
 
 # == Schema Information
 #

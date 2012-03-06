@@ -1,0 +1,8 @@
+Partner Model
+----------------------------
+Wizard form validates backwards - may be an issue if an empty form
+Step one of the wizard form, regex validation takes into account spaces- needs to be removed first.
+Sort out telephone number validation
+Sort out wizard telephone number integration
+Add Country support for contacts and wizard
+

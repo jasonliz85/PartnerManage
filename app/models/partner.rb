@@ -13,8 +13,8 @@ class Partner < ActiveRecord::Base
 	validates_uniqueness_of :employee_no, :message => 'Employee No must be unique.'
 	#validates_associated :contact, :work_plan, :shifts
 	validates :employee_no, :length => { :maximum => 15 }, :numericality => { :only_integer => true, :message => "Only numbers are allowed for Employee No"}
-	validates :first_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Only letters are allows for First Name" }
-	validates :last_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "Only letters are allows for Last Name" }
+	validates :first_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "only letters are allows for First Name" }
+	validates :last_name, :format => { :with => /\A[a-zA-Z]+\z/, :message => "only letters are allows for Last Name" }
 
 	#callbacks
 	before_save :format_first_last_names

@@ -1,7 +1,6 @@
 <%= f.fields_for :contact do |contact_details| %>
 	<div class="field">
-		<%= contact_details.label :telephone_no %><br />
-		<%= contact_details.telephone_field :telephone_no %>
+		Telephone<br />
 	</div>
 	<div class="field">
 		<%= contact_details.label :address_line1,"Address Line 1" %><br />
@@ -22,6 +21,9 @@
 	<div class="field">
 		<%= contact_details.label :post_code %><br />
 		<%= contact_details.text_field :post_code %>
+	</div>
+	<div class="field">
+		Country<br />
 	</div>
 <% end %>
 

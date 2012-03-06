@@ -1,5 +1,7 @@
 class Telephone < ActiveRecord::Base
   belongs_to :contact
+  #validates :telephone_no, :format => {:with => /^(\d[ -\.]?)?(\d{3}[ -\.]?)?\d{3}[ -\.]?\d{4}(x\d+)?$/ }
+  
 end
 
 # == Schema Information

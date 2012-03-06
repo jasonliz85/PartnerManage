@@ -4,6 +4,8 @@ class Competency < ActiveRecord::Base
 	#ordering
 	default_scope order('competencies.name')
 	
+  #validations
+	validates_uniqueness_of :name, :message => 'Competency name must be unique'
 	#functions
 end
 

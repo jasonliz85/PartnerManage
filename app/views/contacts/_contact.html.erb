@@ -7,16 +7,20 @@
 		</span>
 	</h3>
 	<div class='element' id='<%=contact.id%>'> 
-	<h4>Telephone </h4>
-	<p class='element'> 
-		<% if not contact.telephone_no.nil? %><%= number_to_phone contact.telephone_no, :area_code => true , :country_code => 44%> <% else %> none <% end %>
-	</p>
 	<h4>Address </h4>
 	<%= display_if_not_empty('',contact.address_line1) %>
 	<%= display_if_not_empty('',contact.address_line2) %>
 	<%= display_if_not_empty('',contact.city) %>
 	<%= display_if_not_empty('',contact.county) %>
+	<p class='element'> 
+    <%= contact.country.name %>
+	</p>
 	<%= display_if_not_empty('',contact.post_code)%>
+	<p class='element'> 
+		<% for telephone in contact.telephones %>
+        <%= telephone.number %>
+    <% end %>
+	</p>
 	</div>
 <% end %>
 
